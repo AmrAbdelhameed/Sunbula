@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:src="@drawable/logo" />
 
             <TextView
@@ -31,10 +31,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageconfirm"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:text="Confirm code"
                 android:textColor="#ffffff"
-                android:textSize="40dip" />
+                android:textSize="@dimen/_30ssp" />
 
             <TextView
                 android:id="@+id/textcontinueconfirm"
@@ -42,12 +42,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageconfirm"
                 android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginBottom="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
                 android:text="In order to continue. you must confirm your email address :"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_16ssp" />
 
         </GridLayout>
 
@@ -56,22 +56,22 @@
             android:layout_height="wrap_content"
             android:background="#000000"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="@dimen/_8sdp">
 
             <EditText
                 android:id="@+id/txtconfirmcontinue"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/_50ssp"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="@dimen/_5sdp"
                 android:drawableLeft="@drawable/_eye"
-                android:drawablePadding="16sp"
+                android:drawablePadding="@dimen/_16sdp"
                 android:ems="10"
                 android:gravity="left"
                 android:hint="Enter your confirm code"
                 android:inputType="text"
-                android:padding="15dp" />
+                android:padding="@dimen/_15sdp" />
 
         </LinearLayout>
 
@@ -84,13 +84,13 @@
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/btn_continue"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:background="@android:color/holo_orange_dark"
-                android:padding="20dp"
+                android:padding="@dimen/_20sdp"
                 android:text="Continue"
                 android:textAllCaps="false"
-                android:textSize="20dp" />
+                android:textSize="@dimen/_20ssp" />
 
         </LinearLayout>
 

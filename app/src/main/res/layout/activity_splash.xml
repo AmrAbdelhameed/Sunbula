@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:src="@drawable/logo" />
 
             <TextView
@@ -31,17 +31,17 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/image_splash"
                 android:layout_gravity="center"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="@dimen/_45sdp"
                 android:text="Thanks you for all yout support"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textSize="20sp" />
+                android:textSize="@dimen/_16ssp" />
 
         </GridLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp">
+            android:layout_marginTop="@dimen/_100sdp">
 
             <ProgressBar
                 style="?android:attr/progressBarStyle"
@@ -61,9 +61,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:text="LODING APP"
-                android:textSize="10sp" />
+                android:textSize="@dimen/_10ssp" />
 
         </LinearLayout>
 
