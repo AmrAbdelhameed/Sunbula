@@ -23,6 +23,14 @@ public class LoginActivity extends AppCompatActivity {
         forgetpassword = (TextView) findViewById(R.id.text_forget);
         go_to_register = (TextView) findViewById(R.id.txt_toregister);
 
+        b_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(i);
+            }
+        });
+
         go_to_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

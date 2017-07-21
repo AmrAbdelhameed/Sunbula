@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Sunbula</string>
+
+    <string name="tab1">Home</string>
+    <string name="tab2">Profile</string>
+    <string name="tab3">Messages</string>
+    <string name="tab4">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
