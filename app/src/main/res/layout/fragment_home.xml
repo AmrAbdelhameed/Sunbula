@@ -14,4 +14,12 @@
         <!--android:clipToPadding="false"-->
         <!--android:scrollbars="vertical" />-->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/tab1"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/_30ssp" />
+
 </RelativeLayout>

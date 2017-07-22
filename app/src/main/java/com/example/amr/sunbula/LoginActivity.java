@@ -5,11 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button b_login;
+    ImageButton b_login;
     TextView username, password, forgetpassword, go_to_register;
 
     @Override
@@ -17,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        b_login = (Button) findViewById(R.id.btn_login);
+        b_login = (ImageButton) findViewById(R.id.btn_login);
         username = (TextView) findViewById(R.id.txtusernamelogin);
         password = (TextView) findViewById(R.id.txtpasswordlogin);
         forgetpassword = (TextView) findViewById(R.id.text_forget);
