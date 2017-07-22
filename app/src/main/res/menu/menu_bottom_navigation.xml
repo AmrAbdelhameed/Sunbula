@@ -16,7 +16,7 @@
     <item
         android:id="@+id/action_messages"
         android:checked="false"
-        android:icon="@drawable/message"
+        android:icon="@drawable/message2"
         android:title="@string/tab3"
         app:showAsAction="ifRoom" />
     <item

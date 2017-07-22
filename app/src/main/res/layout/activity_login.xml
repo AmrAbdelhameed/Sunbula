@@ -98,17 +98,15 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatButton
+            <ImageButton
                 android:id="@+id/btn_login"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/oragnecircal"
                 android:padding="@dimen/_20sdp"
-                android:text="->"
-                android:textAllCaps="false"
-                android:textSize="@dimen/_20sdp" />
+                android:src="@drawable/download_right" />
 
         </LinearLayout>
 
