@@ -1,17 +1,177 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundall"
+    android:orientation="vertical"
+    android:weightSum="2"
     tools:context="com.example.amr.sunbula.Fragment.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tab2"
-        android:textColor="#ffffff"
-        android:layout_centerInParent="true"
-        android:textSize="@dimen/_30ssp" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-</RelativeLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_profile"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/bottom_black"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:id="@+id/image_profile"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/profile_pic" />
+
+        <ImageView
+            android:id="@+id/image_figure2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/btn_heart_likes"
+            android:layout_alignRight="@+id/btn_heart_likes"
+            android:layout_alignTop="@+id/image_profile"
+            android:layout_marginEnd="@dimen/_56sdp"
+            android:layout_marginRight="@dimen/_56sdp"
+            app:srcCompat="@drawable/figure_2" />
+
+        <ImageView
+            android:id="@+id/imagefigure1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/image_figure2"
+            android:layout_marginLeft="@dimen/_67sdp"
+            android:layout_marginStart="@dimen/_67sdp"
+            app:srcCompat="@drawable/figure_1" />
+
+        <ImageView
+            android:id="@+id/imagefigure3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image_profile"
+            android:layout_alignLeft="@+id/image_figure2"
+            android:layout_alignStart="@+id/image_figure2"
+            app:srcCompat="@drawable/figure_3" />
+
+        <ImageView
+            android:id="@+id/imagefigure4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imagefigure3"
+            android:layout_alignLeft="@+id/imagefigure1"
+            android:layout_alignStart="@+id/imagefigure1"
+            app:srcCompat="@drawable/figure4" />
+
+        <TextView
+            android:id="@+id/username_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Rossy Loard"
+            android:textSize="@dimen/_20ssp" />
+
+        <Button
+            android:id="@+id/btn_heart_likes"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="22dp"
+            android:layout_marginStart="22dp"
+            android:layout_toEndOf="@+id/image_profile"
+            android:layout_toRightOf="@+id/image_profile"
+            android:background="@drawable/like_heart" />
+
+        <Button
+            android:id="@+id/btn_add_causes"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_alignBaseline="@+id/btn_heart_likes"
+            android:layout_alignBottom="@+id/btn_heart_likes"
+            android:layout_marginEnd="23dp"
+            android:layout_marginRight="23dp"
+            android:layout_toLeftOf="@+id/image_profile"
+            android:layout_toStartOf="@+id/image_profile"
+            android:background="@drawable/add_cause" />
+
+        <TextView
+            android:id="@+id/text_reviews_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/image_profile"
+            android:layout_alignEnd="@+id/btn_heart_likes"
+            android:layout_alignRight="@+id/btn_heart_likes"
+            android:text="192k Reviews"
+            android:textSize="@dimen/_15ssp" />
+
+        <TextView
+            android:id="@+id/text_causes_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/image_profile"
+            android:layout_alignLeft="@+id/btn_add_causes"
+            android:layout_alignStart="@+id/btn_add_causes"
+            android:text="268k My causes"
+            android:textSize="@dimen/_15ssp" />
+
+        <TextView
+            android:id="@+id/text_location_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_profile"
+            android:layout_toEndOf="@+id/username_profile"
+            android:layout_toRightOf="@+id/username_profile"
+            android:text="Location"
+            android:textSize="@dimen/_15ssp" />
+
+        <TextView
+            android:id="@+id/text_history_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imagefigure4"
+            android:layout_toLeftOf="@+id/image_profile"
+            android:layout_toStartOf="@+id/image_profile"
+            android:text="History"
+            android:textSize="@dimen/_15ssp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:elevation="6dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/tab_layout"
+            android:background="#ffffff" />
+    </RelativeLayout>
+
+</LinearLayout>

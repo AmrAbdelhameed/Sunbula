@@ -41,8 +41,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_home);
         toolbar.setTitle("News Feed");
+        setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         setData();
@@ -78,13 +79,12 @@ public class HomeFragment extends Fragment {
         stringArrayList.add("Mohammed");
         stringArrayList.add("Samira");
 
-
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        getActivity().getMenuInflater().inflate(R.menu.menu_main, menu);
 
         MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
         final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
@@ -105,5 +105,6 @@ public class HomeFragment extends Fragment {
                 return true;
             }
         });
+
     }
 }
