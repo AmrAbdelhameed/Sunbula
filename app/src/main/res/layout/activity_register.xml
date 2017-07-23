@@ -86,12 +86,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatButton
+            <Button
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_marginBottom="@dimen/_20sdp"
-                android:background="@android:color/holo_orange_dark"
+                android:background="@color/colorAccent"
                 android:padding="@dimen/_20sdp"
                 android:text="Sign Up"
                 android:textAllCaps="false"
@@ -119,7 +119,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatButton
+            <Button
                 android:id="@+id/btn_login_facebok"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_70sdp"

@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bottom_black"
+    android:background="@color/colorPrimary"
     tools:context="com.example.amr.sunbula.HomeActivity">
 
     <android.support.design.widget.BottomNavigationView
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/bottom_black"
+        app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:itemTextColor="@drawable/bottom_navigation_color_selector"
         app:menu="@menu/menu_bottom_navigation" />

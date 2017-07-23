@@ -33,7 +33,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/_45sdp"
                 android:text="Thanks you for all yout support"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@color/colorAccent"
                 android:textSize="@dimen/_16ssp" />
 
         </GridLayout>
@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:text="LODING APP"
                 android:textSize="@dimen/_10ssp" />
 
