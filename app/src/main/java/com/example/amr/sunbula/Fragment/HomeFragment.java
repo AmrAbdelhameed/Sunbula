@@ -41,10 +41,10 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_home);
-        toolbar.setTitle("News Feed");
-        setHasOptionsMenu(true);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar_home);
+//        toolbar.setTitle("News Feed");
+//        setHasOptionsMenu(true);
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         setData();
 
@@ -81,30 +81,4 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)) {
-                    adapter.filter("");
-                    listView.clearTextFilter();
-                } else {
-                    adapter.filter(newText);
-                }
-                return true;
-            }
-        });
-
-    }
 }

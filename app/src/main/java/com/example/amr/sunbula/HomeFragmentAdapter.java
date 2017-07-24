@@ -24,14 +24,11 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
     private List<String> friendList;
-    private List<String> searchList;
 
     public HomeFragmentAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.friendList = objects;
-        this.searchList = new ArrayList<>();
-        this.searchList.addAll(friendList);
     }
 
     @Override
@@ -81,22 +78,6 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
         holder.imageView.setImageDrawable(drawable);
 
         return convertView;
-    }
-
-    // Filter method
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        friendList.clear();
-        if (charText.length() == 0) {
-            friendList.addAll(searchList);
-        } else {
-            for (String s : searchList) {
-                if (s.toLowerCase(Locale.getDefault()).contains(charText)) {
-                    friendList.add(s);
-                }
-            }
-        }
-        notifyDataSetChanged();
     }
 
     private class ViewHolder {
