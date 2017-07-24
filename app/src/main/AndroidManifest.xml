@@ -23,7 +23,7 @@
         <activity android:name=".ConfirmEmailActivity" />
         <activity android:name=".ChangePasswordActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity" />
     </application>
 
 </manifest>
