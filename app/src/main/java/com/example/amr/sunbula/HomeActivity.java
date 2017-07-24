@@ -1,16 +1,16 @@
 package com.example.amr.sunbula;
 
+import android.app.FragmentManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import com.example.amr.sunbula.BottomNavigationClasses.BottomNavigationViewNew;
 import com.example.amr.sunbula.Fragment.NotificationsFragment;
 import com.example.amr.sunbula.Fragment.HomeFragment;
 import com.example.amr.sunbula.Fragment.ProfileFragment;
@@ -18,92 +18,54 @@ import com.example.amr.sunbula.Fragment.MessagesFragment;
 
 public class HomeActivity extends AppCompatActivity {
 
-    BottomNavigationView bottomNavigationView;
+    int x = R.id.navigation_home;
+    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
-    //This is our viewPager
-    private ViewPager viewPager;
+    private BottomNavigationViewNew.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationViewNew.OnNavigationItemSelectedListener() {
 
-    //Fragments
-    ProfileFragment profileFragment;
-    HomeFragment homeFragment;
-    MessagesFragment messagesFragment;
-    NotificationsFragment notificationsFragment;
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            x = item.getItemId();
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+                    return true;
+                case R.id.navigation_dashboard:
+                    fragmentManager.beginTransaction().replace(R.id.content, new ProfileFragment()).commit();
+                    return true;
+                case R.id.navigation_notifications:
+                    fragmentManager.beginTransaction().replace(R.id.content, new MessagesFragment()).commit();
+                    return true;
+                case R.id.navigation_dashboard1:
+                    fragmentManager.beginTransaction().replace(R.id.content, new NotificationsFragment()).commit();
+                    return true;
+            }
+            return false;
+        }
 
-    MenuItem prevMenuItem;
+    };
+
+    private static final String KEY_POSITION_FRAGMENT = "POSITION_FRAGMENT";
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(KEY_POSITION_FRAGMENT,x);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //Initializing viewPager
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-
-        //Initializing the bottomNavigationView
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.action_home:
-                                viewPager.setCurrentItem(0);
-                                break;
-                            case R.id.action_profile:
-                                viewPager.setCurrentItem(1);
-                                break;
-                            case R.id.action_messages:
-                                viewPager.setCurrentItem(2);
-                                break;
-                            case R.id.action_notifications:
-                                viewPager.setCurrentItem(3);
-                                break;
-                        }
-                        return false;
-                    }
-                });
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                } else {
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
-                }
-                Log.d("page", "onPageSelected: " + position);
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        setupViewPager(viewPager);
+        if (savedInstanceState != null)
+        {
+            x = savedInstanceState.getInt(KEY_POSITION_FRAGMENT);
+        }
+        BottomNavigationViewNew navigation = (BottomNavigationViewNew) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(x);
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        homeFragment = new HomeFragment();
-        profileFragment = new ProfileFragment();
-        messagesFragment = new MessagesFragment();
-        notificationsFragment = new NotificationsFragment();
-
-        adapter.addFragment(homeFragment);
-        adapter.addFragment(profileFragment);
-        adapter.addFragment(messagesFragment);
-        adapter.addFragment(notificationsFragment);
-        viewPager.setAdapter(adapter);
-    }
 }
