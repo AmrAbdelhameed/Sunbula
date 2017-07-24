@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(KEY_POSITION_FRAGMENT,x);
+        outState.putInt(KEY_POSITION_FRAGMENT, x);
     }
 
     @Override
@@ -59,8 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             x = savedInstanceState.getInt(KEY_POSITION_FRAGMENT);
         }
         BottomNavigationViewNew navigation = (BottomNavigationViewNew) findViewById(R.id.navigation);
