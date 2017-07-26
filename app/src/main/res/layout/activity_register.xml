@@ -1,133 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/backgroundall"
     tools:context="com.example.amr.sunbula.RegisterActivity">
 
+    <ImageButton
+        android:id="@+id/imageregister"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_gravity="center"
+        android:src="@drawable/camera"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:background="#BB000000"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_register"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:id="@+id/linearLayout4">
 
-        <GridLayout
+        <EditText
+            android:id="@+id/txtusernameregister"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:layout_weight="10"
-            android:orientation="vertical">
+            android:layout_height="@dimen/_50sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:drawableLeft="@drawable/usernameimage"
+            android:drawablePadding="@dimen/_15sdp"
+            android:ems="10"
+            android:gravity="left"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:padding="@dimen/_15sdp" />
 
-            <ImageView
-                android:id="@+id/imageregister"
-                android:layout_width="@dimen/_150sdp"
-                android:layout_height="@dimen/_150sdp"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:src="@drawable/camera" />
-
-        </GridLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/txtpasswordregister"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#BB000000"
-            android:orientation="vertical"
-            android:padding="@dimen/_8sdp">
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="@dimen/_15sdp"
+            android:ems="10"
+            android:gravity="left"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="@dimen/_15sdp" />
 
-            <EditText
-                android:id="@+id/txtusernameregister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:drawableLeft="@drawable/usernameimage"
-                android:drawablePadding="@dimen/_15sdp"
-                android:ems="10"
-                android:gravity="left"
-                android:hint="Username"
-                android:inputType="textPersonName"
-                android:padding="@dimen/_15sdp" />
-
-            <EditText
-                android:id="@+id/txtpasswordregister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:drawableLeft="@drawable/password"
-                android:drawablePadding="@dimen/_15sdp"
-                android:ems="10"
-                android:gravity="left"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="@dimen/_15sdp" />
-
-            <EditText
-                android:id="@+id/txtemailregister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:drawableLeft="@drawable/message"
-                android:drawablePadding="@dimen/_15sdp"
-                android:ems="10"
-                android:gravity="left"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:padding="@dimen/_15sdp" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/txtemailregister"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:drawableLeft="@drawable/message"
+            android:drawablePadding="@dimen/_15sdp"
+            android:ems="10"
+            android:gravity="left"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="@dimen/_15sdp" />
 
-            <Button
-                android:id="@+id/btn_register"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:background="@color/colorAccent"
-                android:padding="@dimen/_20sdp"
-                android:text="Sign Up"
-                android:textAllCaps="false"
-                android:textSize="@dimen/_20ssp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/txt_or"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Or"
-                android:textColor="#ffffff"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btn_login_facebok"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_70sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/facebook"
-                android:padding="@dimen/_20sdp" />
-
-        </LinearLayout>
     </LinearLayout>
-</ScrollView>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="368dp"
+        android:layout_height="@dimen/_60sdp"
+        android:background="@color/colorAccent"
+        android:text="Sign Up"
+        android:textAllCaps="false"
+        android:textSize="@dimen/_20ssp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/txt_or"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_or"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Or"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login_facebok"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <Button
+        android:id="@+id/btn_login_facebok"
+        android:layout_width="368dp"
+        android:layout_height="@dimen/_60sdp"
+        android:background="@drawable/facebook"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
