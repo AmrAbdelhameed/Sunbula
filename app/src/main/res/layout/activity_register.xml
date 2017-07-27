@@ -9,33 +9,32 @@
 
     <ImageButton
         android:id="@+id/imageregister"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
         android:layout_gravity="center"
-        android:src="@drawable/camera"
+        android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/circle_shape"
-        android:layout_marginBottom="@dimen/_10sdp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="0dp"
+        android:src="@drawable/camera"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/_10sdp" />
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginLeft="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#BB000000"
         android:orientation="vertical"
         android:padding="@dimen/_8sdp"
-        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_register"
-        android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="0dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/linearLayout4">
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="0dp">
 
         <EditText
             android:id="@+id/txtusernameregister"
@@ -84,38 +83,41 @@
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/_75sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:background="@color/colorAccent"
         android:text="Sign Up"
         android:textAllCaps="false"
         android:textSize="@dimen/_20ssp"
-        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@+id/txt_or"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/txt_or"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center"
         android:text="Or"
         android:textColor="#ffffff"
-        android:textSize="20sp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:textSize="@dimen/_20ssp"
         app:layout_constraintBottom_toTopOf="@+id/btn_login_facebok"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
         android:id="@+id/btn_login_facebok"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/_75sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/facebook"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/_10sdp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
