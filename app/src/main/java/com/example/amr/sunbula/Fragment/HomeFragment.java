@@ -1,19 +1,17 @@
 package com.example.amr.sunbula.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.amr.sunbula.HomeFragmentAdapter;
+import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
 import com.example.amr.sunbula.R;
+import com.example.amr.sunbula.SearchCauses_People;
 
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -89,7 +87,8 @@ public class HomeFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_search:
-                Toast.makeText(getActivity(), "Search", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), SearchCauses_People.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

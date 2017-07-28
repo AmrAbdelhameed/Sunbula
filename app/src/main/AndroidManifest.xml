@@ -38,6 +38,7 @@
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".SearchCauses_People"></activity>
     </application>
 
 </manifest>
