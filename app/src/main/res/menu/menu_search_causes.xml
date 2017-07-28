@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".SearchCauses_People">
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_search_causes"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search"
         app:actionViewClass="android.support.v7.widget.SearchView"

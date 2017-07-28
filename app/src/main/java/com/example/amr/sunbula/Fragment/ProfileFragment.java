@@ -1,5 +1,6 @@
 package com.example.amr.sunbula.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.ProfilePagerAdapter;
+import com.example.amr.sunbula.EditProfileActivity;
 import com.example.amr.sunbula.R;
+import com.example.amr.sunbula.SearchCauses_People;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,6 +67,7 @@ public class ProfileFragment extends Fragment {
 
         return v;
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -75,7 +79,8 @@ public class ProfileFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Toast.makeText(getActivity(), "Edit", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

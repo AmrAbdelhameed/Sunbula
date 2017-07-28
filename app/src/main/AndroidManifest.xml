@@ -38,7 +38,9 @@
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SearchCauses_People"></activity>
+        <activity android:name=".SearchCauses_People" />
+        <activity android:name=".ListCategoriesActivity" />
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>
