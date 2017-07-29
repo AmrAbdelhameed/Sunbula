@@ -41,9 +41,13 @@ public class HomeFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        setData();
+        stringArrayList = new ArrayList<>();
 
-        listView = (ListView) v.findViewById(R.id.list_item);
+        for (int i = 0; i < 11; i++) {
+            stringArrayList.add("Lorem lpsum is also known as: Greeked text, bind tex and mock-content.");
+        }
+
+        listView = (ListView) v.findViewById(R.id.list_item_home);
 
         adapter = new HomeFragmentAdapter(getActivity(), R.layout.item_in_home, stringArrayList);
         listView.setAdapter(adapter);
@@ -56,24 +60,6 @@ public class HomeFragment extends Fragment {
         });
 
         return v;
-    }
-
-    private void setData() {
-        stringArrayList = new ArrayList<>();
-
-        stringArrayList.add("Amr");
-        stringArrayList.add("Karim");
-        stringArrayList.add("Samy");
-        stringArrayList.add("Dalia");
-        stringArrayList.add("Heba");
-        stringArrayList.add("Mahmoud");
-        stringArrayList.add("Ziad");
-        stringArrayList.add("Mariam");
-        stringArrayList.add("Ahmed");
-        stringArrayList.add("Youssef");
-        stringArrayList.add("Mohammed");
-        stringArrayList.add("Samira");
-
     }
 
     @Override

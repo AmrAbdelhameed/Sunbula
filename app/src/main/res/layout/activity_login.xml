@@ -62,6 +62,11 @@
             android:inputType="textPersonName"
             android:padding="@dimen/_15sdp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/tab_enable" />
+
         <EditText
             android:id="@+id/txtpasswordlogin"
             android:layout_width="match_parent"

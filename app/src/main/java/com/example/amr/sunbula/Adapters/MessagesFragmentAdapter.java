@@ -16,13 +16,13 @@ import java.util.List;
  * Created by Amr on 22/07/2017.
  */
 
-public class HomeFragmentAdapter extends ArrayAdapter<String> {
+public class MessagesFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
     private List<String> friendList;
-    int resource;
+    private int resource;
 
-    public HomeFragmentAdapter(Context context, int resource, List<String> objects) {
+    public MessagesFragmentAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.resource = resource;
@@ -46,14 +46,14 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderHome holder;
+        ViewHolderMessages holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             convertView = inflater.inflate(resource, parent, false);
-            holder = new ViewHolderHome(convertView);
+            holder = new ViewHolderMessages(convertView);
             convertView.setTag(holder);
         } else {
-            holder = (ViewHolderHome) convertView.getTag();
+            holder = (ViewHolderMessages) convertView.getTag();
         }
 
         holder.friendName.setText(getItem(position));
@@ -61,11 +61,11 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 
-    private class ViewHolderHome {
+    private class ViewHolderMessages {
         private TextView friendName;
 
-        public ViewHolderHome(View v) {
-            friendName = (TextView) v.findViewById(R.id.text_item_in_home);
+        public ViewHolderMessages(View v) {
+            friendName = (TextView) v.findViewById(R.id.user_message);
         }
     }
 }
