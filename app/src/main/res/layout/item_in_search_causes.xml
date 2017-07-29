@@ -4,106 +4,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#BB000000"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#BB000000"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/message_user_pic"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/avatar" />
 
-            <ImageView
-                android:id="@+id/message_user_pic"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_weight="1"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/avatar" />
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginLeft="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/message_user_pic"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayout7"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/item1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_marginLeft="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/message_user_pic"
-                app:layout_constraintTop_toTopOf="parent">
+                android:text="Kitchenstories"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/item1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Kitchenstories"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/item2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Matthew Corwin"
-                    android:textSize="@dimen/_10ssp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/item3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="95 Donaters"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout8"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/item2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_marginRight="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_8sdp"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:text="Matthew Corwin"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/item11"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="0.3 mi"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/item3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="95 Donaters"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/item22"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Cause"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/linearLayout8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:layout_marginRight="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/item11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0.3 mi"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
-        </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/item22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cause"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
 </LinearLayout>

@@ -8,12 +8,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
+import com.example.amr.sunbula.Adapters.NotificationsFragmentAdapter;
+import com.example.amr.sunbula.Adapters.SearchCauses_PeopleAdapter;
+
+import java.util.ArrayList;
 
 public class SearchCauses_People extends AppCompatActivity {
 
     Button btn_cause, btn_people;
+    private ListView listView;
+    private ArrayList<String> stringArrayList;
+    private SearchCauses_PeopleAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +39,24 @@ public class SearchCauses_People extends AppCompatActivity {
         btn_people = (Button) findViewById(R.id.button_people);
 
         Action_cause();
+
+        stringArrayList = new ArrayList<>();
+
+        for (int i = 0; i < 11; i++) {
+            stringArrayList.add("Kitchenstories");
+        }
+
+        listView = (ListView) findViewById(R.id.list_search_causes);
+
+        adapter = new SearchCauses_PeopleAdapter(SearchCauses_People.this, R.layout.item_in_search_causes, stringArrayList);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(SearchCauses_People.this, (String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         btn_cause.setOnClickListener(new View.OnClickListener() {
             @Override
