@@ -38,9 +38,15 @@
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SearchCauses_People" />
-        <activity android:name=".ListCategoriesActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity
+            android:name=".SearchCauses_People"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ListCategoriesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

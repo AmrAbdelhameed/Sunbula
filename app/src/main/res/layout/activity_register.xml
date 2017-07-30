@@ -120,17 +120,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_register" />
 
-    <Button
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/btn_login_facebok"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_75sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:background="@drawable/facebook"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_or"
