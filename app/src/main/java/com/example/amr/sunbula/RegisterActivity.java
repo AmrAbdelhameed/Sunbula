@@ -20,6 +20,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Models.User;
+import com.example.amr.sunbula.Models.UserResponse;
+import com.example.amr.sunbula.RetrofitAPIs.APIService;
+import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -37,8 +41,13 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RegisterActivity extends AppCompatActivity {
 
+    private static final String TAG = "RegisterActivity";
     ImageView user_profile;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
@@ -47,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
     LoginButton btn_login_facebok;
     CallbackManager c;
     Bitmap bitmap = null;
+    private APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (NoSuchAlgorithmException e) {
             Log.d("", "");
         }
+        mAPIService = ApiUtils.getAPIService();
 
         user_profile = (ImageView) findViewById(R.id.imageregister);
 
@@ -98,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (Password.isEmpty()) {
                     password.setError("Please enter here");
                 } else {
-                    Toast.makeText(RegisterActivity.this, Name + EMail + Password, Toast.LENGTH_SHORT).show();
+                    sendPost(1, bitmap, username.getText().toString(), password.getText().toString(), email.getText().toString());
                 }
             }
         });
@@ -240,5 +251,29 @@ public class RegisterActivity extends AppCompatActivity {
         }
         bitmap = bm;
         user_profile.setImageBitmap(bm);
+    }
+
+    public void sendPost(int login_type, Bitmap b, String n, String p, String e) {
+        mAPIService.Register(login_type, b, n, p, e).enqueue(new Callback<UserResponse>() {
+
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+
+                if (response.isSuccessful()) {
+                    showResponse(response.body().getUserID());
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                }
+            }
+
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                Log.e(TAG, "Unable to submit post to API.");
+            }
+        });
+    }
+
+    public void showResponse(String response) {
+        username.setText(response);
     }
 }
