@@ -1,5 +1,6 @@
 package com.example.amr.sunbula;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -8,9 +9,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -21,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Models.ImageResponse;
 import com.example.amr.sunbula.Models.RegistrationResponse;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -42,6 +47,9 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -57,7 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
     LoginButton btn_login_facebok;
     CallbackManager c;
     private APIService mAPIService;
-    private ProgressDialog dialog;
+    private ProgressDialog pdialog;
+    String imagePath = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
 
         mAPIService = ApiUtils.getAPIService();
 
-        dialog = new ProgressDialog(RegisterActivity.this);
-        dialog.setIndeterminate(true);
-        dialog.setCancelable(false);
-        dialog.setMessage("Loading. Please wait...");
+        pdialog = new ProgressDialog(RegisterActivity.this);
+        pdialog.setIndeterminate(true);
+        pdialog.setCancelable(false);
+        pdialog.setMessage("Loading. Please wait...");
 
         user_profile = (ImageView) findViewById(R.id.imageregister);
         username = (EditText) findViewById(R.id.txtusernameregister);
@@ -95,13 +105,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (Name.isEmpty()) {
                     username.setError("Please enter here");
-                } else if (EMail.isEmpty()) {
-                    email.setError("Please enter here");
-                } else if (Password.isEmpty()) {
-                    password.setError("Please enter here");
-                } else {
-                    sendPost(1, Name, Password, EMail);
                 }
+                if (EMail.isEmpty()) {
+                    email.setError("Please enter here");
+                }
+                if (Password.isEmpty()) {
+                    password.setError("Please enter here");
+                }
+                if (imagePath.equals(""))
+                    Toast.makeText(RegisterActivity.this, "Please select image for you", Toast.LENGTH_SHORT).show();
+                else
+                    sendPost(1, Name, Password, EMail);
+
             }
         });
 
@@ -136,6 +151,52 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void uploadImage(String UserId) {
+
+        //File creating from selected URL
+        File file = new File(imagePath);
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
+
+        Call<ImageResponse> resultCall = mAPIService.uploadImage(UserId, body);
+
+        // finally, execute the request
+        resultCall.enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+
+                // Response Success or Fail
+                if (response.isSuccessful()) {
+                    if (response.body().isSuccess()) {
+                        Toast.makeText(RegisterActivity.this, R.string.string_upload_success, Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
+                        startActivity(i);
+                        finish();
+
+                    } else
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(RegisterActivity.this, R.string.string_upload_fail, Toast.LENGTH_SHORT).show();
+                }
+
+                pdialog.dismiss();
+
+                imagePath = "";
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
     }
 
     @Override
@@ -201,9 +262,27 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         c.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == SELECT_FILE) {
                 onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
+
+                Uri selectedImageUri = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+
+                if (cursor != null) {
+                    cursor.moveToFirst();
+
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    imagePath = cursor.getString(columnIndex);
+
+                    Toast.makeText(this, R.string.string_reselect, Toast.LENGTH_SHORT).show();
+                    cursor.close();
+
+                } else {
+                    Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
     }
@@ -245,7 +324,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void sendPost(int login_type, String name, String password, String email) {
-        dialog.show();
+        pdialog.show();
         mAPIService.Register(login_type, name, password, email).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
@@ -254,23 +333,20 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     if (response.body().getIsSuccess()) {
-                        Toast.makeText(RegisterActivity.this, response.body().getUserID(), Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "post submitted to API." + response.body().toString());
-                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
-                        startActivity(i);
+                        uploadImage(response.body().getUserID());
+
                     } else {
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                     }
-
                 }
-                dialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<RegistrationResponse> call, Throwable t) {
                 Log.e(TAG, "Unable to submit post to API.");
-                Toast.makeText(RegisterActivity.this, "There is problem to connect", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
+                Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
             }
         });
     }
