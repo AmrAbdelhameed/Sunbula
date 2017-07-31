@@ -14,7 +14,7 @@ public class RegistrationResponse {
 
     @SerializedName("IsSuccess")
     @Expose
-    private String IsSuccess;
+    private boolean IsSuccess;
 
     public String getUserID() {
         return UserID;
@@ -24,7 +24,7 @@ public class RegistrationResponse {
         return ErrorMessage;
     }
 
-    public String getIsSuccess() {
+    public boolean getIsSuccess() {
         return IsSuccess;
     }
 }

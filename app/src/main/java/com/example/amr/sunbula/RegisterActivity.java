@@ -2,6 +2,7 @@ package com.example.amr.sunbula;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -31,6 +32,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -39,7 +41,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,30 +57,27 @@ public class RegisterActivity extends AppCompatActivity {
     LoginButton btn_login_facebok;
     CallbackManager c;
     private APIService mAPIService;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.example.amr.sunbula",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.d("", "");
-
-        } catch (NoSuchAlgorithmException e) {
-            Log.d("", "");
-        }
         mAPIService = ApiUtils.getAPIService();
 
+        dialog = new ProgressDialog(RegisterActivity.this);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage("Loading. Please wait...");
+
         user_profile = (ImageView) findViewById(R.id.imageregister);
+        username = (EditText) findViewById(R.id.txtusernameregister);
+        password = (EditText) findViewById(R.id.txtpasswordregister);
+        email = (EditText) findViewById(R.id.txtemailregister);
+        btn_register = (Button) findViewById(R.id.btn_register);
+        btn_login_facebok = (LoginButton) findViewById(R.id.btn_login_facebok);
+        c = CallbackManager.Factory.create();
 
         user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,12 +85,6 @@ public class RegisterActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-        username = (EditText) findViewById(R.id.txtusernameregister);
-        password = (EditText) findViewById(R.id.txtpasswordregister);
-        email = (EditText) findViewById(R.id.txtemailregister);
-        btn_register = (Button) findViewById(R.id.btn_register);
-        btn_login_facebok = (LoginButton) findViewById(R.id.btn_login_facebok);
-        c = CallbackManager.Factory.create();
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,20 +105,23 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-//        btn_login_facebok.setReadPermissions("user_friends");
-//        btn_login_facebok.setReadPermissions("public_profile");
-//        btn_login_facebok.setReadPermissions("email");
-//        btn_login_facebok.setReadPermissions("user_birthday");
-        btn_login_facebok.setReadPermissions(Arrays.asList("user_status"));
+        btn_login_facebok.setReadPermissions("user_friends");
+        btn_login_facebok.setReadPermissions("public_profile");
+        btn_login_facebok.setReadPermissions("email");
+        btn_login_facebok.setReadPermissions("user_birthday");
 
         LoginManager.getInstance().registerCallback(c,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 
-                        AccessToken accessToken = loginResult.getAccessToken();
+//                        AccessToken accessToken = loginResult.getAccessToken();
                         Profile profile = Profile.getCurrentProfile();
-                        Toast.makeText(RegisterActivity.this, profile.getName(), Toast.LENGTH_SHORT).show();
+                        username.setText(profile.getName());
+                        Picasso.with(RegisterActivity.this)
+                                .load("https://graph.facebook.com/" + profile.getId() + "/picture?type=large")
+                                .into(user_profile);
+
                     }
 
                     @Override
@@ -141,7 +136,6 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
     @Override
@@ -251,20 +245,32 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void sendPost(int login_type, String name, String password, String email) {
+        dialog.show();
         mAPIService.Register(login_type, name, password, email).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, response.body().getUserID(), Toast.LENGTH_SHORT).show();
-                    Log.i(TAG, "post submitted to API." + response.body().toString());
+
+                    if (response.body().getIsSuccess()) {
+                        Toast.makeText(RegisterActivity.this, response.body().getUserID(), Toast.LENGTH_SHORT).show();
+                        Log.i(TAG, "post submitted to API." + response.body().toString());
+                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
                 }
+                dialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<RegistrationResponse> call, Throwable t) {
                 Log.e(TAG, "Unable to submit post to API.");
+                Toast.makeText(RegisterActivity.this, "There is problem to connect", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
             }
         });
     }
