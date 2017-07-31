@@ -20,8 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Models.User;
-import com.example.amr.sunbula.Models.UserResponse;
+import com.example.amr.sunbula.Models.RegistrationResponse;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.facebook.AccessToken;
@@ -40,6 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,7 +55,6 @@ public class RegisterActivity extends AppCompatActivity {
     Button btn_register;
     LoginButton btn_login_facebok;
     CallbackManager c;
-    Bitmap bitmap = null;
     private APIService mAPIService;
 
     @Override
@@ -109,25 +108,25 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (Password.isEmpty()) {
                     password.setError("Please enter here");
                 } else {
-                    sendPost(1, bitmap, username.getText().toString(), password.getText().toString(), email.getText().toString());
+                    sendPost(1, Name, Password, EMail);
                 }
             }
         });
 
-        btn_login_facebok.setReadPermissions("user_friends");
-        btn_login_facebok.setReadPermissions("public_profile");
-        btn_login_facebok.setReadPermissions("email");
-        btn_login_facebok.setReadPermissions("user_birthday");
+//        btn_login_facebok.setReadPermissions("user_friends");
+//        btn_login_facebok.setReadPermissions("public_profile");
+//        btn_login_facebok.setReadPermissions("email");
+//        btn_login_facebok.setReadPermissions("user_birthday");
+        btn_login_facebok.setReadPermissions(Arrays.asList("user_status"));
 
         LoginManager.getInstance().registerCallback(c,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
+
                         AccessToken accessToken = loginResult.getAccessToken();
                         Profile profile = Profile.getCurrentProfile();
-
-                        username.setText(profile.getId());
-                        email.setText(profile.getName());
+                        Toast.makeText(RegisterActivity.this, profile.getName(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -139,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
-                        username.setText(exception.getMessage());
+                        Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -234,7 +233,6 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        bitmap = thumbnail;
         user_profile.setImageBitmap(thumbnail);
     }
 
@@ -249,31 +247,25 @@ public class RegisterActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        bitmap = bm;
         user_profile.setImageBitmap(bm);
     }
 
-    public void sendPost(int login_type, Bitmap b, String n, String p, String e) {
-        mAPIService.Register(login_type, b, n, p, e).enqueue(new Callback<UserResponse>() {
+    public void sendPost(int login_type, String name, String password, String email) {
+        mAPIService.Register(login_type, name, password, email).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
 
                 if (response.isSuccessful()) {
-                    showResponse(response.body().getUserID());
+                    Toast.makeText(RegisterActivity.this, response.body().getUserID(), Toast.LENGTH_SHORT).show();
                     Log.i(TAG, "post submitted to API." + response.body().toString());
                 }
             }
 
-
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<RegistrationResponse> call, Throwable t) {
                 Log.e(TAG, "Unable to submit post to API.");
             }
         });
-    }
-
-    public void showResponse(String response) {
-        username.setText(response);
     }
 }
