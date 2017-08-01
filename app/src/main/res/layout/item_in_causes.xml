@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/amount" />
+                    app:srcCompat="@drawable/amount_in_item" />
 
                 <TextView
                     android:id="@+id/text_NEEDED"
@@ -170,7 +170,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/calendar" />
+                    app:srcCompat="@drawable/calendar_item" />
 
                 <LinearLayout
                     android:layout_width="0dp"

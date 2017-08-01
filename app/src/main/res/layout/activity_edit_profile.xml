@@ -75,9 +75,10 @@
 
     <EditText
         android:id="@+id/txt_edit_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:background="@null"
@@ -85,6 +86,7 @@
         android:inputType="textPersonName"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_user"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_information" />
 
     <View
@@ -112,9 +114,10 @@
 
     <EditText
         android:id="@+id/txt_edit_email"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:background="@null"
@@ -122,6 +125,7 @@
         android:inputType="textEmailAddress"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_mail"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v1" />
 
     <View
@@ -149,9 +153,10 @@
 
     <EditText
         android:id="@+id/txt_edit_pin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:background="@null"
@@ -159,6 +164,7 @@
         android:inputType="textPersonName"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_pin"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v2" />
 
     <View
@@ -186,9 +192,10 @@
 
     <EditText
         android:id="@+id/txt_edit_phone"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:background="@null"
@@ -196,6 +203,7 @@
         android:inputType="phone"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_phone"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v3" />
 
     <View
