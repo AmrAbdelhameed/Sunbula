@@ -1,7 +1,9 @@
 package com.example.amr.sunbula.RetrofitAPIs;
 
 import com.example.amr.sunbula.Models.ImageResponse;
+import com.example.amr.sunbula.Models.LoginResponse;
 import com.example.amr.sunbula.Models.RegistrationResponse;
+import com.example.amr.sunbula.Models.VerfiedAccntResponse;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -23,5 +25,15 @@ public interface APIService {
 
     @Multipart
     @POST("/Charity/Api/User/AddPicture")
-    Call<ImageResponse> uploadImage(@Query("User_ID") String User_ID, @Part MultipartBody.Part file);
+    Call<ImageResponse> UploadImageRegister(@Query("User_ID") String User_ID, @Part MultipartBody.Part file);
+
+    @POST("/Charity/Api/User/VerfiedAccnt")
+    @FormUrlEncoded
+    Call<VerfiedAccntResponse> VerfiedAccnt(@Field("User_ID") String User_ID,
+                                            @Field("VerficationCode") String VerficationCode);
+
+    @POST("/Charity/Api/User/Login")
+    @FormUrlEncoded
+    Call<LoginResponse> Login(@Field("Email") String Email,
+                              @Field("Password") String Password);
 }

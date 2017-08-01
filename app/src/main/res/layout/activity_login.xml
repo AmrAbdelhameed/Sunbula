@@ -49,18 +49,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textlogin">
 
         <EditText
-            android:id="@+id/txtusernamelogin"
+            android:id="@+id/txtemaillogin"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@null"
-            android:drawableLeft="@drawable/usernameimage"
+            android:drawableLeft="@drawable/mail"
             android:drawablePadding="@dimen/_15sdp"
             android:gravity="left"
-            android:hint="User name"
-            android:inputType="textPersonName"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:padding="@dimen/_15sdp" />
 
         <View

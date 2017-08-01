@@ -1,25 +1,49 @@
 package com.example.amr.sunbula;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.amr.sunbula.Models.LoginResponse;
+import com.example.amr.sunbula.Models.VerfiedAccntResponse;
+import com.example.amr.sunbula.RetrofitAPIs.APIService;
+import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "LoginActivity";
     ImageButton b_login;
-    TextView username, password, forgetpassword, go_to_register;
+    TextView Email, password, forgetpassword, go_to_register;
+    APIService mAPIService;
+    private ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mAPIService = ApiUtils.getAPIService();
+
+        pdialog = new ProgressDialog(LoginActivity.this);
+        pdialog.setIndeterminate(true);
+        pdialog.setCancelable(false);
+        pdialog.setMessage("Loading. Please wait...");
+
         b_login = (ImageButton) findViewById(R.id.btn_login);
-        username = (TextView) findViewById(R.id.txtusernamelogin);
+        Email = (TextView) findViewById(R.id.txtemaillogin);
         password = (TextView) findViewById(R.id.txtpasswordlogin);
         forgetpassword = (TextView) findViewById(R.id.text_forget);
         go_to_register = (TextView) findViewById(R.id.txt_toregister);
@@ -27,8 +51,13 @@ public class LoginActivity extends AppCompatActivity {
         b_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(i);
+                if (Email.getText().toString().isEmpty()) {
+                    Email.setError("Please enter here");
+                }
+                if (password.getText().toString().isEmpty()) {
+                    password.setError("Please enter here");
+                } else
+                    LoginPost(Email.getText().toString(), password.getText().toString());
             }
         });
 
@@ -37,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(i);
+                finish();
             }
         });
         forgetpassword.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +74,52 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(i);
+            }
+        });
+    }
+
+    public void LoginPost(String email, String pass) {
+        pdialog.show();
+        mAPIService.Login(email, pass).enqueue(new Callback<LoginResponse>() {
+
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().is_Verified()) {
+                        Log.i(TAG, "post submitted to API." + response.body().toString());
+                        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserID", response.body().getUser_ID());
+                        editor.commit();
+                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        finish();
+
+                    } else {
+                        if (response.body().isSuccess()) {
+                            SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("UserID", response.body().getUser_ID());
+                            editor.commit();
+                            Intent i = new Intent(LoginActivity.this, ConfirmEmailActivity.class);
+                            startActivity(i);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                            Email.setText("");
+                        }
+                    }
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Log.e(TAG, "Unable to submit post to API.");
+                Toast.makeText(LoginActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
             }
         });
     }

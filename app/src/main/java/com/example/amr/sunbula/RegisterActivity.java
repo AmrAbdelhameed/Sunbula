@@ -4,8 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -19,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,7 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView user_profile;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
-    EditText username, password, email;
+    EditText username, password, Email;
     Button btn_register;
     LoginButton btn_login_facebok;
     CallbackManager c;
@@ -84,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile = (ImageView) findViewById(R.id.imageregister);
         username = (EditText) findViewById(R.id.txtusernameregister);
         password = (EditText) findViewById(R.id.txtpasswordregister);
-        email = (EditText) findViewById(R.id.txtemailregister);
+        Email = (EditText) findViewById(R.id.txtemailregister);
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_login_facebok = (LoginButton) findViewById(R.id.btn_login_facebok);
         c = CallbackManager.Factory.create();
@@ -100,14 +103,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String Name = username.getText().toString();
-                String EMail = email.getText().toString();
+                String EMail = Email.getText().toString();
                 String Password = password.getText().toString();
 
                 if (Name.isEmpty()) {
                     username.setError("Please enter here");
                 }
                 if (EMail.isEmpty()) {
-                    email.setError("Please enter here");
+                    Email.setError("Please enter here");
                 }
                 if (Password.isEmpty()) {
                     password.setError("Please enter here");
@@ -115,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (imagePath.equals(""))
                     Toast.makeText(RegisterActivity.this, "Please select image for you", Toast.LENGTH_SHORT).show();
                 else
-                    sendPost(1, Name, Password, EMail);
+                    RegisterPost(1, Name, Password, EMail);
 
             }
         });
@@ -165,7 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
 
-        Call<ImageResponse> resultCall = mAPIService.uploadImage(UserId, body);
+        Call<ImageResponse> resultCall = mAPIService.UploadImageRegister(UserId, body);
 
         // finally, execute the request
         resultCall.enqueue(new Callback<ImageResponse>() {
@@ -323,7 +326,7 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile.setImageBitmap(bm);
     }
 
-    public void sendPost(int login_type, String name, String password, String email) {
+    public void RegisterPost(int login_type, String name, String password, final String email) {
         pdialog.show();
         mAPIService.Register(login_type, name, password, email).enqueue(new Callback<RegistrationResponse>() {
 
@@ -336,8 +339,13 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
                         uploadImage(response.body().getUserID());
 
+                        SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserID", response.body().getUserID());
+                        editor.commit();
                     } else {
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                        Email.setText("");
                     }
                 }
             }
@@ -349,5 +357,15 @@ public class RegisterActivity extends AppCompatActivity {
                 pdialog.dismiss();
             }
         });
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
