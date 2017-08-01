@@ -11,14 +11,14 @@ import android.widget.TextView;
 public class SplashActivity extends AppCompatActivity {
 
     TextView t_splash;
-    ImageView i_splash;
+    de.hdodenhof.circleimageview.CircleImageView i_splash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        i_splash = (ImageView) findViewById(R.id.image_splash);
+        i_splash = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.image_splash);
         t_splash = (TextView) findViewById(R.id.text_splash);
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.mytransition);

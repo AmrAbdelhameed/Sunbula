@@ -7,7 +7,7 @@
     android:background="@drawable/backgroundall"
     tools:context="com.example.amr.sunbula.LoginActivity">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imagelogin"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_120sdp"
@@ -23,13 +23,13 @@
         android:id="@+id/textlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="@dimen/_8sdp"
         android:text="Get involved"
         android:textColor="#ffffff"
         android:textSize="@dimen/_25ssp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagelogin" />
@@ -57,13 +57,13 @@
             android:layout_gravity="center_horizontal|top"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@null"
-            android:textStyle="bold"
             android:drawableLeft="@drawable/mail"
             android:drawablePadding="@dimen/_15sdp"
             android:gravity="left"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:padding="@dimen/_15sdp" />
+            android:padding="@dimen/_15sdp"
+            android:textStyle="bold" />
 
         <View
             android:layout_width="match_parent"
@@ -75,7 +75,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal|top"
-            android:textStyle="bold"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@null"
             android:drawableLeft="@drawable/password"
@@ -83,7 +82,8 @@
             android:gravity="left"
             android:hint="Password"
             android:inputType="textPassword"
-            android:padding="@dimen/_15sdp" />
+            android:padding="@dimen/_15sdp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -97,8 +97,8 @@
         android:text="Forget Passowrd"
         android:textColor="#ff0000"
         android:textSize="@dimen/_13ssp"
-        android:visibility="invisible"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintHorizontal_bias="0.973"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -129,11 +129,11 @@
         android:text="Don't have ana accounts?Sign Up"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/_15ssp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         app:layout_constraintVertical_bias="0.096" />
 </android.support.constraint.ConstraintLayout>

@@ -60,7 +60,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
-    ImageView user_profile;
+    de.hdodenhof.circleimageview.CircleImageView user_profile;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
     EditText username, password, Email;
@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
 
-        user_profile = (ImageView) findViewById(R.id.imageregister);
+        user_profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.imageregister);
         username = (EditText) findViewById(R.id.txtusernameregister);
         password = (EditText) findViewById(R.id.txtpasswordregister);
         Email = (EditText) findViewById(R.id.txtemailregister);
@@ -279,7 +279,6 @@ public class RegisterActivity extends AppCompatActivity {
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                     imagePath = cursor.getString(columnIndex);
 
-                    Toast.makeText(this, R.string.string_reselect, Toast.LENGTH_SHORT).show();
                     cursor.close();
 
                 } else {
