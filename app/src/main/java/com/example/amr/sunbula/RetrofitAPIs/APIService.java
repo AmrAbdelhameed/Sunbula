@@ -1,8 +1,10 @@
 package com.example.amr.sunbula.RetrofitAPIs;
 
+import com.example.amr.sunbula.Models.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.ImageResponse;
 import com.example.amr.sunbula.Models.LoginResponse;
 import com.example.amr.sunbula.Models.RegistrationResponse;
+import com.example.amr.sunbula.Models.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.VerfiedAccntResponse;
 
 import okhttp3.MultipartBody;
@@ -31,6 +33,17 @@ public interface APIService {
     @FormUrlEncoded
     Call<VerfiedAccntResponse> VerfiedAccnt(@Field("User_ID") String User_ID,
                                             @Field("VerficationCode") String VerficationCode);
+
+    @POST("/Charity/Api/User/ForgetPassword")
+    @FormUrlEncoded
+    Call<ForgetPasswordResponse> ForgetPassword(@Field("EMail") String EMail);
+
+    @POST("/Charity/Api/User/ResetPassword")
+    @FormUrlEncoded
+    Call<ResetPasswordResponse> ResetPassword(@Field("Email") String Email,
+                                              @Field("Password") String Password,
+                                              @Field("ConfirmPassword") String ConfirmPassword,
+                                              @Field("VerficationCode") String VerficationCode);
 
     @POST("/Charity/Api/User/Login")
     @FormUrlEncoded

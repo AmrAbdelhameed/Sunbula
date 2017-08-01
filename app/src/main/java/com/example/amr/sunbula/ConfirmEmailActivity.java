@@ -70,6 +70,7 @@ public class ConfirmEmailActivity extends AppCompatActivity {
 
                     if (response.body().isSuccess()) {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
+                        Toast.makeText(ConfirmEmailActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(ConfirmEmailActivity.this, HomeActivity.class);
                         startActivity(i);
                         finish();

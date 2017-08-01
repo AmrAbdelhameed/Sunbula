@@ -18,6 +18,7 @@
             android:layout_marginLeft="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_8sdp"
             android:text="just now"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
@@ -62,7 +63,8 @@
                 android:paddingTop="@dimen/_8sdp"
                 android:text="Amr Abdelhameed Abuelkhair"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

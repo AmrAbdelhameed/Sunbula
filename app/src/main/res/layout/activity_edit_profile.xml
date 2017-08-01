@@ -43,6 +43,7 @@
         android:text="Change Photo"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/_12ssp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_image_profile" />
@@ -57,6 +58,7 @@
         android:text="PRIVATE INFORMATION"
         android:textColor="#808080"
         android:textSize="@dimen/_15ssp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/changephoto" />
 
@@ -81,6 +83,7 @@
         android:background="@null"
         android:hint="Enter name"
         android:inputType="textPersonName"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_user"
         app:layout_constraintTop_toBottomOf="@+id/txt_information" />
 
@@ -117,6 +120,7 @@
         android:background="@null"
         android:hint="Enter email"
         android:inputType="textEmailAddress"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_mail"
         app:layout_constraintTop_toBottomOf="@+id/v1" />
 
@@ -153,6 +157,7 @@
         android:background="@null"
         android:hint="Country,Maintain its,Street"
         android:inputType="textPersonName"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_pin"
         app:layout_constraintTop_toBottomOf="@+id/v2" />
 
@@ -189,6 +194,7 @@
         android:background="@null"
         android:hint="Enter phone"
         android:inputType="phone"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/image_phone"
         app:layout_constraintTop_toBottomOf="@+id/v3" />
 

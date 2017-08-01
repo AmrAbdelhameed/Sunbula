@@ -17,6 +17,7 @@
             android:layout_marginBottom="@dimen/_8sdp"
             android:layout_marginRight="@dimen/_24sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:textStyle="bold"
             android:text="2 min ago"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -62,6 +63,7 @@
                 android:paddingLeft="@dimen/_24sdp"
                 android:paddingRight="@dimen/_8sdp"
                 android:paddingTop="@dimen/_8sdp"
+                android:textStyle="bold"
                 android:text="Amr Abdelhameed Abuelkhair"
                 android:textColor="@color/tab_enable"
                 android:textSize="@dimen/_12ssp" />

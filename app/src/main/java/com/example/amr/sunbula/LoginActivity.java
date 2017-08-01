@@ -74,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(i);
+                finish();
+
             }
         });
     }
@@ -93,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserID", response.body().getUser_ID());
                         editor.commit();
+                        Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
                         finish();
@@ -108,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-                            Email.setText("");
+                            forgetpassword.setVisibility(View.VISIBLE);
                         }
                     }
                 }

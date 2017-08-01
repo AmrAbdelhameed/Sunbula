@@ -178,7 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // Response Success or Fail
                 if (response.isSuccessful()) {
                     if (response.body().isSuccess()) {
-                        Toast.makeText(RegisterActivity.this, R.string.string_upload_success, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
                         startActivity(i);
                         finish();
@@ -358,6 +358,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

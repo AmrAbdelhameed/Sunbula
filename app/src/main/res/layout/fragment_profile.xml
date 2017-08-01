@@ -43,6 +43,7 @@
             android:layout_marginTop="0dp"
             android:text="Rossy Loard"
             android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -101,7 +102,8 @@
                 android:id="@+id/text_reviews_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="192k Reviews" />
+                android:text="192k Reviews"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/figure_1"
@@ -130,7 +132,8 @@
                 android:id="@+id/text_causes_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="268k My causes" />
+                android:text="268k My causes"
+                android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/figure_2"
@@ -166,7 +169,8 @@
                 android:id="@+id/text_location_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Location" />
+                android:text="Location"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -196,7 +200,8 @@
                 android:id="@+id/text_history_profile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="History" />
+                android:text="History"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>

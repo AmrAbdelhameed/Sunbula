@@ -23,6 +23,7 @@
         android:id="@+id/textlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="@dimen/_8sdp"
@@ -56,6 +57,7 @@
             android:layout_gravity="center_horizontal|top"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@null"
+            android:textStyle="bold"
             android:drawableLeft="@drawable/mail"
             android:drawablePadding="@dimen/_15sdp"
             android:gravity="left"
@@ -73,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
             android:layout_gravity="center_horizontal|top"
+            android:textStyle="bold"
             android:layout_marginBottom="@dimen/_5sdp"
             android:background="@null"
             android:drawableLeft="@drawable/password"
@@ -88,17 +91,18 @@
         android:id="@+id/text_forget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="9dp"
         android:text="Forget Passowrd"
-        android:textColor="@color/colorAccent"
+        android:textColor="#ff0000"
         android:textSize="@dimen/_13ssp"
-        app:layout_constraintHorizontal_bias="0.968"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.973"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-    <!--android:visibility="invisible" -->
 
     <ImageButton
         android:id="@+id/btn_login"
@@ -129,6 +133,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@+id/btn_login"
         app:layout_constraintVertical_bias="0.096" />
 </android.support.constraint.ConstraintLayout>

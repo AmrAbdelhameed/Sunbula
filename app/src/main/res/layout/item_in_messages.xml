@@ -19,6 +19,7 @@
             android:layout_marginLeft="@dimen/_8sdp"
             android:layout_marginRight="@dimen/_8sdp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:textStyle="bold"
             android:background="@drawable/circle_shape_in_messages"
             android:text="224"
             android:textSize="@dimen/_11ssp"
