@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
+import com.example.amr.sunbula.Models.NewsfeedResponse;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -19,11 +21,11 @@ import java.util.List;
 public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> List_item_in_home;
+    private List<NewsFeed> List_item_in_home;
     int resource;
 
-    public HomeFragmentAdapter(Context context, int resource, List<String> List_item_in_home) {
-        super(context, resource, List_item_in_home);
+    public HomeFragmentAdapter(Context context, int resource, List<NewsFeed> List_item_in_home) {
+        super(context, resource);
         this.activity = context;
         this.resource = resource;
         this.List_item_in_home = List_item_in_home;
@@ -36,7 +38,7 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     @Override
     public String getItem(int position) {
-        return List_item_in_home.get(position);
+        return List_item_in_home.get(position).getName();
     }
 
     @Override
@@ -56,7 +58,7 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderHome) convertView.getTag();
         }
 
-        holder.text_item_in_home.setText(getItem(position));
+        holder.text_item_in_home.setText(List_item_in_home.get(position).getName() + "\n" + List_item_in_home.get(position).getDescription());
 
         return convertView;
     }

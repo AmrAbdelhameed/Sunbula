@@ -3,6 +3,7 @@ package com.example.amr.sunbula.RetrofitAPIs;
 import com.example.amr.sunbula.Models.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.ImageResponse;
 import com.example.amr.sunbula.Models.LoginResponse;
+import com.example.amr.sunbula.Models.NewsfeedResponse;
 import com.example.amr.sunbula.Models.RegistrationResponse;
 import com.example.amr.sunbula.Models.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.VerfiedAccntResponse;
@@ -58,5 +59,7 @@ public interface APIService {
     Call<LoginResponse> Login(@Field("Email") String Email,
                               @Field("Password") String Password);
 
-
+    @POST("/Charity/Api/User/Newsfeed")
+    @FormUrlEncoded
+    Call<NewsfeedResponse> News_Feed(@Field("User_ID") String User_ID);
 }

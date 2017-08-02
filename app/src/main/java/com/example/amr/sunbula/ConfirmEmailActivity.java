@@ -24,11 +24,11 @@ import retrofit2.Response;
 public class ConfirmEmailActivity extends AppCompatActivity {
 
     private static final String TAG = "ConfirmEmailActivity";
-    Button btn_continue;
-    EditText Cnformcode;
     String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;
+    Button btn_continue;
+    EditText Cnformcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class ConfirmEmailActivity extends AppCompatActivity {
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
 
+        mAPIService = ApiUtils.getAPIService();
+
         Cnformcode = (EditText) findViewById(R.id.txtconfirmcontinue);
         btn_continue = (Button) findViewById(R.id.btn_continue);
-
-        mAPIService = ApiUtils.getAPIService();
 
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
