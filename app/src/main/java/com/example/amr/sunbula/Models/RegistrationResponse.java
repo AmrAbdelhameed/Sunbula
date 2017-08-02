@@ -17,4 +17,16 @@ public class RegistrationResponse {
     public boolean getIsSuccess() {
         return IsSuccess;
     }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        ErrorMessage = errorMessage;
+    }
+
+    public void setSuccess(boolean success) {
+        IsSuccess = success;
+    }
 }

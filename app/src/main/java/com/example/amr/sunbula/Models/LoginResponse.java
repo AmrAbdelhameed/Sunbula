@@ -21,4 +21,20 @@ public class LoginResponse {
     public boolean isSuccess() {
         return IsSuccess;
     }
+
+    public void setUser_ID(String user_ID) {
+        User_ID = user_ID;
+    }
+
+    public void setIs_Verified(boolean is_Verified) {
+        Is_Verified = is_Verified;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        ErrorMessage = errorMessage;
+    }
+
+    public void setSuccess(boolean success) {
+        IsSuccess = success;
+    }
 }

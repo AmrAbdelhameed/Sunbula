@@ -13,4 +13,11 @@ public class ForgetPasswordResponse {
         return IsSuccess;
     }
 
+    public void setErrorMessage(String errorMessage) {
+        ErrorMessage = errorMessage;
+    }
+
+    public void setSuccess(boolean success) {
+        IsSuccess = success;
+    }
 }

@@ -81,18 +81,18 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-//        loggedIn = sharedPreferences.getBoolean("isVerified", false);
-//
-//        if (loggedIn) {
-//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        loggedIn = sharedPreferences.getBoolean("isVerified", false);
+
+        if (loggedIn) {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     public void LoginPost(String email, String pass) {
         pdialog.show();

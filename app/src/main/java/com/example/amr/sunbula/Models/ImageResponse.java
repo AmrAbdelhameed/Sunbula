@@ -17,4 +17,16 @@ public class ImageResponse {
     public boolean isSuccess() {
         return IsSuccess;
     }
+
+    public void setImageURL(String imageURL) {
+        ImageURL = imageURL;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        ErrorMessage = errorMessage;
+    }
+
+    public void setSuccess(boolean success) {
+        IsSuccess = success;
+    }
 }
