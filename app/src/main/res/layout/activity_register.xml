@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parentView"
@@ -8,150 +8,154 @@
     android:background="@drawable/backgroundall"
     tools:context="com.example.amr.sunbula.RegisterActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageregister"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:src="@drawable/circle_shape"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:background="#BB000000"
-        android:orientation="vertical"
-        android:padding="@dimen/_8sdp"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageregister">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageregister"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:src="@drawable/circle_shape"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/txtusernameregister"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:background="@null"
-            android:drawableLeft="@drawable/usernameimage"
-            android:drawablePadding="@dimen/_15sdp"
-            android:gravity="left"
-            android:hint="Username"
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:background="#BB000000"
+            android:orientation="vertical"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageregister">
 
-            android:inputType="textPersonName"
-            android:padding="@dimen/_15sdp"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/txtusernameregister"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@null"
+                android:drawableLeft="@drawable/usernameimage"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="left"
+                android:hint="Username"
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/tab_enable" />
+                android:inputType="textPersonName"
+                android:padding="@dimen/_15sdp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtpasswordregister"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:background="@null"
-            android:drawableLeft="@drawable/password"
-            android:drawablePadding="@dimen/_15sdp"
-            android:gravity="left"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:padding="@dimen/_15sdp"
-            android:textStyle="bold" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/tab_enable" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/tab_enable" />
+            <EditText
+                android:id="@+id/txtpasswordregister"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@null"
+                android:drawableLeft="@drawable/password"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="left"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:padding="@dimen/_15sdp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/txtemailregister"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:background="@null"
-            android:drawableLeft="@drawable/message"
-            android:drawablePadding="@dimen/_15sdp"
-            android:gravity="left"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:padding="@dimen/_15sdp"
-            android:textStyle="bold" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/tab_enable" />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/txtemailregister"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@null"
+                android:drawableLeft="@drawable/message"
+                android:drawablePadding="@dimen/_15sdp"
+                android:gravity="left"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/_15sdp"
+                android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_75sdp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:background="@color/colorAccent"
-        android:text="Sign Up"
-        android:textAllCaps="false"
-        android:textSize="@dimen/_20ssp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/txt_or"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:gravity="center"
-        android:text="Or"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/_20ssp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_75sdp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/colorAccent"
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:textSize="@dimen/_20ssp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/btn_login_facebok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_or"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/txt_or"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:gravity="center"
+            android:text="Or"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_20ssp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_register" />
 
-    <TextView
-        android:id="@+id/txt_to_changeimage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Upload image"
-        android:textColor="#AAffffff"
-        app:layout_constraintBottom_toBottomOf="@+id/imageregister"
-        app:layout_constraintLeft_toLeftOf="@+id/imageregister"
-        app:layout_constraintRight_toRightOf="@+id/imageregister"
-        app:layout_constraintTop_toTopOf="@+id/imageregister" />
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/btn_login_facebok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_or"
+            app:layout_constraintVertical_bias="0.0" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/txt_to_changeimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Upload image"
+            android:textColor="#AAffffff"
+            app:layout_constraintBottom_toBottomOf="@+id/imageregister"
+            app:layout_constraintLeft_toLeftOf="@+id/imageregister"
+            app:layout_constraintRight_toRightOf="@+id/imageregister"
+            app:layout_constraintTop_toTopOf="@+id/imageregister" />
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

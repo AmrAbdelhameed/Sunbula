@@ -19,24 +19,24 @@ import java.util.List;
 public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> friendList;
+    private List<String> list_item1;
     int resource;
 
     public SearchCauses_PeopleAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.resource = resource;
-        this.friendList = objects;
+        this.list_item1 = objects;
     }
 
     @Override
     public int getCount() {
-        return friendList.size();
+        return list_item1.size();
     }
 
     @Override
     public String getItem(int position) {
-        return friendList.get(position);
+        return list_item1.get(position);
     }
 
     @Override
@@ -56,16 +56,16 @@ public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderSearchCauses_People) convertView.getTag();
         }
 
-        holder.friendName.setText(getItem(position));
+        holder.item1.setText(getItem(position));
 
         return convertView;
     }
 
     private class ViewHolderSearchCauses_People {
-        private TextView friendName;
+        private TextView item1;
 
         public ViewHolderSearchCauses_People(View v) {
-            friendName = (TextView) v.findViewById(R.id.item1);
+            item1 = (TextView) v.findViewById(R.id.item1);
         }
     }
 }

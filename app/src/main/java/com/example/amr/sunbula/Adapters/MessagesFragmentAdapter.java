@@ -19,24 +19,24 @@ import java.util.List;
 public class MessagesFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> friendList;
+    private List<String> list_user_message;
     private int resource;
 
     public MessagesFragmentAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.resource = resource;
-        this.friendList = objects;
+        this.list_user_message = objects;
     }
 
     @Override
     public int getCount() {
-        return friendList.size();
+        return list_user_message.size();
     }
 
     @Override
     public String getItem(int position) {
-        return friendList.get(position);
+        return list_user_message.get(position);
     }
 
     @Override
@@ -56,16 +56,16 @@ public class MessagesFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderMessages) convertView.getTag();
         }
 
-        holder.friendName.setText(getItem(position));
+        holder.user_message.setText(getItem(position));
 
         return convertView;
     }
 
     private class ViewHolderMessages {
-        private TextView friendName;
+        private TextView user_message;
 
         public ViewHolderMessages(View v) {
-            friendName = (TextView) v.findViewById(R.id.user_message);
+            user_message = (TextView) v.findViewById(R.id.user_message);
         }
     }
 }

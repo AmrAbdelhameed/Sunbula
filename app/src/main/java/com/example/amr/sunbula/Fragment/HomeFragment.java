@@ -52,13 +52,6 @@ public class HomeFragment extends Fragment {
         adapter = new HomeFragmentAdapter(getActivity(), R.layout.item_in_home, stringArrayList);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), (String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return v;
     }
 

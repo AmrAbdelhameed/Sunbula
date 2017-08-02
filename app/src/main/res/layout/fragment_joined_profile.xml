@@ -2,17 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     tools:context="com.example.amr.sunbula.Fragment.JoinedcausesProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Joined Causes"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:textSize="@dimen/_30ssp" />
+    <ListView
+        android:id="@+id/list_item_joined"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
 
 </RelativeLayout>

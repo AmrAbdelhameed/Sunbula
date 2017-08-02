@@ -19,24 +19,24 @@ import java.util.List;
 public class NotificationsFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> friendList;
+    private List<String> list_friends_name;
     int resource;
 
     public NotificationsFragmentAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.resource = resource;
-        this.friendList = objects;
+        this.list_friends_name = objects;
     }
 
     @Override
     public int getCount() {
-        return friendList.size();
+        return list_friends_name.size();
     }
 
     @Override
     public String getItem(int position) {
-        return friendList.get(position);
+        return list_friends_name.get(position);
     }
 
     @Override
@@ -56,16 +56,16 @@ public class NotificationsFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderNotifications) convertView.getTag();
         }
 
-        holder.friendName.setText(getItem(position));
+        holder.friends_name.setText(getItem(position));
 
         return convertView;
     }
 
     private class ViewHolderNotifications {
-        private TextView friendName;
+        private TextView friends_name;
 
         public ViewHolderNotifications(View v) {
-            friendName = (TextView) v.findViewById(R.id.friends_name);
+            friends_name = (TextView) v.findViewById(R.id.friends_name);
         }
     }
 }

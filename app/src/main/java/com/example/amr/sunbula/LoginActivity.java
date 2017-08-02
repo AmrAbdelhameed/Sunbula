@@ -130,7 +130,6 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-                            forgetpassword.setVisibility(View.VISIBLE);
                         }
                     }
                 }

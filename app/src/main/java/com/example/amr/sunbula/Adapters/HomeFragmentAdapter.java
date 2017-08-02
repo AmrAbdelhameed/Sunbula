@@ -19,24 +19,24 @@ import java.util.List;
 public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> friendList;
+    private List<String> List_item_in_home;
     int resource;
 
-    public HomeFragmentAdapter(Context context, int resource, List<String> objects) {
-        super(context, resource, objects);
+    public HomeFragmentAdapter(Context context, int resource, List<String> List_item_in_home) {
+        super(context, resource, List_item_in_home);
         this.activity = context;
         this.resource = resource;
-        this.friendList = objects;
+        this.List_item_in_home = List_item_in_home;
     }
 
     @Override
     public int getCount() {
-        return friendList.size();
+        return List_item_in_home.size();
     }
 
     @Override
     public String getItem(int position) {
-        return friendList.get(position);
+        return List_item_in_home.get(position);
     }
 
     @Override
@@ -56,16 +56,16 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderHome) convertView.getTag();
         }
 
-        holder.friendName.setText(getItem(position));
+        holder.text_item_in_home.setText(getItem(position));
 
         return convertView;
     }
 
     private class ViewHolderHome {
-        private TextView friendName;
+        private TextView text_item_in_home;
 
         public ViewHolderHome(View v) {
-            friendName = (TextView) v.findViewById(R.id.text_item_in_home);
+            text_item_in_home = (TextView) v.findViewById(R.id.text_item_in_home);
         }
     }
 }

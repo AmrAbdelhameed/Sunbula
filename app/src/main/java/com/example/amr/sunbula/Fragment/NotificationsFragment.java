@@ -44,13 +44,6 @@ public class NotificationsFragment extends Fragment {
         adapter = new NotificationsFragmentAdapter(getActivity(), R.layout.item_in_notification, stringArrayList);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), (String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return v;
     }
 

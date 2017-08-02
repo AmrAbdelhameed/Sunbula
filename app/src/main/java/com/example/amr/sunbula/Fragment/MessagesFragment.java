@@ -43,13 +43,6 @@ public class MessagesFragment extends Fragment {
         adapter = new MessagesFragmentAdapter(getActivity(), R.layout.item_in_messages, stringArrayList);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), (String) parent.getItemAtPosition(position), Toast.LENGTH_SHORT).show();
-            }
-        });
-
         return v;
     }
 
