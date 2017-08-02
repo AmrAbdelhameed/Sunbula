@@ -65,12 +65,15 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     if (response.body().isIsSuccess()) {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
                         Toast.makeText(ResetPasswordActivity.this, "Please check your mail", Toast.LENGTH_SHORT).show();
+
                         Intent i = new Intent(ResetPasswordActivity.this, ChangePasswordActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("email_change_pass", txtemailresetpassword.getText().toString());
+                        i.putExtras(b);
                         startActivity(i);
                         finish();
                     } else {
                         Toast.makeText(ResetPasswordActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-                        txtemailresetpassword.setText("");
                     }
                 }
                 pdialog.dismiss();

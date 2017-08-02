@@ -332,7 +332,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // Response Success or Fail
                 if (response.isSuccessful()) {
                     if (response.body().isSuccess()) {
-                        Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
                         startActivity(i);
                         finish();

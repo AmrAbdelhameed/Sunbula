@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView Email, password, forgetpassword, go_to_register;
     APIService mAPIService;
     private ProgressDialog pdialog;
+    private boolean loggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,19 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+//        loggedIn = sharedPreferences.getBoolean("isVerified", false);
+//
+//        if (loggedIn) {
+//            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+//    }
+
     public void LoginPost(String email, String pass) {
         pdialog.show();
         mAPIService.Login(email, pass).enqueue(new Callback<LoginResponse>() {
@@ -94,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserID", response.body().getUser_ID());
+                        editor.putBoolean("isVerified", true);
                         editor.commit();
                         Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
@@ -106,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("UserID", response.body().getUser_ID());
                             editor.commit();
+                            Toast.makeText(LoginActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(LoginActivity.this, ConfirmEmailActivity.class);
                             startActivity(i);
                             finish();

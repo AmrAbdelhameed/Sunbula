@@ -44,6 +44,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
         txtconfirmpass = (EditText) findViewById(R.id.txtconfirmpass);
         btn_changepassword = (Button) findViewById(R.id.btn_changepassword);
 
+        Intent in = getIntent();
+        Bundle b = in.getExtras();
+
+        String email_change_pass = b.getString("email_change_pass");
+
+        txt_email_newpass.setText(email_change_pass);
+
         btn_changepassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,10 +91,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         finish();
                     } else {
                         Toast.makeText(ChangePasswordActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-                        txt_email_newpass.setText("");
-                        txtnewpass.setText("");
-                        txtconfirmpass.setText("");
-                        txt_code_newpass.setText("");
                     }
                 }
                 pdialog.dismiss();

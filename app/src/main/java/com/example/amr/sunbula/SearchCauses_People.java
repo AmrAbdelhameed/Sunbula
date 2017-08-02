@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 public class SearchCauses_People extends AppCompatActivity {
 
     Button btn_cause, btn_people;
+    ImageView btn_search;
+    EditText text_search;
     private ListView listView;
     private ArrayList<String> stringArrayList;
     private SearchCauses_PeopleAdapter adapter;
@@ -31,14 +35,19 @@ public class SearchCauses_People extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_causes__people);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
-        toolbar.setTitle("Search");
-        setSupportActionBar(toolbar);
-
         btn_cause = (Button) findViewById(R.id.button_cause);
         btn_people = (Button) findViewById(R.id.button_people);
+        text_search = (EditText) findViewById(R.id.text_search);
+        btn_search = (ImageView) findViewById(R.id.btn_search);
 
         Action_cause();
+
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(SearchCauses_People.this, text_search.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         stringArrayList = new ArrayList<>();
 
@@ -87,32 +96,5 @@ public class SearchCauses_People extends AppCompatActivity {
 
         btn_cause.setTextColor(getApplication().getResources().getColor(R.color.colorAccent));
         btn_people.setTextColor(getApplication().getResources().getColor(R.color.tab_enable));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search_causes, menu);
-
-        MenuItem myActionMenuItem = menu.findItem(R.id.action_search_causes);
-        final SearchView searchView = (SearchView) myActionMenuItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-//                if (TextUtils.isEmpty(newText)) {
-//                    adapter.filter("");
-//                    listView.clearTextFilter();
-//                } else {
-//                    adapter.filter(newText);
-//                }
-                return true;
-            }
-        });
-
-        return true;
     }
 }

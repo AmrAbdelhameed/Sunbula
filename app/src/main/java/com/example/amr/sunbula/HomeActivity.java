@@ -1,6 +1,8 @@
 package com.example.amr.sunbula;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -10,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.amr.sunbula.BottomNavigationClasses.BottomNavigationViewNew;
 import com.example.amr.sunbula.Fragment.NotificationsFragment;
@@ -21,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
 
     int x = R.id.navigation_home;
     Toolbar toolbar;
+    String UserID;
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
     private BottomNavigationViewNew.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -78,6 +82,11 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationViewNew navigation = (BottomNavigationViewNew) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(x);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        UserID = sharedPreferences.getString("UserID", "null");
+
+        Toast.makeText(this, UserID, Toast.LENGTH_SHORT).show();
     }
 
 }
