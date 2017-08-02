@@ -156,52 +156,6 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    private void uploadImage(String UserId) {
-
-        //File creating from selected URL
-        File file = new File(imagePath);
-
-        // create RequestBody instance from file
-        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        // MultipartBody.Part is used to send also the actual file name
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
-
-        Call<ImageResponse> resultCall = mAPIService.UploadImageRegister(UserId, body);
-
-        // finally, execute the request
-        resultCall.enqueue(new Callback<ImageResponse>() {
-            @Override
-            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
-
-                // Response Success or Fail
-                if (response.isSuccessful()) {
-                    if (response.body().isSuccess()) {
-                        Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
-                        startActivity(i);
-                        finish();
-
-                    } else
-                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(RegisterActivity.this, R.string.string_upload_fail, Toast.LENGTH_SHORT).show();
-                }
-
-                pdialog.dismiss();
-
-                imagePath = "";
-            }
-
-            @Override
-            public void onFailure(Call<ImageResponse> call, Throwable t) {
-                pdialog.dismiss();
-            }
-        });
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -265,26 +219,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         c.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE) {
+            if (requestCode == SELECT_FILE)
                 onSelectFromGalleryResult(data);
-
-                Uri selectedImageUri = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-
-                if (cursor != null) {
-                    cursor.moveToFirst();
-
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    imagePath = cursor.getString(columnIndex);
-
-                    cursor.close();
-
-                } else {
-                    Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
-                }
-            } else if (requestCode == REQUEST_CAMERA)
+            else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
     }
@@ -292,21 +229,20 @@ public class RegisterActivity extends AppCompatActivity {
     private void onCaptureImageResult(Intent data) {
         Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
+        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), thumbnail, "Title", null);
+        Uri tempUri =  Uri.parse(path);
 
-        FileOutputStream fo;
-        try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Cursor cursor = getContentResolver().query(tempUri, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            imagePath = cursor.getString(idx);
+
+            cursor.close();
+        } else {
+            Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
         }
         user_profile.setImageBitmap(thumbnail);
     }
@@ -321,6 +257,22 @@ public class RegisterActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        Uri selectedImageUri = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            imagePath = cursor.getString(columnIndex);
+
+            cursor.close();
+
+        } else {
+            Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
         }
         user_profile.setImageBitmap(bm);
     }
@@ -344,7 +296,7 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.commit();
                     } else {
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-                        Email.setText("");
+                        pdialog.dismiss();
                     }
                 }
             }
@@ -353,6 +305,52 @@ public class RegisterActivity extends AppCompatActivity {
             public void onFailure(Call<RegistrationResponse> call, Throwable t) {
                 Log.e(TAG, "Unable to submit post to API.");
                 Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    private void uploadImage(String UserId) {
+
+        //File creating from selected URL
+        File file = new File(imagePath);
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
+
+        Call<ImageResponse> resultCall = mAPIService.UploadImageRegister(UserId, body);
+
+        // finally, execute the request
+        resultCall.enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+
+                // Response Success or Fail
+                if (response.isSuccessful()) {
+                    if (response.body().isSuccess()) {
+                        Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
+                        startActivity(i);
+                        finish();
+
+                    } else
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(RegisterActivity.this, R.string.string_upload_fail, Toast.LENGTH_SHORT).show();
+                }
+
+                pdialog.dismiss();
+
+                imagePath = "";
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
                 pdialog.dismiss();
             }
         });
