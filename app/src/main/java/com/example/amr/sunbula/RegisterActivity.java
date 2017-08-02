@@ -132,14 +132,17 @@ public class RegisterActivity extends AppCompatActivity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-
-//                        AccessToken accessToken = loginResult.getAccessToken();
+//                      1076606079140782
+//                      AccessToken accessToken = loginResult.getAccessToken();
                         Profile profile = Profile.getCurrentProfile();
-                        username.setText(profile.getName());
-                        Picasso.with(RegisterActivity.this)
-                                .load("https://graph.facebook.com/" + profile.getId() + "/picture?type=large")
-                                .into(user_profile);
+                        String imageURL = "https://graph.facebook.com/" + profile.getId() + "/picture?type=large";
+                        String fbemail = profile.getId() + "@facebook.com";
+                        FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL);
 
+//                        username.setText(profile.getName());
+//                        Picasso.with(RegisterActivity.this)
+//                                .load("https://graph.facebook.com/" + profile.getId() + "/picture?type=large")
+//                                .into(user_profile);
                     }
 
                     @Override
@@ -232,7 +235,7 @@ public class RegisterActivity extends AppCompatActivity {
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
         String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), thumbnail, "Title", null);
-        Uri tempUri =  Uri.parse(path);
+        Uri tempUri = Uri.parse(path);
 
         Cursor cursor = getContentResolver().query(tempUri, null, null, null, null);
         if (cursor != null) {
@@ -277,7 +280,7 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile.setImageBitmap(bm);
     }
 
-    public void RegisterPost(int login_type, String name, String password, final String email) {
+    public void RegisterPost(int login_type, String name, String password, String email) {
         pdialog.show();
         mAPIService.Register(login_type, name, password, email).enqueue(new Callback<RegistrationResponse>() {
 
@@ -306,6 +309,41 @@ public class RegisterActivity extends AppCompatActivity {
                 Log.e(TAG, "Unable to submit post to API.");
                 Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
+            }
+        });
+    }
+
+    public void FacebookPost(int login_type, String name, String fcid, String emailface, String imgurl) {
+        mAPIService.LoginAsFacebook(login_type, name, fcid, emailface, imgurl).enqueue(new Callback<RegistrationResponse>() {
+
+            @Override
+            public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().getIsSuccess()) {
+                        Log.i(TAG, "post submitted to API." + response.body().toString());
+                        uploadImage(response.body().getUserID());
+
+                        SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserID", response.body().getUserID());
+                        editor.putBoolean("facebookID", true);
+                        editor.commit();
+                        Toast.makeText(RegisterActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegistrationResponse> call, Throwable t) {
+                Log.e(TAG, "Unable to submit post to API.");
+                Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
             }
         });
     }

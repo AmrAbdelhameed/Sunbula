@@ -25,6 +25,14 @@ public interface APIService {
                                         @Field("Password") String Password,
                                         @Field("EMail") String EMail);
 
+    @POST("/Charity/Api/User/Regesteration")
+    @FormUrlEncoded
+    Call<RegistrationResponse> LoginAsFacebook(@Field("Login_Type") int Login_Type,
+                                               @Field("Name") String Name,
+                                               @Field("FacebookID") String FacebookID,
+                                               @Field("EMail") String EMail,
+                                               @Field("ImgURL") String ImgURL);
+
     @Multipart
     @POST("/Charity/Api/User/AddPicture")
     Call<ImageResponse> UploadImageRegister(@Query("User_ID") String User_ID, @Part MultipartBody.Part file);
@@ -50,5 +58,5 @@ public interface APIService {
     Call<LoginResponse> Login(@Field("Email") String Email,
                               @Field("Password") String Password);
 
-    
+
 }

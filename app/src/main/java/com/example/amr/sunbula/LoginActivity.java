@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     APIService mAPIService;
     private ProgressDialog pdialog;
     private boolean loggedIn = false;
+    private boolean loggedIn2 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +82,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         loggedIn = sharedPreferences.getBoolean("isVerified", false);
+        loggedIn2 = sharedPreferences.getBoolean("facebookID", false);
 
-        if (loggedIn) {
+        if (loggedIn || loggedIn2) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
