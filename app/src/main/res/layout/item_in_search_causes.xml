@@ -9,11 +9,11 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/message_user_pic"
         android:layout_width="0dp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:src="@drawable/avatar"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -24,9 +24,9 @@
         android:id="@+id/linearLayout7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:layout_marginLeft="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Kitchenstories"
             android:textColor="#ffffff"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Matthew Corwin"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
         <TextView
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="95 Donaters"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="12sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -64,9 +64,9 @@
         android:id="@+id/linearLayout8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:layout_marginRight="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:text="0.3 mi"
             android:textColor="#ffffff"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
         <TextView
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:text="Cause"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_12ssp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
     </LinearLayout>
