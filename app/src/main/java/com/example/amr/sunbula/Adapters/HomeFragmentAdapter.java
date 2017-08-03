@@ -37,7 +37,7 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     @Override
     public String getItem(int position) {
-        return List_item_in_home.get(position).getName();
+        return List_item_in_home.get(position).getCaseName();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderHome) convertView.getTag();
         }
 
-        holder.text_item_in_home.setText(List_item_in_home.get(position).getName() + "\n" + List_item_in_home.get(position).getDescription());
+        holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
 
         return convertView;
     }

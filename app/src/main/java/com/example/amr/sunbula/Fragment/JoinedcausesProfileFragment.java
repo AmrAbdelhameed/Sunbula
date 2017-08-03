@@ -39,8 +39,8 @@ public class JoinedcausesProfileFragment extends Fragment {
 
         listView = (ListView) v.findViewById(R.id.list_item_joined);
 
-        adapter = new All_inProfileFragmentAdapter(getActivity(), R.layout.item_in_bottom_profile, stringArrayList);
-        listView.setAdapter(adapter);
+//        adapter = new All_inProfileFragmentAdapter(getActivity(), R.layout.item_in_bottom_profile, stringArrayList);
+//        listView.setAdapter(adapter);
 
         return v;
     }

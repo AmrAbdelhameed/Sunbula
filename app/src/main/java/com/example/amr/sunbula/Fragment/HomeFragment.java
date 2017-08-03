@@ -103,18 +103,36 @@ public class HomeFragment extends Fragment {
                     for (int i = 0; i < myANDJoinedCasesListBeen.size(); i++) {
                         n = new NewsFeed();
                         if (myANDJoinedCasesListBeen.size() > 0) {
-                            n.setName(myANDJoinedCasesListBeen.get(i).getCaseName());
-                            n.setDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
-                            n.setImageurl(myANDJoinedCasesListBeen.get(i).getIMG());
+
+                            n.setCaseName(myANDJoinedCasesListBeen.get(i).getCaseName());
+                            n.setCaseDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
+                            n.setJoined(myANDJoinedCasesListBeen.get(i).isIsJoined());
+                            n.setOwner(myANDJoinedCasesListBeen.get(i).isIsOwner());
+                            n.setAmount(myANDJoinedCasesListBeen.get(i).getAmount());
+                            n.setCauseID(myANDJoinedCasesListBeen.get(i).getCauseID());
+                            n.setEndDate(myANDJoinedCasesListBeen.get(i).getEndDate());
+                            n.setIMG(myANDJoinedCasesListBeen.get(i).getIMG());
+                            n.setNumberofjoins(myANDJoinedCasesListBeen.get(i).getNumberofjoins());
+                            n.setStatus(myANDJoinedCasesListBeen.get(i).getStatus());
+
                             n.save();
                         }
                     }
                     for (int i = 0; i < followingCassesListBeen.size(); i++) {
                         n = new NewsFeed();
                         if (followingCassesListBeen.size() > 0) {
-                            n.setName(followingCassesListBeen.get(i).getCaseName());
-                            n.setDescription(followingCassesListBeen.get(i).getCaseDescription());
-                            n.setImageurl(followingCassesListBeen.get(i).getIMG());
+
+                            n.setCaseName(myANDJoinedCasesListBeen.get(i).getCaseName());
+                            n.setCaseDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
+                            n.setJoined(myANDJoinedCasesListBeen.get(i).isIsJoined());
+                            n.setOwner(myANDJoinedCasesListBeen.get(i).isIsOwner());
+                            n.setAmount(myANDJoinedCasesListBeen.get(i).getAmount());
+                            n.setCauseID(myANDJoinedCasesListBeen.get(i).getCauseID());
+                            n.setEndDate(myANDJoinedCasesListBeen.get(i).getEndDate());
+                            n.setIMG(myANDJoinedCasesListBeen.get(i).getIMG());
+                            n.setNumberofjoins(myANDJoinedCasesListBeen.get(i).getNumberofjoins());
+                            n.setStatus(myANDJoinedCasesListBeen.get(i).getStatus());
+
                             n.save();
                         }
                     }

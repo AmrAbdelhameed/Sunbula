@@ -39,8 +39,8 @@ public class MycausesProfileFragment extends Fragment {
 
         listView = (ListView) v.findViewById(R.id.list_item_mycauses);
 
-        adapter = new All_inProfileFragmentAdapter(getActivity(), R.layout.item_in_bottom_profile, stringArrayList);
-        listView.setAdapter(adapter);
+//        adapter = new All_inProfileFragmentAdapter(getActivity(), R.layout.item_in_bottom_profile, stringArrayList);
+//        listView.setAdapter(adapter);
 
         return v;
     }

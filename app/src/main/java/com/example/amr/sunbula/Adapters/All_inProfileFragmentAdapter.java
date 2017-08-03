@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.Models.DBFlowModels.AllCauses;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -20,11 +21,11 @@ import java.util.List;
 public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> list_name_cause;
+    private List<AllCauses> list_name_cause;
     int resource;
 
-    public All_inProfileFragmentAdapter(Context context, int resource, List<String> list_name_cause) {
-        super(context, resource, list_name_cause);
+    public All_inProfileFragmentAdapter(Context context, int resource, List<AllCauses> list_name_cause) {
+        super(context, resource);
         this.activity = context;
         this.resource = resource;
         this.list_name_cause = list_name_cause;
@@ -37,7 +38,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
 
     @Override
     public String getItem(int position) {
-        return list_name_cause.get(position);
+        return list_name_cause.get(position).getCaseName();
     }
 
     @Override
@@ -57,7 +58,8 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderNotifications) convertView.getTag();
         }
 
-        holder.text_name_cause.setText(getItem(position));
+        holder.text_name_cause.setText(list_name_cause.get(position).getCaseName());
+        holder.text_details_cause.setText(list_name_cause.get(position).getCaseDescription());
 
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
             @Override

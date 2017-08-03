@@ -7,6 +7,7 @@ import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
 import com.example.amr.sunbula.Models.APIResponses.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
+import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 
 import okhttp3.MultipartBody;
@@ -69,4 +70,8 @@ public interface APIService {
     Call<SearchCausesResponse> SearchCauses(@Field("User_ID") String User_ID,
                                             @Field("SearchWord") String SearchWord,
                                             @Field("SearchType") int SearchType);
+
+    @POST("/Charity/Api/User/UserDetails")
+    @FormUrlEncoded
+    Call<UserDetailsResponse> UserDetails(@Field("User_ID") String User_ID);
 }
