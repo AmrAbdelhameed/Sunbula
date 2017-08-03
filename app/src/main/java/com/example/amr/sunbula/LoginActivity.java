@@ -110,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserID", response.body().getUser_ID());
                         editor.putBoolean("isVerified", true);
+                        editor.putBoolean("facebookID", false);
                         editor.commit();
                         Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
@@ -118,12 +119,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                         if (response.body().isSuccess()) {
-                            SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("UserID", response.body().getUser_ID());
-                            editor.commit();
                             Toast.makeText(LoginActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(LoginActivity.this, ConfirmEmailActivity.class);
+                            Bundle b = new Bundle();
+                            b.putString("UserID", response.body().getUser_ID());
+                            i.putExtras(b);
                             startActivity(i);
                             finish();
                         } else {

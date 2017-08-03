@@ -279,11 +279,6 @@ public class RegisterActivity extends AppCompatActivity {
                     if (response.body().getIsSuccess()) {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
                         uploadImage(response.body().getUserID());
-
-                        SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserID", response.body().getUserID());
-                        editor.commit();
                     } else {
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                         pdialog.dismiss();
@@ -315,6 +310,7 @@ public class RegisterActivity extends AppCompatActivity {
                         SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserID", response.body().getUserID());
+                        editor.putBoolean("isVerified", false);
                         editor.putBoolean("facebookID", true);
                         editor.commit();
                         Toast.makeText(RegisterActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
@@ -335,7 +331,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadImage(String UserId) {
+    private void uploadImage(final String UserId) {
 
         //File creating from selected URL
         File file = new File(imagePath);
@@ -359,6 +355,9 @@ public class RegisterActivity extends AppCompatActivity {
                     if (response.body().isSuccess()) {
                         Toast.makeText(RegisterActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("UserID", UserId);
+                        i.putExtras(b);
                         startActivity(i);
                         finish();
 

@@ -1,6 +1,8 @@
 package com.example.amr.sunbula.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 import com.example.amr.sunbula.Adapters.ProfilePagerAdapter;
 import com.example.amr.sunbula.EditProfileActivity;
 import com.example.amr.sunbula.R;
+import com.example.amr.sunbula.RegisterActivity;
 import com.example.amr.sunbula.SearchCauses_People;
 
 /**
@@ -81,6 +84,12 @@ public class ProfileFragment extends Fragment {
             case R.id.action_edit:
                 Intent intent = new Intent(getActivity(), EditProfileActivity.class);
                 startActivity(intent);
+//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("UserID", "");
+//                editor.putBoolean("isVerified", false);
+//                editor.putBoolean("facebookID", false);
+//                editor.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

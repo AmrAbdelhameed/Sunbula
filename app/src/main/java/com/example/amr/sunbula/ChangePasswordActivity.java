@@ -45,7 +45,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         Bundle b = in.getExtras();
-
         String email_change_pass = b.getString("email_change_pass");
 
         txt_email_newpass.setText(email_change_pass);

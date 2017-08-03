@@ -44,8 +44,9 @@ public class ConfirmEmailActivity extends AppCompatActivity {
         Cnformcode = (EditText) findViewById(R.id.txtconfirmcontinue);
         btn_continue = (Button) findViewById(R.id.btn_continue);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-        UserID = sharedPreferences.getString("UserID", "null");
+        Intent in = getIntent();
+        Bundle b = in.getExtras();
+        UserID = b.getString("UserID");
 
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
