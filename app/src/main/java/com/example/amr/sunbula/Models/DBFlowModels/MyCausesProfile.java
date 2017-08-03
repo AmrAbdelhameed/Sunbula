@@ -10,9 +10,9 @@ import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 @Table(database = AppDatabase.class)
-public class NewsFeed extends BaseModel {
+public class MyCausesProfile extends BaseModel {
 
-    public NewsFeed() {
+    public MyCausesProfile() {
     }
 
     @Column

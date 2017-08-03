@@ -10,21 +10,20 @@ import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
 @Table(database = AppDatabase.class)
-public class AllCauses extends BaseModel {
+public class AllCausesProfile extends BaseModel {
 
-    public AllCauses() {
+    public AllCausesProfile() {
     }
 
     @Column
     @Unique(unique = true)
     @PrimaryKey(autoincrement = true)
-    long id; // package-private recommended, not required
+    private long id; // package-private recommended, not required
 
     @Column
     @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CaseName;
-
     @Column
     @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)

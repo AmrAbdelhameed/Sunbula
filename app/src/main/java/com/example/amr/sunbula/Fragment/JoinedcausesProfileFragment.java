@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.All_inProfileFragmentAdapter;
 import com.example.amr.sunbula.R;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 public class JoinedcausesProfileFragment extends Fragment {
 
     private ListView listView;
-    private ArrayList<String> stringArrayList;
     private All_inProfileFragmentAdapter adapter;
 
     public JoinedcausesProfileFragment() {
@@ -30,12 +30,6 @@ public class JoinedcausesProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_joined_profile, container, false);
-
-        stringArrayList = new ArrayList<>();
-
-        for (int i = 0; i < 11; i++) {
-            stringArrayList.add("Joined");
-        }
 
         listView = (ListView) v.findViewById(R.id.list_item_joined);
 

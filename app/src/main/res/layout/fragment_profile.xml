@@ -18,192 +18,163 @@
             android:id="@+id/image_profile"
             android:layout_width="130dp"
             android:layout_height="130dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
             android:src="@drawable/profile_pic"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/username_profile"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.421" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/username_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="2dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
             android:text="Rossy Loard"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_profile"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintRight_toRightOf="parent" />
 
-        <Button
-            android:id="@+id/btn_add_cause"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/add_cause"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.703"
+        <ImageView
+            android:id="@+id/figure_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/image_profile"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/image_profile"
+            app:srcCompat="@drawable/figure_2" />
+
+        <ImageView
+            android:id="@+id/figure_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/image_profile"
+            app:layout_constraintTop_toTopOf="@+id/image_profile"
+            app:srcCompat="@drawable/figure_1" />
+
+
+        <ImageView
+            android:id="@+id/figure_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/image_profile"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/image_profile"
+            app:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@drawable/figure_3" />
+
+
+        <ImageView
+            android:id="@+id/figure_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/image_profile"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/image_profile"
+            app:srcCompat="@drawable/figure4" />
+
+        <TextView
+            android:id="@+id/text_history_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="History"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.583"
+            app:layout_constraintLeft_toLeftOf="@+id/figure_4"
+            app:layout_constraintRight_toRightOf="@+id/figure_4"
+            app:layout_constraintTop_toBottomOf="@+id/figure_4"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/text_location_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Location"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintLeft_toLeftOf="@+id/figure_3"
+            app:layout_constraintRight_toRightOf="@+id/figure_3"
+            app:layout_constraintTop_toBottomOf="@+id/figure_3"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/text_causes_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="268k My causes"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/figure_1"
+            app:layout_constraintHorizontal_bias="0.575"
+            app:layout_constraintLeft_toLeftOf="@+id/figure_1"
+            app:layout_constraintRight_toRightOf="@+id/figure_1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/text_reviews_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:text="192k Reviews"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/figure_2"
+            app:layout_constraintHorizontal_bias="0.36"
+            app:layout_constraintLeft_toLeftOf="@+id/figure_2"
+            app:layout_constraintRight_toRightOf="@+id/figure_2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/btn_heart"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/like_heart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.296"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/image_profile"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <LinearLayout
-            android:id="@+id/l1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="71dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btn_add_cause"
-            app:layout_constraintLeft_toRightOf="@+id/image_profile"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.389">
-
-            <TextView
-                android:id="@+id/text_reviews_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="192k Reviews"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/figure_1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/figure_2" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/l2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/btn_heart"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/image_profile"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.389">
-
-            <TextView
-                android:id="@+id/text_causes_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="268k My causes"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/figure_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/figure_1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/l3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="71dp"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.428"
-            app:layout_constraintLeft_toRightOf="@+id/image_profile"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/l1"
-            app:layout_constraintVertical_bias="0.723">
-
-            <ImageView
-                android:id="@+id/figure_3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/figure_3" />
-
-            <TextView
-                android:id="@+id/text_location_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Location"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/l4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.28"
+            android:background="@drawable/like_heart"
+            app:layout_constraintBottom_toTopOf="@+id/figure_3"
+            app:layout_constraintLeft_toRightOf="@+id/image_profile"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/figure_2" />
+
+        <Button
+            android:id="@+id/btn_add_cause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/add_cause"
+            app:layout_constraintBottom_toTopOf="@+id/figure_4"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/l3"
-            app:layout_constraintTop_toBottomOf="@+id/l2"
-            app:layout_constraintVertical_bias="0.723">
+            app:layout_constraintRight_toLeftOf="@+id/image_profile"
+            app:layout_constraintTop_toBottomOf="@+id/figure_1" />
 
-            <ImageView
-                android:id="@+id/figure_4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/figure4" />
-
-            <TextView
-                android:id="@+id/text_history_profile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="History"
-                android:textStyle="bold" />
-
-        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 
     <RelativeLayout
@@ -213,19 +184,21 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
+            style="@style/MyCustomTabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
-            android:elevation="6dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
+        <LinearLayout
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="match_parent"
             android:layout_below="@id/tab_layout"
-            android:background="#ffffff" />
+            android:background="#ffffff"
+            android:orientation="vertical" />
+
     </RelativeLayout>
 
 </LinearLayout>
