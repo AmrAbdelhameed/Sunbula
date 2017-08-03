@@ -1,4 +1,4 @@
-package com.example.amr.sunbula.Models;
+package com.example.amr.sunbula.Models.APIResponses;
 
 import java.util.List;
 

@@ -1,17 +1,11 @@
 package com.example.amr.sunbula.Fragment;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,11 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
-import com.example.amr.sunbula.ConfirmEmailActivity;
-import com.example.amr.sunbula.HomeActivity;
 import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
-import com.example.amr.sunbula.Models.NewsfeedResponse;
-import com.example.amr.sunbula.Models.VerfiedAccntResponse;
+import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -33,7 +24,6 @@ import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -51,7 +41,6 @@ public class HomeFragment extends Fragment {
 
     private ListView listView;
     private HomeFragmentAdapter adapter;
-    private static final String TAG = "ConfirmEmailActivity";
     String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;

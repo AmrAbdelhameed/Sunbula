@@ -1,25 +1,25 @@
-package com.example.amr.sunbula.Models;
+package com.example.amr.sunbula.Models.APIResponses;
 
-public class RegistrationResponse {
+public class ImageResponse {
 
-    private String UserID;
+    private String ImageURL;
     private String ErrorMessage;
     private boolean IsSuccess;
 
-    public String getUserID() {
-        return UserID;
+    public String getImageURL() {
+        return ImageURL;
     }
 
     public String getErrorMessage() {
         return ErrorMessage;
     }
 
-    public boolean getIsSuccess() {
+    public boolean isSuccess() {
         return IsSuccess;
     }
 
-    public void setUserID(String userID) {
-        UserID = userID;
+    public void setImageURL(String imageURL) {
+        ImageURL = imageURL;
     }
 
     public void setErrorMessage(String errorMessage) {

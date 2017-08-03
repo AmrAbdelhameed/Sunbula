@@ -12,8 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Models.RegistrationResponse;
-import com.example.amr.sunbula.Models.VerfiedAccntResponse;
+import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
-import com.example.amr.sunbula.Models.NewsfeedResponse;
 import com.example.amr.sunbula.R;
 
 import java.util.List;

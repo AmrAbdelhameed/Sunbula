@@ -1,16 +1,25 @@
-package com.example.amr.sunbula.Models;
+package com.example.amr.sunbula.Models.APIResponses;
 
-public class ForgetPasswordResponse {
+public class RegistrationResponse {
 
+    private String UserID;
     private String ErrorMessage;
     private boolean IsSuccess;
+
+    public String getUserID() {
+        return UserID;
+    }
 
     public String getErrorMessage() {
         return ErrorMessage;
     }
 
-    public boolean isIsSuccess() {
+    public boolean getIsSuccess() {
         return IsSuccess;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
     }
 
     public void setErrorMessage(String errorMessage) {

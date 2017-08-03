@@ -11,8 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Models.ForgetPasswordResponse;
-import com.example.amr.sunbula.Models.VerfiedAccntResponse;
+import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 

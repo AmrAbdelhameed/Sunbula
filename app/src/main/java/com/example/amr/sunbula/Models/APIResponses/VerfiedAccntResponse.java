@@ -1,6 +1,6 @@
-package com.example.amr.sunbula.Models;
+package com.example.amr.sunbula.Models.APIResponses;
 
-public class ResetPasswordResponse {
+public class VerfiedAccntResponse {
 
     private String ErrorMessage;
     private boolean IsSuccess;
@@ -9,7 +9,7 @@ public class ResetPasswordResponse {
         return ErrorMessage;
     }
 
-    public boolean isIsSuccess() {
+    public boolean isSuccess() {
         return IsSuccess;
     }
 

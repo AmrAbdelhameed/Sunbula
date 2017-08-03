@@ -1,4 +1,4 @@
-package com.example.amr.sunbula.Models;
+package com.example.amr.sunbula.Models.APIResponses;
 
 public class LoginResponse {
     private String User_ID;

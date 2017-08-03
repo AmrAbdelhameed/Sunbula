@@ -1,12 +1,12 @@
 package com.example.amr.sunbula.RetrofitAPIs;
 
-import com.example.amr.sunbula.Models.ForgetPasswordResponse;
-import com.example.amr.sunbula.Models.ImageResponse;
-import com.example.amr.sunbula.Models.LoginResponse;
-import com.example.amr.sunbula.Models.NewsfeedResponse;
-import com.example.amr.sunbula.Models.RegistrationResponse;
-import com.example.amr.sunbula.Models.ResetPasswordResponse;
-import com.example.amr.sunbula.Models.VerfiedAccntResponse;
+import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
+import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
+import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
+import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
+import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
+import com.example.amr.sunbula.Models.APIResponses.ResetPasswordResponse;
+import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
