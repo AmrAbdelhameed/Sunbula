@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -19,24 +20,24 @@ import java.util.List;
 public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<String> list_item1;
+    private List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
     int resource;
 
-    public SearchCauses_PeopleAdapter(Context context, int resource, List<String> objects) {
-        super(context, resource, objects);
+    public SearchCauses_PeopleAdapter(Context context, int resource, List<SearchCausesResponse.SearchedCasesBean> objects) {
+        super(context, resource);
         this.activity = context;
         this.resource = resource;
-        this.list_item1 = objects;
+        this.searchedCasesBeen = objects;
     }
 
     @Override
     public int getCount() {
-        return list_item1.size();
+        return searchedCasesBeen.size();
     }
 
     @Override
     public String getItem(int position) {
-        return list_item1.get(position);
+        return searchedCasesBeen.get(position).getCaseName();
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderSearchCauses_People) convertView.getTag();
         }
 
-        holder.item1.setText(getItem(position));
+        holder.item1.setText(searchedCasesBeen.get(position).getCaseName());
 
         return convertView;
     }

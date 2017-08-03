@@ -44,9 +44,9 @@ public class HomeFragment extends Fragment {
     String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;
+    NewsFeed n;
     List<NewsfeedResponse.MyANDJoinedCasesListBean> myANDJoinedCasesListBeen;
     List<NewsfeedResponse.FollowingCassesListBean> followingCassesListBeen;
-    NewsFeed n;
 
     public HomeFragment() {
         // Required empty public constructor
