@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -17,9 +18,9 @@ import java.util.List;
 public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<UserDetailsResponse.MyCasesBean> list_name_cause;
+    private List<MyCausesProfile> list_name_cause;
 
-    public MyCauses_inProfileFragmentAdapter(Context context, List<UserDetailsResponse.MyCasesBean> list_name_cause) {
+    public MyCauses_inProfileFragmentAdapter(Context context, List<MyCausesProfile> list_name_cause) {
         super(context, R.layout.item_in_bottom_profile);
         this.activity = context;
         this.list_name_cause = list_name_cause;

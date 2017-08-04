@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import com.example.amr.sunbula.Adapters.MyCauses_inProfileFragmentAdapter;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -19,10 +20,10 @@ import java.util.List;
 public class MycausesProfileFragment extends Fragment {
 
     private ListView listView;
-    List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
+    List<MyCausesProfile> myCasesBeanList;
     private MyCauses_inProfileFragmentAdapter adapter;
 
-    public MycausesProfileFragment(List<UserDetailsResponse.MyCasesBean> myCasesBeanList) {
+    public MycausesProfileFragment(List<MyCausesProfile> myCasesBeanList) {
         this.myCasesBeanList = myCasesBeanList;
     }
 

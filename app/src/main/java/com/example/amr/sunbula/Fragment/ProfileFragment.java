@@ -20,9 +20,14 @@ import android.widget.TextView;
 
 import com.example.amr.sunbula.EditProfileActivity;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +47,14 @@ public class ProfileFragment extends Fragment {
     APIService mAPIService;
     private ProgressDialog pdialog;
     List<UserDetailsResponse.AllCasesListBean> allCasesListBeen;
+    AllCausesProfile all;
+    List<AllCausesProfile> list;
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
+    MyCausesProfile myCausesProfile;
+    List<MyCausesProfile> myCausesProfiles;
 
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile, text_history_profile;
     ImageView image_profile;
-    String s;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -65,6 +73,8 @@ public class ProfileFragment extends Fragment {
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
+
+        FlowManager.init(getActivity());
 
         mAPIService = ApiUtils.getAPIService();
 
@@ -87,9 +97,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    replaceFragment(new AllProfileFragment(allCasesListBeen));
+                    replaceFragment(new AllProfileFragment(list));
                 } else if (tab.getPosition() == 1) {
-                    replaceFragment(new MycausesProfileFragment(myCasesBeanList));
+                    replaceFragment(new MycausesProfileFragment(myCausesProfiles));
                 } else {
                     replaceFragment(new JoinedcausesProfileFragment());
                 }
@@ -132,7 +142,6 @@ public class ProfileFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     username_profile.setText(response.body().getName());
-                    s = response.body().getName();
 
                     allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
                     myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
@@ -141,14 +150,67 @@ public class ProfileFragment extends Fragment {
                     allCasesListBeen = userDetailsResponse.getAllCasesList();
                     myCasesBeanList = userDetailsResponse.getMyCases();
 
+                    list = (new Select().from(AllCausesProfile.class).queryList());
+                    if (list.size() > 0) {
+                        Delete.table(AllCausesProfile.class);
+                    }
+
+                    myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                    if (myCausesProfiles.size() > 0) {
+                        Delete.table(MyCausesProfile.class);
+                    }
+
+                    for (int i = 0; i < allCasesListBeen.size(); i++) {
+                        all = new AllCausesProfile();
+                        if (allCasesListBeen.size() > 0) {
+
+                            all.setCaseName(allCasesListBeen.get(i).getCaseName());
+                            all.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
+                            all.setJoined(allCasesListBeen.get(i).isIsJoined());
+                            all.setOwner(allCasesListBeen.get(i).isIsOwner());
+                            all.setAmount(allCasesListBeen.get(i).getAmount());
+                            all.setCauseID(allCasesListBeen.get(i).getCauseID());
+                            all.setEndDate(allCasesListBeen.get(i).getEndDate());
+                            all.setIMG(allCasesListBeen.get(i).getIMG());
+                            all.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
+                            all.setStatus(allCasesListBeen.get(i).getStatus());
+
+                            all.save();
+                        }
+                    }
+
+                    for (int i = 0; i < myCasesBeanList.size(); i++) {
+                        myCausesProfile = new MyCausesProfile();
+                        if (myCasesBeanList.size() > 0) {
+
+                            myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
+                            myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
+                            myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
+                            myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
+                            myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
+                            myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
+                            myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
+                            myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
+                            myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
+                            myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
+
+                            myCausesProfile.save();
+                        }
+                    }
+
+                    list = (new Select().from(AllCausesProfile.class).queryList());
+                    myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+
                     //replace default fragment
-                    replaceFragment(new AllProfileFragment(allCasesListBeen));
+                    replaceFragment(new AllProfileFragment(list));
                 }
                 pdialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
+                list = (new Select().from(AllCausesProfile.class).queryList());
+                myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
                 pdialog.dismiss();
             }
         });

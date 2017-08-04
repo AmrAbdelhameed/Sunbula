@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
     APIService mAPIService;
     private ProgressDialog pdialog;
     NewsFeed n;
+    List<NewsFeed> list;
     List<NewsfeedResponse.MyANDJoinedCasesListBean> myANDJoinedCasesListBeen;
     List<NewsfeedResponse.FollowingCassesListBean> followingCassesListBeen;
 
@@ -94,7 +95,7 @@ public class HomeFragment extends Fragment {
                     myANDJoinedCasesListBeen = newsfeedResponse.getMyANDJoinedCasesList();
                     followingCassesListBeen = newsfeedResponse.getFollowingCassesList();
 
-                    List<NewsFeed> list = (new Select().from(NewsFeed.class).queryList());
+                    list = (new Select().from(NewsFeed.class).queryList());
 
                     if (list.size() > 0) {
                         Delete.table(NewsFeed.class);
@@ -122,22 +123,23 @@ public class HomeFragment extends Fragment {
                         n = new NewsFeed();
                         if (followingCassesListBeen.size() > 0) {
 
-                            n.setCaseName(myANDJoinedCasesListBeen.get(i).getCaseName());
-                            n.setCaseDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
-                            n.setJoined(myANDJoinedCasesListBeen.get(i).isIsJoined());
-                            n.setOwner(myANDJoinedCasesListBeen.get(i).isIsOwner());
-                            n.setAmount(myANDJoinedCasesListBeen.get(i).getAmount());
-                            n.setCauseID(myANDJoinedCasesListBeen.get(i).getCauseID());
-                            n.setEndDate(myANDJoinedCasesListBeen.get(i).getEndDate());
-                            n.setIMG(myANDJoinedCasesListBeen.get(i).getIMG());
-                            n.setNumberofjoins(myANDJoinedCasesListBeen.get(i).getNumberofjoins());
-                            n.setStatus(myANDJoinedCasesListBeen.get(i).getStatus());
+                            n.setCaseName(followingCassesListBeen.get(i).getCaseName());
+                            n.setCaseDescription(followingCassesListBeen.get(i).getCaseDescription());
+                            n.setJoined(followingCassesListBeen.get(i).isIsJoined());
+                            n.setOwner(followingCassesListBeen.get(i).isIsOwner());
+                            n.setAmount(followingCassesListBeen.get(i).getAmount());
+                            n.setCauseID(followingCassesListBeen.get(i).getCauseID());
+                            n.setEndDate(followingCassesListBeen.get(i).getEndDate());
+                            n.setIMG(followingCassesListBeen.get(i).getIMG());
+                            n.setNumberofjoins(followingCassesListBeen.get(i).getNumberofjoins());
+                            n.setStatus(followingCassesListBeen.get(i).getStatus());
 
                             n.save();
                         }
                     }
+                    list = (new Select().from(NewsFeed.class).queryList());
 
-                    adapter = new HomeFragmentAdapter(getActivity(), R.layout.item_in_home, list);
+                    adapter = new HomeFragmentAdapter(getActivity(), list);
                     listView.setAdapter(adapter);
                 }
                 pdialog.dismiss();
@@ -146,10 +148,10 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<NewsfeedResponse> call, Throwable t) {
 
-                List<NewsFeed> list = (new Select().from(NewsFeed.class).queryList());
+                list = (new Select().from(NewsFeed.class).queryList());
 
                 if (list.size() > 0) {
-                    adapter = new HomeFragmentAdapter(getActivity(), R.layout.item_in_home, list);
+                    adapter = new HomeFragmentAdapter(getActivity(), list);
                     listView.setAdapter(adapter);
                 } else {
                     Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
