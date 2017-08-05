@@ -210,7 +210,11 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
                 list = (new Select().from(AllCausesProfile.class).queryList());
+                //replace default fragment
+                replaceFragment(new AllProfileFragment(list));
+
                 myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+
                 pdialog.dismiss();
             }
         });
