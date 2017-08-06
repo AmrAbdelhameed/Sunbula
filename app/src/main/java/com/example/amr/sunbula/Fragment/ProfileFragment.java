@@ -195,14 +195,14 @@ public class ProfileFragment extends Fragment {
 
                                 all.setCaseName(allCasesListBeen.get(i).getCaseName());
                                 all.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
-//                                all.setJoined(allCasesListBeen.get(i).isIsJoined());
-//                                all.setOwner(allCasesListBeen.get(i).isIsOwner());
-//                                all.setAmount(allCasesListBeen.get(i).getAmount());
-//                                all.setCauseID(allCasesListBeen.get(i).getCauseID());
-//                                all.setEndDate(allCasesListBeen.get(i).getEndDate());
-//                                all.setIMG(allCasesListBeen.get(i).getIMG());
-//                                all.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
-//                                all.setStatus(allCasesListBeen.get(i).getStatus());
+                                all.setJoined(allCasesListBeen.get(i).isIsJoined());
+                                all.setOwner(allCasesListBeen.get(i).isIsOwner());
+                                all.setAmount(allCasesListBeen.get(i).getAmount());
+                                all.setCauseID(allCasesListBeen.get(i).getCauseID());
+                                all.setEndDate(allCasesListBeen.get(i).getEndDate());
+                                all.setIMG(allCasesListBeen.get(i).getIMG());
+                                all.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
+                                all.setStatus(allCasesListBeen.get(i).getStatus());
 
                                 all.save();
                             }
@@ -214,14 +214,14 @@ public class ProfileFragment extends Fragment {
 
                                 myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
                                 myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
-//                                myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
-//                                myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
-//                                myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
-//                                myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
-//                                myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
-//                                myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
-//                                myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
-//                                myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
+                                myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
+                                myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
+                                myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
+                                myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
+                                myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
+                                myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
+                                myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
+                                myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
 
                                 myCausesProfile.save();
                             }
@@ -233,14 +233,14 @@ public class ProfileFragment extends Fragment {
 
                                 joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
                                 joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
-//                                joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
-//                                joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
-//                                joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
-//                                joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
-//                                joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
-//                                joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
-//                                joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
-//                                joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
+                                joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
+                                joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
+                                joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
+                                joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
+                                joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
+                                joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
+                                joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
+                                joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
 
                                 joinedCasesProfile.save();
                             }

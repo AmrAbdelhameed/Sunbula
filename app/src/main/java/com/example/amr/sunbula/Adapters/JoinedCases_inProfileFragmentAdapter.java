@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
@@ -42,7 +43,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolderNotifications holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
@@ -55,6 +56,13 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<String> {
 
         holder.text_name_cause.setText(list_name_cause.get(position).getCaseName());
         holder.text_details_cause.setText(list_name_cause.get(position).getCaseDescription());
+
+        holder.image_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(activity, list_name_cause.get(position).getCauseID(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
             @Override
