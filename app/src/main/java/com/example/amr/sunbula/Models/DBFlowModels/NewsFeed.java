@@ -21,52 +21,42 @@ public class NewsFeed extends BaseModel {
     private long id; // package-private recommended, not required
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CaseName;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CaseDescription;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CauseID;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private int Amount;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String EndDate;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String IMG;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private int status;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private int Numberofjoins;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private boolean IsJoined;
 
     @Column
-    @NotNull
     @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private boolean IsOwner;
 

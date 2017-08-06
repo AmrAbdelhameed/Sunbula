@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Fragment.AllProfileFragment;
+import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
@@ -119,6 +120,7 @@ public class AddCauseActivity extends AppCompatActivity {
         };
 
         txt_calender = (TextView) findViewById(R.id.txt_calender);
+        txt_calender.setText("End date");
 
         txt_calender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,22 +293,51 @@ public class AddCauseActivity extends AppCompatActivity {
             public void onResponse(Call<AllCategoriesResponse> call, Response<AllCategoriesResponse> response) {
 
                 if (response.isSuccessful()) {
-                    AllCategoriesResponse allCategoriesResponse = response.body();
+                    if (response.body().isIsSuccess()) {
+                        AllCategoriesResponse allCategoriesResponse = response.body();
 
-                    allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
+                        allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
 
-                    allCategoriesBeen = allCategoriesResponse.getAllCategories();
+                        allCategoriesBeen = allCategoriesResponse.getAllCategories();
 
-                    for (int i = 0; i < allCategoriesBeen.size(); i++) {
-                        CategoriesIDs_in_AddCause.add(allCategoriesBeen.get(i).getCategoryID());
-                        CategoriesNames_in_AddCause.add(allCategoriesBeen.get(i).getCategoryName());
-                    }
+                        for (int i = 0; i < allCategoriesBeen.size(); i++) {
+                            CategoriesIDs_in_AddCause.add(allCategoriesBeen.get(i).getCategoryID());
+                            CategoriesNames_in_AddCause.add(allCategoriesBeen.get(i).getCategoryName());
+                        }
+                    } else
+                        Toast.makeText(AddCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                     pdialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    public void AddCause(String name, String amount, String catID, String end_date, String cause_desc, String user_id) {
+        pdialog.show();
+        mAPIService.AddCause(name, amount, catID, end_date, cause_desc, 1, user_id).enqueue(new Callback<AddCauseResponse>() {
+
+            @Override
+            public void onResponse(Call<AddCauseResponse> call, Response<AddCauseResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        {
+                            Toast.makeText(AddCauseActivity.this, "Added cause successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } else
+                        Toast.makeText(AddCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    pdialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddCauseResponse> call, Throwable t) {
                 pdialog.dismiss();
             }
         });
@@ -322,11 +353,22 @@ public class AddCauseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_addcause) {
-            Toast.makeText(this, txt_calender.getText().toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, txt_add_description_addcause.getText().toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, name_addcause.getText().toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, amount_addcause.getText().toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, GetID, Toast.LENGTH_SHORT).show();
+            if (name_addcause.getText().toString().isEmpty()) {
+                name_addcause.setError("enter here");
+            }
+            if (amount_addcause.getText().toString().isEmpty()) {
+                amount_addcause.setError("enter here");
+            }
+            if (GetID.equals(""))
+                Toast.makeText(this, "Please select category", Toast.LENGTH_SHORT).show();
+            if (txt_calender.getText().toString().equals("End date"))
+                Toast.makeText(this, "Please select End date", Toast.LENGTH_SHORT).show();
+            if (txt_add_description_addcause.getText().toString().isEmpty())
+                txt_add_description_addcause.setError("enter here");
+            else {
+                AddCause(name_addcause.getText().toString(), amount_addcause.getText().toString(), GetID,
+                        txt_calender.getText().toString(), txt_add_description_addcause.getText().toString(), UserID);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);

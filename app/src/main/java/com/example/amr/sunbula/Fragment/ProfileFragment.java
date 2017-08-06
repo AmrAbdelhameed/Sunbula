@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.amr.sunbula.AddCauseActivity;
 import com.example.amr.sunbula.EditProfileActivity;
@@ -161,95 +162,98 @@ public class ProfileFragment extends Fragment {
             public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
 
                 if (response.isSuccessful()) {
-                    username_profile.setText(response.body().getName());
-                    UserDetailsResponse userDetailsResponse = response.body();
+                    if (response.body().isIsSuccess()) {
+                        username_profile.setText(response.body().getName());
+                        UserDetailsResponse userDetailsResponse = response.body();
 
-                    allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
-                    myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
-                    joinedCasesBeen = new ArrayList<UserDetailsResponse.JoinedCasesBean>();
+                        allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
+                        myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
+                        joinedCasesBeen = new ArrayList<UserDetailsResponse.JoinedCasesBean>();
 
-                    allCasesListBeen = userDetailsResponse.getAllCasesList();
-                    myCasesBeanList = userDetailsResponse.getMyCases();
-                    joinedCasesBeen = userDetailsResponse.getJoinedCases();
+                        allCasesListBeen = userDetailsResponse.getAllCasesList();
+                        myCasesBeanList = userDetailsResponse.getMyCases();
+                        joinedCasesBeen = userDetailsResponse.getJoinedCases();
 
-                    list = (new Select().from(AllCausesProfile.class).queryList());
-                    if (list.size() > 0) {
-                        Delete.table(AllCausesProfile.class);
-                    }
-
-                    myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
-                    if (myCausesProfiles.size() > 0) {
-                        Delete.table(MyCausesProfile.class);
-                    }
-
-                    joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
-                    if (joinedCasesProfiles.size() > 0) {
-                        Delete.table(JoinedCasesProfile.class);
-                    }
-
-                    for (int i = 0; i < allCasesListBeen.size(); i++) {
-                        all = new AllCausesProfile();
-                        if (allCasesListBeen.size() > 0) {
-
-                            all.setCaseName(allCasesListBeen.get(i).getCaseName());
-                            all.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
-                            all.setJoined(allCasesListBeen.get(i).isIsJoined());
-                            all.setOwner(allCasesListBeen.get(i).isIsOwner());
-                            all.setAmount(allCasesListBeen.get(i).getAmount());
-                            all.setCauseID(allCasesListBeen.get(i).getCauseID());
-                            all.setEndDate(allCasesListBeen.get(i).getEndDate());
-                            all.setIMG(allCasesListBeen.get(i).getIMG());
-                            all.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
-                            all.setStatus(allCasesListBeen.get(i).getStatus());
-
-                            all.save();
+                        list = (new Select().from(AllCausesProfile.class).queryList());
+                        if (list.size() > 0) {
+                            Delete.table(AllCausesProfile.class);
                         }
-                    }
 
-                    for (int i = 0; i < myCasesBeanList.size(); i++) {
-                        myCausesProfile = new MyCausesProfile();
-                        if (myCasesBeanList.size() > 0) {
-
-                            myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
-                            myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
-                            myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
-                            myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
-                            myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
-                            myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
-                            myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
-                            myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
-                            myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
-                            myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
-
-                            myCausesProfile.save();
+                        myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                        if (myCausesProfiles.size() > 0) {
+                            Delete.table(MyCausesProfile.class);
                         }
-                    }
 
-                    for (int i = 0; i < joinedCasesBeen.size(); i++) {
-                        joinedCasesProfile = new JoinedCasesProfile();
-                        if (joinedCasesBeen.size() > 0) {
-
-                            joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
-                            joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
-                            joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
-                            joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
-                            joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
-                            joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
-                            joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
-                            joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
-                            joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
-                            joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
-
-                            joinedCasesProfile.save();
+                        joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+                        if (joinedCasesProfiles.size() > 0) {
+                            Delete.table(JoinedCasesProfile.class);
                         }
-                    }
 
-                    list = (new Select().from(AllCausesProfile.class).queryList());
-                    myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
-                    joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+                        for (int i = 0; i < allCasesListBeen.size(); i++) {
+                            all = new AllCausesProfile();
+                            if (allCasesListBeen.size() > 0) {
 
-                    //replace default fragment
-                    replaceFragment(new AllProfileFragment(list));
+                                all.setCaseName(allCasesListBeen.get(i).getCaseName());
+                                all.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
+//                                all.setJoined(allCasesListBeen.get(i).isIsJoined());
+//                                all.setOwner(allCasesListBeen.get(i).isIsOwner());
+//                                all.setAmount(allCasesListBeen.get(i).getAmount());
+//                                all.setCauseID(allCasesListBeen.get(i).getCauseID());
+//                                all.setEndDate(allCasesListBeen.get(i).getEndDate());
+//                                all.setIMG(allCasesListBeen.get(i).getIMG());
+//                                all.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
+//                                all.setStatus(allCasesListBeen.get(i).getStatus());
+
+                                all.save();
+                            }
+                        }
+
+                        for (int i = 0; i < myCasesBeanList.size(); i++) {
+                            myCausesProfile = new MyCausesProfile();
+                            if (myCasesBeanList.size() > 0) {
+
+                                myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
+                                myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
+//                                myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
+//                                myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
+//                                myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
+//                                myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
+//                                myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
+//                                myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
+//                                myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
+//                                myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
+
+                                myCausesProfile.save();
+                            }
+                        }
+
+                        for (int i = 0; i < joinedCasesBeen.size(); i++) {
+                            joinedCasesProfile = new JoinedCasesProfile();
+                            if (joinedCasesBeen.size() > 0) {
+
+                                joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
+                                joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
+//                                joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
+//                                joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
+//                                joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
+//                                joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
+//                                joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
+//                                joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
+//                                joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
+//                                joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
+
+                                joinedCasesProfile.save();
+                            }
+                        }
+
+                        list = (new Select().from(AllCausesProfile.class).queryList());
+                        myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                        joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+
+                        //replace default fragment
+                        replaceFragment(new AllProfileFragment(list));
+                    } else
+                        Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
                 pdialog.dismiss();
             }
