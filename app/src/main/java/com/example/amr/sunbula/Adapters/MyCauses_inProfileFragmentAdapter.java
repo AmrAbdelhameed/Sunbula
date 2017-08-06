@@ -2,6 +2,8 @@ package com.example.amr.sunbula.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.EditCauseActivity;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
@@ -60,7 +63,15 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<String> {
         holder.image_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity, list_name_cause.get(position).getCauseID(), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(activity, EditCauseActivity.class);
+                Bundle b = new Bundle();
+                b.putString("CauseID", list_name_cause.get(position).getCauseID());
+                b.putString("Name", list_name_cause.get(position).getCaseName());
+                b.putInt("Amount", list_name_cause.get(position).getAmount());
+                b.putString("EndDate", list_name_cause.get(position).getEndDate());
+                b.putString("CauseDescription", list_name_cause.get(position).getCaseDescription());
+                i.putExtras(b);
+                activity.startActivity(i);
             }
         });
 

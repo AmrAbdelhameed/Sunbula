@@ -2,6 +2,7 @@ package com.example.amr.sunbula.RetrofitAPIs;
 
 import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
@@ -90,4 +91,14 @@ public interface APIService {
                                     @Field("CauseDescription") String CauseDescription,
                                     @Field("status") int status,
                                     @Field("User_ID") String User_ID);
+
+    @POST("/Charity/Api/Case/EditCause")
+    @FormUrlEncoded
+    Call<EditCauseResponse> EditCause(@Field("CauseID") String CauseID,
+                                      @Field("Name") String Name,
+                                      @Field("Amount") String Amount,
+                                      @Field("CategoryID") String CategoryID,
+                                      @Field("EndDate") String EndDate,
+                                      @Field("CauseDescription") String CauseDescription,
+                                      @Field("status") int status);
 }

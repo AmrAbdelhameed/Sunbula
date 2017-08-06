@@ -63,6 +63,10 @@
         <activity
             android:name=".AddCauseActivity"
             android:label="@string/title_activity_add_cause"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".EditCauseActivity"
+            android:label="@string/title_activity_edit_cause"
             android:theme="@style/AppTheme"></activity>
     </application>
 
