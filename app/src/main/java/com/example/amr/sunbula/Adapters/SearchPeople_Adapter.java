@@ -1,3 +1,4 @@
+
 package com.example.amr.sunbula.Adapters;
 
 import android.app.Activity;
@@ -9,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
+import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -17,27 +19,27 @@ import java.util.List;
  * Created by Amr on 22/07/2017.
  */
 
-public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
+public class SearchPeople_Adapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
+    private List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
     int resource;
 
-    public SearchCauses_PeopleAdapter(Context context, int resource, List<SearchCausesResponse.SearchedCasesBean> objects) {
+    public SearchPeople_Adapter(Context context, int resource, List<SearchPeopleResponse.SearchedPepoleBean> objects) {
         super(context, resource);
         this.activity = context;
         this.resource = resource;
-        this.searchedCasesBeen = objects;
+        this.searchedPepoleBeen = objects;
     }
 
     @Override
     public int getCount() {
-        return searchedCasesBeen.size();
+        return searchedPepoleBeen.size();
     }
 
     @Override
     public String getItem(int position) {
-        return searchedCasesBeen.get(position).getCaseName();
+        return searchedPepoleBeen.get(position).getName();
     }
 
     @Override
@@ -57,7 +59,7 @@ public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderSearchCauses_People) convertView.getTag();
         }
 
-        holder.item1.setText(searchedCasesBeen.get(position).getCaseName());
+        holder.item1.setText(searchedPepoleBeen.get(position).getName());
 
         return convertView;
     }
@@ -66,7 +68,7 @@ public class SearchCauses_PeopleAdapter extends ArrayAdapter<String> {
         private TextView item1;
 
         public ViewHolderSearchCauses_People(View v) {
-            item1 = (TextView) v.findViewById(R.id.item1);
+            item1 = (TextView) v.findViewById(R.id.people_name);
         }
     }
 }

@@ -10,6 +10,7 @@ import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
 import com.example.amr.sunbula.Models.APIResponses.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
+import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 
@@ -71,6 +72,12 @@ public interface APIService {
     @POST("/Charity/Api/User/Search")
     @FormUrlEncoded
     Call<SearchCausesResponse> SearchCauses(@Field("User_ID") String User_ID,
+                                            @Field("SearchWord") String SearchWord,
+                                            @Field("SearchType") int SearchType);
+
+    @POST("/Charity/Api/User/Search")
+    @FormUrlEncoded
+    Call<SearchPeopleResponse> SearchPeople(@Field("User_ID") String User_ID,
                                             @Field("SearchWord") String SearchWord,
                                             @Field("SearchType") int SearchType);
 

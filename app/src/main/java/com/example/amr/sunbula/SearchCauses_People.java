@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Adapters.SearchCauses_PeopleAdapter;
+import com.example.amr.sunbula.Adapters.SearchCauses_Adapter;
+import com.example.amr.sunbula.Adapters.SearchPeople_Adapter;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
+import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 
@@ -30,12 +32,14 @@ public class SearchCauses_People extends AppCompatActivity {
     ImageView btn_search;
     EditText text_search;
     private ListView listView;
-    private SearchCauses_PeopleAdapter adapter;
+    private SearchCauses_Adapter adapter;
+    SearchPeople_Adapter adapter2;
     String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;
     boolean choice;
     List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
+    List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +67,22 @@ public class SearchCauses_People extends AppCompatActivity {
         btn_cause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Action_cause();
+                if (!choice) {
+                    Action_cause();
+                    text_search.setText("");
+                    listView.setAdapter(null);
+                }
             }
         });
 
         btn_people.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Action_people();
+                if (choice) {
+                    Action_people();
+                    text_search.setText("");
+                    listView.setAdapter(null);
+                }
             }
         });
 
@@ -80,7 +92,7 @@ public class SearchCauses_People extends AppCompatActivity {
                 if (choice)
                     SearchCausesPost(UserID, text_search.getText().toString());
                 else
-                    Toast.makeText(SearchCauses_People.this, "Enta fe people w 3ayz te-seach 3la el causes !!", Toast.LENGTH_SHORT).show();
+                    SearchPeoplePost(UserID, text_search.getText().toString());
             }
         });
     }
@@ -99,7 +111,7 @@ public class SearchCauses_People extends AppCompatActivity {
                         SearchCausesResponse searchCausesResponse = response.body();
                         searchedCasesBeen = searchCausesResponse.getSearchedCases();
 
-                        adapter = new SearchCauses_PeopleAdapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
+                        adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
                         listView.setAdapter(adapter);
                     } else
                         Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -109,6 +121,35 @@ public class SearchCauses_People extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SearchCausesResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    public void SearchPeoplePost(String UserId, String Searchword) {
+        pdialog.show();
+        mAPIService.SearchPeople(UserId, Searchword, 2).enqueue(new Callback<SearchPeopleResponse>() {
+
+            @Override
+            public void onResponse(Call<SearchPeopleResponse> call, Response<SearchPeopleResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        searchedPepoleBeen = new ArrayList<SearchPeopleResponse.SearchedPepoleBean>();
+
+                        SearchPeopleResponse searchCausesResponse = response.body();
+                        searchedPepoleBeen = searchCausesResponse.getSearchedPepole();
+
+                        adapter2 = new SearchPeople_Adapter(SearchCauses_People.this, R.layout.item_in_search_people, searchedPepoleBeen);
+                        listView.setAdapter(adapter2);
+                    } else
+                        Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<SearchPeopleResponse> call, Throwable t) {
                 pdialog.dismiss();
             }
         });

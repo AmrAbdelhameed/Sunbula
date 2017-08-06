@@ -59,12 +59,12 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
         }
 
         holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
-//        holder.image_switch.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.linearLayout12.setVisibility(View.VISIBLE);
-//            }
-//        });
+        holder.image_switch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.linearLayout12.setVisibility(View.VISIBLE);
+            }
+        });
         return convertView;
     }
 
