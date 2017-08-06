@@ -69,8 +69,6 @@ public class SearchCauses_People extends AppCompatActivity {
             public void onClick(View view) {
                 if (!choice) {
                     Action_cause();
-                    text_search.setText("");
-                    listView.setAdapter(null);
                 }
             }
         });
@@ -80,8 +78,6 @@ public class SearchCauses_People extends AppCompatActivity {
             public void onClick(View view) {
                 if (choice) {
                     Action_people();
-                    text_search.setText("");
-                    listView.setAdapter(null);
                 }
             }
         });
@@ -157,6 +153,8 @@ public class SearchCauses_People extends AppCompatActivity {
 
     private void Action_cause() {
         choice = true;
+        text_search.setText("");
+        listView.setAdapter(null);
 
         btn_cause.setBackgroundResource(R.drawable.first_search_shape);
         btn_people.setBackgroundResource(R.drawable.second_first_search_shape);
@@ -167,6 +165,8 @@ public class SearchCauses_People extends AppCompatActivity {
 
     private void Action_people() {
         choice = false;
+        text_search.setText("");
+        listView.setAdapter(null);
 
         btn_people.setBackgroundResource(R.drawable.second_search_shape);
         btn_cause.setBackgroundResource(R.drawable.first_second_search_shape);

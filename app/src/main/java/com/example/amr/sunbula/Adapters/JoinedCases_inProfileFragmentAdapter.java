@@ -1,9 +1,12 @@
 package com.example.amr.sunbula.Adapters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +16,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.EditCauseActivity;
+import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
+import com.example.amr.sunbula.RetrofitAPIs.APIService;
+import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
     private List<JoinedCasesProfile> list_name_cause;
+    private APIService mAPIService;
+    private ProgressDialog pdialog;
 
     public JoinedCases_inProfileFragmentAdapter(Context context, List<JoinedCasesProfile> list_name_cause) {
         super(context, R.layout.item_in_bottom_profile);
         this.activity = context;
         this.list_name_cause = list_name_cause;
+
+        pdialog = new ProgressDialog(activity);
+        pdialog.setIndeterminate(true);
+        pdialog.setCancelable(false);
+        pdialog.setMessage("Loading. Please wait...");
+
+        mAPIService = ApiUtils.getAPIService();
     }
 
     @Override
@@ -75,6 +94,50 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<String> {
             }
         });
 
+        holder.image_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setMessage("Do you want to delete " + list_name_cause.get(position).getCaseName() + " ?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                CompleteOrDeletePost(list_name_cause.get(position).getCaseName(), 1);
+
+                            }
+                        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Nothing
+                    }
+                });
+                AlertDialog d = builder.create();
+                d.setTitle("Are you sure");
+                d.show();
+            }
+        });
+
+        holder.image_close1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setMessage("Do you want to close " + list_name_cause.get(position).getCaseName() + " ?")
+                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                CompleteOrDeletePost(list_name_cause.get(position).getCaseName(), 2);
+
+                            }
+                        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Nothing
+                    }
+                });
+                AlertDialog d = builder.create();
+                d.setTitle("Are you sure");
+                d.show();
+            }
+        });
+
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,6 +159,32 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<String> {
             }
         });
         return convertView;
+    }
+
+    public void CompleteOrDeletePost(String CauseID, final int ActionType) {
+        pdialog.show();
+        mAPIService.CompleteOrDelete(CauseID, ActionType).enqueue(new Callback<CompleteOrDeleteCauseResponse>() {
+
+            @Override
+            public void onResponse(Call<CompleteOrDeleteCauseResponse> call, Response<CompleteOrDeleteCauseResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        if (ActionType == 1)
+                            Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(activity, "Completed cause Successfully", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(activity, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<CompleteOrDeleteCauseResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
     }
 
     private class ViewHolderNotifications {
