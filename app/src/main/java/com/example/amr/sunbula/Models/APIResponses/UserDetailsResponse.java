@@ -9,33 +9,33 @@ import java.util.List;
 public class UserDetailsResponse {
 
     /**
-     * Name : ahmed ammar
-     * ImgURL : http://yakensolution.cloudapp.net/Charity//files/edb9165e-3852-4826-8832-48e928b80321/sad_behind_smile_155.jpg
+     * Name : NourElZafarany
+     * ImgURL : null
      * Password : null
-     * EMail : ahmedammarsalah@gmail.com
+     * EMail : null
      * GMailID : null
      * FacebookID : null
-     * Img : http://yakensolution.cloudapp.net/Charity//files/edb9165e-3852-4826-8832-48e928b80321/sad_behind_smile_155.jpg
-     * MobileNumber : 0111
+     * Img : null
+     * MobileNumber : 01144766876
      * Address : null
      * InterstedCategory : null
      * Gender : Male
      * IsTrusted : false
-     * AllCasesList : [{"CaseName":"fvfvfvd","CaseDescription":"cergcegr","CauseID":"e48a157a-5ee7-46a9-9a85-2c2317e80139","Amount":533646,"EndDate":"2017-02-27","IMG":"ergcre","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"sfvsdv","CaseDescription":"dgtgerg","CauseID":"48c1f874-cc5e-4016-94de-1911a8ad66a6","Amount":356357,"EndDate":"2017-03-05","IMG":"ergrg","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"test","CaseDescription":"test search","CauseID":"d0d057b0-984f-41d3-95ae-bbc960560482","Amount":111,"EndDate":"2017-03-31","IMG":"wssxw","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"rcrr","CaseDescription":"gvgvgvgv","CauseID":"976e549f-7e24-485c-8141-feb12ebbc76a","Amount":45565,"EndDate":"2017-03-26","IMG":"gvgvgv","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"frfrf","CaseDescription":"efwrfwer","CauseID":"c4f2eb07-27de-43fc-a46c-addbc184a22a","Amount":343434,"EndDate":"2017-02-26","IMG":"wefwefwef","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true}]
-     * MyCases : [{"CaseName":"fvfvfvd","CaseDescription":"cergcegr","CauseID":"e48a157a-5ee7-46a9-9a85-2c2317e80139","Amount":533646,"EndDate":"2017-02-27","IMG":"ergcre","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"sfvsdv","CaseDescription":"dgtgerg","CauseID":"48c1f874-cc5e-4016-94de-1911a8ad66a6","Amount":356357,"EndDate":"2017-03-05","IMG":"ergrg","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"test","CaseDescription":"test search","CauseID":"d0d057b0-984f-41d3-95ae-bbc960560482","Amount":111,"EndDate":"2017-03-31","IMG":"wssxw","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"rcrr","CaseDescription":"gvgvgvgv","CauseID":"976e549f-7e24-485c-8141-feb12ebbc76a","Amount":45565,"EndDate":"2017-03-26","IMG":"gvgvgv","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"frfrf","CaseDescription":"efwrfwer","CauseID":"c4f2eb07-27de-43fc-a46c-addbc184a22a","Amount":343434,"EndDate":"2017-02-26","IMG":"wefwefwef","status":2,"Numberofjoins":0,"IsJoined":false,"IsOwner":true}]
-     * JoinedCases : []
-     * ReviewNumbers : 2
+     * AllCasesList : [{"CaseName":"Familly hungry","CaseDescription":"5 pepol hungry","CauseID":"78b9bfad-5d54-4893-9ac0-8f0651d288bd","Amount":3000,"EndDate":"2017-02-03","IMG":"iflhsfhjlofi","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"another","CaseDescription":"poor family starving ","CauseID":"8314c4b1-e242-4464-a221-33d0a3191687","Amount":6000,"EndDate":"2017-04-25","IMG":"kfauhipaufhpaioufn","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"family","CaseDescription":"poor family starving ","CauseID":"377dcd91-a7d6-4727-9c87-e4b1d00480ab","Amount":6000,"EndDate":"2017-04-25","IMG":"kfauhipaufhpaioufn","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"Poor Kid","CaseDescription":"poor boy hungry","CauseID":"f27fca7b-d0a0-4169-a4e5-483e99fc336d","Amount":5000,"EndDate":"2017-01-05","IMG":"kugtcfkjgfjkgfvjk","status":2,"Numberofjoins":1,"IsJoined":true,"IsOwner":false}]
+     * MyCases : [{"CaseName":"Familly hungry","CaseDescription":"5 pepol hungry","CauseID":"78b9bfad-5d54-4893-9ac0-8f0651d288bd","Amount":3000,"EndDate":"2017-02-03","IMG":"iflhsfhjlofi","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"another","CaseDescription":"poor family starving ","CauseID":"8314c4b1-e242-4464-a221-33d0a3191687","Amount":6000,"EndDate":"2017-04-25","IMG":"kfauhipaufhpaioufn","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true},{"CaseName":"family","CaseDescription":"poor family starving ","CauseID":"377dcd91-a7d6-4727-9c87-e4b1d00480ab","Amount":6000,"EndDate":"2017-04-25","IMG":"kfauhipaufhpaioufn","status":1,"Numberofjoins":0,"IsJoined":false,"IsOwner":true}]
+     * JoinedCases : [{"CaseName":"Poor Kid","CaseDescription":"poor boy hungry","CauseID":"f27fca7b-d0a0-4169-a4e5-483e99fc336d","Amount":5000,"EndDate":"2017-01-05","IMG":"kugtcfkjgfjkgfvjk","status":2,"Numberofjoins":1,"IsJoined":true,"IsOwner":false}]
+     * ReviewNumbers : 3
      * ErrorMessage :
      * IsSuccess : true
      */
 
     private String Name;
-    private String ImgURL;
+    private Object ImgURL;
     private Object Password;
-    private String EMail;
+    private Object EMail;
     private Object GMailID;
     private Object FacebookID;
-    private String Img;
+    private Object Img;
     private String MobileNumber;
     private Object Address;
     private Object InterstedCategory;
@@ -46,6 +46,7 @@ public class UserDetailsResponse {
     private boolean IsSuccess;
     private List<AllCasesListBean> AllCasesList;
     private List<MyCasesBean> MyCases;
+    private List<JoinedCasesBean> JoinedCases;
 
     public String getName() {
         return Name;
@@ -55,11 +56,11 @@ public class UserDetailsResponse {
         this.Name = Name;
     }
 
-    public String getImgURL() {
+    public Object getImgURL() {
         return ImgURL;
     }
 
-    public void setImgURL(String ImgURL) {
+    public void setImgURL(Object ImgURL) {
         this.ImgURL = ImgURL;
     }
 
@@ -71,11 +72,11 @@ public class UserDetailsResponse {
         this.Password = Password;
     }
 
-    public String getEMail() {
+    public Object getEMail() {
         return EMail;
     }
 
-    public void setEMail(String EMail) {
+    public void setEMail(Object EMail) {
         this.EMail = EMail;
     }
 
@@ -95,11 +96,11 @@ public class UserDetailsResponse {
         this.FacebookID = FacebookID;
     }
 
-    public String getImg() {
+    public Object getImg() {
         return Img;
     }
 
-    public void setImg(String Img) {
+    public void setImg(Object Img) {
         this.Img = Img;
     }
 
@@ -183,15 +184,23 @@ public class UserDetailsResponse {
         this.MyCases = MyCases;
     }
 
+    public List<JoinedCasesBean> getJoinedCases() {
+        return JoinedCases;
+    }
+
+    public void setJoinedCases(List<JoinedCasesBean> JoinedCases) {
+        this.JoinedCases = JoinedCases;
+    }
+
     public static class AllCasesListBean {
         /**
-         * CaseName : fvfvfvd
-         * CaseDescription : cergcegr
-         * CauseID : e48a157a-5ee7-46a9-9a85-2c2317e80139
-         * Amount : 533646
-         * EndDate : 2017-02-27
-         * IMG : ergcre
-         * status : 2
+         * CaseName : Familly hungry
+         * CaseDescription : 5 pepol hungry
+         * CauseID : 78b9bfad-5d54-4893-9ac0-8f0651d288bd
+         * Amount : 3000
+         * EndDate : 2017-02-03
+         * IMG : iflhsfhjlofi
+         * status : 1
          * Numberofjoins : 0
          * IsJoined : false
          * IsOwner : true
@@ -291,16 +300,122 @@ public class UserDetailsResponse {
 
     public static class MyCasesBean {
         /**
-         * CaseName : fvfvfvd
-         * CaseDescription : cergcegr
-         * CauseID : e48a157a-5ee7-46a9-9a85-2c2317e80139
-         * Amount : 533646
-         * EndDate : 2017-02-27
-         * IMG : ergcre
-         * status : 2
+         * CaseName : Familly hungry
+         * CaseDescription : 5 pepol hungry
+         * CauseID : 78b9bfad-5d54-4893-9ac0-8f0651d288bd
+         * Amount : 3000
+         * EndDate : 2017-02-03
+         * IMG : iflhsfhjlofi
+         * status : 1
          * Numberofjoins : 0
          * IsJoined : false
          * IsOwner : true
+         */
+
+        private String CaseName;
+        private String CaseDescription;
+        private String CauseID;
+        private int Amount;
+        private String EndDate;
+        private String IMG;
+        private int status;
+        private int Numberofjoins;
+        private boolean IsJoined;
+        private boolean IsOwner;
+
+        public String getCaseName() {
+            return CaseName;
+        }
+
+        public void setCaseName(String CaseName) {
+            this.CaseName = CaseName;
+        }
+
+        public String getCaseDescription() {
+            return CaseDescription;
+        }
+
+        public void setCaseDescription(String CaseDescription) {
+            this.CaseDescription = CaseDescription;
+        }
+
+        public String getCauseID() {
+            return CauseID;
+        }
+
+        public void setCauseID(String CauseID) {
+            this.CauseID = CauseID;
+        }
+
+        public int getAmount() {
+            return Amount;
+        }
+
+        public void setAmount(int Amount) {
+            this.Amount = Amount;
+        }
+
+        public String getEndDate() {
+            return EndDate;
+        }
+
+        public void setEndDate(String EndDate) {
+            this.EndDate = EndDate;
+        }
+
+        public String getIMG() {
+            return IMG;
+        }
+
+        public void setIMG(String IMG) {
+            this.IMG = IMG;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
+        }
+
+        public int getNumberofjoins() {
+            return Numberofjoins;
+        }
+
+        public void setNumberofjoins(int Numberofjoins) {
+            this.Numberofjoins = Numberofjoins;
+        }
+
+        public boolean isIsJoined() {
+            return IsJoined;
+        }
+
+        public void setIsJoined(boolean IsJoined) {
+            this.IsJoined = IsJoined;
+        }
+
+        public boolean isIsOwner() {
+            return IsOwner;
+        }
+
+        public void setIsOwner(boolean IsOwner) {
+            this.IsOwner = IsOwner;
+        }
+    }
+
+    public static class JoinedCasesBean {
+        /**
+         * CaseName : Poor Kid
+         * CaseDescription : poor boy hungry
+         * CauseID : f27fca7b-d0a0-4169-a4e5-483e99fc336d
+         * Amount : 5000
+         * EndDate : 2017-01-05
+         * IMG : kugtcfkjgfjkgfvjk
+         * status : 2
+         * Numberofjoins : 1
+         * IsJoined : true
+         * IsOwner : false
          */
 
         private String CaseName;

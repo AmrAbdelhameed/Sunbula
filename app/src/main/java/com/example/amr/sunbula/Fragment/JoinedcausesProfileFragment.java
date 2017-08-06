@@ -9,9 +9,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.All_inProfileFragmentAdapter;
+import com.example.amr.sunbula.Adapters.JoinedCases_inProfileFragmentAdapter;
+import com.example.amr.sunbula.Adapters.MyCauses_inProfileFragmentAdapter;
+import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
+import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,10 +24,11 @@ import java.util.ArrayList;
 public class JoinedcausesProfileFragment extends Fragment {
 
     private ListView listView;
-    private All_inProfileFragmentAdapter adapter;
+    List<JoinedCasesProfile> joinedCasesProfiles;
+    private JoinedCases_inProfileFragmentAdapter adapter;
 
-    public JoinedcausesProfileFragment() {
-        // Required empty public constructor
+    public JoinedcausesProfileFragment(List<JoinedCasesProfile> joinedCasesProfiles) {
+        this.joinedCasesProfiles = joinedCasesProfiles;
     }
 
     @Override
@@ -33,8 +39,8 @@ public class JoinedcausesProfileFragment extends Fragment {
 
         listView = (ListView) v.findViewById(R.id.list_item_joined);
 
-//        adapter = new All_inProfileFragmentAdapter(getActivity(), R.layout.item_in_bottom_profile, stringArrayList);
-//        listView.setAdapter(adapter);
+        adapter = new JoinedCases_inProfileFragmentAdapter(getActivity(), joinedCasesProfiles);
+        listView.setAdapter(adapter);
 
         return v;
     }

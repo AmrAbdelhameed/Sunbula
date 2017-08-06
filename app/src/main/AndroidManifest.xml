@@ -57,8 +57,13 @@
             android:name=".EditProfileActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".AddCauseActivity"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_activity_add_cause"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

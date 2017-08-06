@@ -21,4 +21,6 @@
     <string name="string_unable_to_pick_image">Unable to Pickup Image</string>
     <string name="string_unable_to_load_image">Unable to Load Image</string>
     <string name="string_reselect">Click on Image to Reselect</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_add_cause">AddCauseActivity</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.example.amr.sunbula.Models.DBFlowModels;
 
-import com.example.amr.sunbula.DBFlow.AppDatabaseMyCauses;
+import com.example.amr.sunbula.DBFlow.AppDatabaseJoinedCases;
 import com.example.amr.sunbula.DBFlow.AppDatabaseNewsFeed;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ConflictAction;
@@ -10,10 +10,10 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-@Table(database = AppDatabaseMyCauses.class)
-public class MyCausesProfile extends BaseModel {
+@Table(database = AppDatabaseJoinedCases.class)
+public class JoinedCasesProfile extends BaseModel {
 
-    public MyCausesProfile() {
+    public JoinedCasesProfile() {
     }
 
     @Column

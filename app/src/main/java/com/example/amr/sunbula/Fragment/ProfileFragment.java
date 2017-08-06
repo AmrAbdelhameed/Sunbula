@@ -14,13 +14,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.AddCauseActivity;
 import com.example.amr.sunbula.EditProfileActivity;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
@@ -46,12 +49,19 @@ public class ProfileFragment extends Fragment {
     String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;
+    Button btn_add_cause;
+
     List<UserDetailsResponse.AllCasesListBean> allCasesListBeen;
     AllCausesProfile all;
     List<AllCausesProfile> list;
+
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
     MyCausesProfile myCausesProfile;
     List<MyCausesProfile> myCausesProfiles;
+
+    List<UserDetailsResponse.JoinedCasesBean> joinedCasesBeen;
+    JoinedCasesProfile joinedCasesProfile;
+    List<JoinedCasesProfile> joinedCasesProfiles;
 
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile, text_history_profile;
     ImageView image_profile;
@@ -73,6 +83,16 @@ public class ProfileFragment extends Fragment {
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
+
+        btn_add_cause = (Button) v.findViewById(R.id.btn_add_cause);
+
+        btn_add_cause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), AddCauseActivity.class);
+                startActivity(i);
+            }
+        });
 
         FlowManager.init(getActivity());
 
@@ -101,7 +121,7 @@ public class ProfileFragment extends Fragment {
                 } else if (tab.getPosition() == 1) {
                     replaceFragment(new MycausesProfileFragment(myCausesProfiles));
                 } else {
-                    replaceFragment(new JoinedcausesProfileFragment());
+                    replaceFragment(new JoinedcausesProfileFragment(joinedCasesProfiles));
                 }
             }
 
@@ -142,13 +162,15 @@ public class ProfileFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     username_profile.setText(response.body().getName());
+                    UserDetailsResponse userDetailsResponse = response.body();
 
                     allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
                     myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
+                    joinedCasesBeen = new ArrayList<UserDetailsResponse.JoinedCasesBean>();
 
-                    UserDetailsResponse userDetailsResponse = response.body();
                     allCasesListBeen = userDetailsResponse.getAllCasesList();
                     myCasesBeanList = userDetailsResponse.getMyCases();
+                    joinedCasesBeen = userDetailsResponse.getJoinedCases();
 
                     list = (new Select().from(AllCausesProfile.class).queryList());
                     if (list.size() > 0) {
@@ -158,6 +180,11 @@ public class ProfileFragment extends Fragment {
                     myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
                     if (myCausesProfiles.size() > 0) {
                         Delete.table(MyCausesProfile.class);
+                    }
+
+                    joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+                    if (joinedCasesProfiles.size() > 0) {
+                        Delete.table(JoinedCasesProfile.class);
                     }
 
                     for (int i = 0; i < allCasesListBeen.size(); i++) {
@@ -198,8 +225,28 @@ public class ProfileFragment extends Fragment {
                         }
                     }
 
+                    for (int i = 0; i < joinedCasesBeen.size(); i++) {
+                        joinedCasesProfile = new JoinedCasesProfile();
+                        if (joinedCasesBeen.size() > 0) {
+
+                            joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
+                            joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
+                            joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
+                            joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
+                            joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
+                            joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
+                            joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
+                            joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
+                            joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
+                            joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
+
+                            joinedCasesProfile.save();
+                        }
+                    }
+
                     list = (new Select().from(AllCausesProfile.class).queryList());
                     myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                    joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
 
                     //replace default fragment
                     replaceFragment(new AllProfileFragment(list));
@@ -214,6 +261,7 @@ public class ProfileFragment extends Fragment {
                 replaceFragment(new AllProfileFragment(list));
 
                 myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
 
                 pdialog.dismiss();
             }
