@@ -2,8 +2,11 @@ package com.example.amr.sunbula;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -23,6 +26,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Fragment.AllProfileFragment;
+import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
+import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
+import com.example.amr.sunbula.RetrofitAPIs.APIService;
+import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,13 +45,23 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddCauseActivity extends AppCompatActivity {
 
     TextView txt_calender;
-    ArrayList<String> ss;
+    ArrayList<String> CategoriesNames_in_AddCause;
+    ArrayList<String> CategoriesIDs_in_AddCause;
     Calendar myCalendar;
+    String UserID;
+    APIService mAPIService;
+    private ProgressDialog pdialog;
+    List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     DatePickerDialog.OnDateSetListener date;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
@@ -52,6 +76,16 @@ public class AddCauseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addcause);
         toolbar.setTitle("Add Cause");
         setSupportActionBar(toolbar);
+
+        pdialog = new ProgressDialog(AddCauseActivity.this);
+        pdialog.setIndeterminate(true);
+        pdialog.setCancelable(false);
+        pdialog.setMessage("Loading. Please wait...");
+
+        mAPIService = ApiUtils.getAPIService();
+
+        SharedPreferences sharedPreferences = AddCauseActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        UserID = sharedPreferences.getString("UserID", "null");
 
         myCalendar = Calendar.getInstance();
         image_addcause = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.image_addcause);
@@ -88,17 +122,18 @@ public class AddCauseActivity extends AppCompatActivity {
             }
         });
 
-        ss = new ArrayList<>();
+        CategoriesNames_in_AddCause = new ArrayList<>();
+        CategoriesIDs_in_AddCause = new ArrayList<>();
 
-        ss.add("Categories");
-        ss.add("Ahmed");
-        ss.add("Samira");
-        ss.add("Heba");
+        CategoriesNames_in_AddCause.add("Categories");
+        CategoriesIDs_in_AddCause.add("IDs");
+
+        GetAllCategories(UserID);
 
         Spinner staticSpinner = (Spinner) findViewById(R.id.spinner_Categories);
 
         // Create an ArrayAdapter using the string array and a default spinner
-        ArrayAdapter staticAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ss);
+        ArrayAdapter staticAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CategoriesNames_in_AddCause);
 
         // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -110,11 +145,9 @@ public class AddCauseActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                String s = ((String) parent.getItemAtPosition(position));
 
-                if (!s.equals("Categories")) {
-                    Toast.makeText(AddCauseActivity.this, s, Toast.LENGTH_SHORT).show();
-                }
+                if (!CategoriesNames_in_AddCause.get(position).equals("Categories"))
+                    Toast.makeText(AddCauseActivity.this, CategoriesIDs_in_AddCause.get(position), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -240,6 +273,35 @@ public class AddCauseActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         txt_calender.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public void GetAllCategories(String UserId) {
+        pdialog.show();
+        mAPIService.GetAllCategories(UserId).enqueue(new Callback<AllCategoriesResponse>() {
+
+            @Override
+            public void onResponse(Call<AllCategoriesResponse> call, Response<AllCategoriesResponse> response) {
+
+                if (response.isSuccessful()) {
+                    AllCategoriesResponse allCategoriesResponse = response.body();
+
+                    allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
+
+                    allCategoriesBeen = allCategoriesResponse.getAllCategories();
+
+                    for (int i = 0; i < allCategoriesBeen.size(); i++) {
+                        CategoriesIDs_in_AddCause.add(allCategoriesBeen.get(i).getCategoryID());
+                        CategoriesNames_in_AddCause.add(allCategoriesBeen.get(i).getCategoryName());
+                    }
+                    pdialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
     }
 
     @Override

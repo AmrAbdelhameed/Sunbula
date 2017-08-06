@@ -1,5 +1,6 @@
 package com.example.amr.sunbula.RetrofitAPIs;
 
+import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
@@ -74,4 +75,8 @@ public interface APIService {
     @POST("/Charity/Api/User/UserDetails")
     @FormUrlEncoded
     Call<UserDetailsResponse> UserDetails(@Field("User_ID") String User_ID);
+
+    @POST("/Charity/Api/Category/GetAllCategories")
+    @FormUrlEncoded
+    Call<AllCategoriesResponse> GetAllCategories(@Field("User_ID") String User_ID);
 }

@@ -134,7 +134,7 @@
             android:id="@+id/spinner_Categories"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_8dp"
+            android:layout_marginLeft="@dimen/_6dp"
             android:layout_marginRight="@dimen/_8dp"
             android:layout_marginTop="@dimen/_16dp"
             app:layout_constraintHorizontal_bias="0.0"
