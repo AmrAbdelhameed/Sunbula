@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -55,8 +56,10 @@ import retrofit2.Response;
 public class AddCauseActivity extends AppCompatActivity {
 
     TextView txt_calender;
+    EditText txt_add_description_addcause, name_addcause, amount_addcause;
     ArrayList<String> CategoriesNames_in_AddCause;
     ArrayList<String> CategoriesIDs_in_AddCause;
+    String GetID = "";
     Calendar myCalendar;
     String UserID;
     APIService mAPIService;
@@ -83,6 +86,10 @@ public class AddCauseActivity extends AppCompatActivity {
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
+
+        txt_add_description_addcause = (EditText) findViewById(R.id.txt_add_description_addcause);
+        amount_addcause = (EditText) findViewById(R.id.amount_addcause);
+        name_addcause = (EditText) findViewById(R.id.name_addcause);
 
         SharedPreferences sharedPreferences = AddCauseActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
@@ -146,9 +153,10 @@ public class AddCauseActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                if (!CategoriesNames_in_AddCause.get(position).equals("Categories"))
-                    Toast.makeText(AddCauseActivity.this, CategoriesIDs_in_AddCause.get(position), Toast.LENGTH_SHORT).show();
-
+                if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
+                    GetID = CategoriesIDs_in_AddCause.get(position);
+                    Toast.makeText(AddCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -314,7 +322,11 @@ public class AddCauseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_addcause) {
-            Toast.makeText(this, "Add Cause Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, txt_calender.getText().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, txt_add_description_addcause.getText().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, name_addcause.getText().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, amount_addcause.getText().toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, GetID, Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onOptionsItemSelected(item);

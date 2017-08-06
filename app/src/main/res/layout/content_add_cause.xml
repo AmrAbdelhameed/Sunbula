@@ -81,14 +81,52 @@
             app:layout_constraintTop_toBottomOf="@+id/image_addcause" />
 
         <ImageView
+            android:id="@+id/image_name_addcause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_add_description_addcause"
+            app:srcCompat="@drawable/profile_group" />
+
+        <EditText
+            android:id="@+id/name_addcause"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="@dimen/_16dp"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:hint="Name cause"
+            android:inputType="textPersonName"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintLeft_toRightOf="@+id/image_name_addcause"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_add_description_addcause" />
+
+        <View
+            android:id="@+id/v1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_1dp"
+            android:layout_marginTop="@dimen/_8dp"
+            android:background="@color/tab_enable"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/name_addcause" />
+
+        <ImageView
             android:id="@+id/image_amount_addcause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_16dp"
-            android:layout_marginStart="@dimen/_16dp"
-            android:layout_marginTop="@dimen/_16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_add_description_addcause"
+            app:layout_constraintTop_toBottomOf="@+id/v1"
             app:srcCompat="@drawable/amount" />
 
         <EditText
@@ -106,10 +144,10 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/image_amount_addcause"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_add_description_addcause" />
+            app:layout_constraintTop_toBottomOf="@+id/v1" />
 
         <View
-            android:id="@+id/v1"
+            android:id="@+id/v2"
             android:layout_width="0dp"
             android:layout_height="@dimen/_1dp"
             android:layout_marginTop="@dimen/_8dp"
@@ -117,7 +155,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_amount_addcause" />
+            app:layout_constraintTop_toBottomOf="@+id/amount_addcause" />
 
         <ImageView
             android:id="@+id/category_addcause"
@@ -127,7 +165,7 @@
             android:layout_marginStart="@dimen/_16dp"
             android:layout_marginTop="@dimen/_16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v1"
+            app:layout_constraintTop_toBottomOf="@+id/v2"
             app:srcCompat="@drawable/category" />
 
         <Spinner
@@ -140,10 +178,10 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/category_addcause"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v1" />
+            app:layout_constraintTop_toBottomOf="@+id/v2" />
 
         <View
-            android:id="@+id/v2"
+            android:id="@+id/v3"
             android:layout_width="0dp"
             android:layout_height="@dimen/_1dp"
             android:layout_marginTop="@dimen/_8dp"
@@ -160,7 +198,7 @@
             android:layout_marginLeft="@dimen/_16dp"
             android:layout_marginTop="@dimen/_16dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v2"
+            app:layout_constraintTop_toBottomOf="@+id/v3"
             app:srcCompat="@drawable/calendar" />
 
         <TextView
@@ -178,7 +216,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/imageView_calendar"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/v2"
+            app:layout_constraintTop_toBottomOf="@+id/v3"
             app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
