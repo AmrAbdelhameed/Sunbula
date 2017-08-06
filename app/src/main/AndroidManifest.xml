@@ -67,7 +67,8 @@
         <activity
             android:name=".EditCauseActivity"
             android:label="@string/title_activity_edit_cause"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ShowDetailsUserActivity"></activity>
     </application>
 
 </manifest>
