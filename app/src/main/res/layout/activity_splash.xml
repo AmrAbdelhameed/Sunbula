@@ -7,7 +7,7 @@
     android:background="@drawable/bg"
     tools:context="com.example.amr.sunbula.SplashActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/image_splash"
         android:layout_width="@dimen/_120dp"
         android:layout_height="@dimen/_120dp"

@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="@dimen/_35dp"
+        android:layout_height="@dimen/_35dp"
         android:layout_marginBottom="@dimen/_16dp"
         android:layout_marginLeft="@dimen/_16dp"
         android:layout_marginStart="@dimen/_16dp"
@@ -23,8 +23,8 @@
 
     <ImageView
         android:id="@+id/btn_send"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="@dimen/_35dp"
+        android:layout_height="@dimen/_35dp"
         android:layout_marginBottom="@dimen/_16dp"
         android:layout_marginEnd="@dimen/_16dp"
         android:layout_marginRight="@dimen/_16dp"
@@ -34,8 +34,8 @@
 
     <EditText
         android:id="@+id/txt_message"
-        android:layout_width="257dp"
-        android:layout_height="26dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_24dp"
         android:layout_marginEnd="@dimen/_8dp"
         android:layout_marginLeft="@dimen/_8dp"
@@ -69,10 +69,10 @@
         android:id="@+id/list_chat"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/_8dp"
+        android:layout_marginLeft="@dimen/_8dp"
+        android:layout_marginRight="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_8dp"
         app:layout_constraintBottom_toTopOf="@+id/view4"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

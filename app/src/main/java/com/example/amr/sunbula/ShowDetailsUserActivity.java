@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +23,9 @@ import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,11 +34,12 @@ import retrofit2.Response;
 
 public class ShowDetailsUserActivity extends AppCompatActivity {
 
+    Toolbar toolbar;
     String people_id;
     APIService mAPIService;
     private ProgressDialog pdialog;
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
-    TextView username_user_profile, text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, text_history_user_profile;
+    TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, text_history_user_profile;
     ImageView image_user_profile;
 
     @Override
@@ -41,7 +47,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details_user);
 
-        username_user_profile = (TextView) findViewById(R.id.username_user_profile);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_show_people_details);
+        setSupportActionBar(toolbar);
+
         pdialog = new ProgressDialog(ShowDetailsUserActivity.this);
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
@@ -65,7 +73,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        username_user_profile.setText(response.body().getName());
+//                        username_user_profile.setText(response.body().getName());
+                        toolbar.setTitle(response.body().getName());
+
 
                         UserDetailsResponse userDetailsResponse = response.body();
                         myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
@@ -83,5 +93,23 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                 pdialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_people_profile, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.report) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String currentDateandTime = sdf.format(new Date());
+            Toast.makeText(this, currentDateandTime, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
