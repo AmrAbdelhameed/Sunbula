@@ -3,15 +3,20 @@ package com.example.amr.sunbula.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.ConfirmEmailActivity;
+import com.example.amr.sunbula.LoginActivity;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.R;
+import com.example.amr.sunbula.ShowDetailsUserActivity;
 
 import java.util.List;
 
@@ -48,7 +53,7 @@ public class SearchPeople_Adapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolderSearchCauses_People holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
@@ -59,16 +64,27 @@ public class SearchPeople_Adapter extends ArrayAdapter<String> {
             holder = (ViewHolderSearchCauses_People) convertView.getTag();
         }
 
-        holder.item1.setText(searchedPepoleBeen.get(position).getName());
+        holder.people_name.setText(searchedPepoleBeen.get(position).getName());
+
+        holder.people_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, ShowDetailsUserActivity.class);
+                Bundle b = new Bundle();
+                b.putString("people_id", searchedPepoleBeen.get(position).getUser_ID());
+                i.putExtras(b);
+                activity.startActivity(i);
+            }
+        });
 
         return convertView;
     }
 
     private class ViewHolderSearchCauses_People {
-        private TextView item1;
+        private TextView people_name;
 
         public ViewHolderSearchCauses_People(View v) {
-            item1 = (TextView) v.findViewById(R.id.people_name);
+            people_name = (TextView) v.findViewById(R.id.people_name);
         }
     }
 }
