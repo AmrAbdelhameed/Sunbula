@@ -15,6 +15,7 @@ import android.view.View;
 import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
 import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
+import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -46,6 +47,7 @@ public class HomeFragment extends Fragment {
     private ProgressDialog pdialog;
     NewsFeed n;
     List<NewsFeed> list;
+    List<NewsFeedWrapper> newsFeedWrappers;
     List<NewsfeedResponse.MyANDJoinedCasesListBean> myANDJoinedCasesListBeen;
     List<NewsfeedResponse.FollowingCassesListBean> followingCassesListBeen;
 
@@ -60,6 +62,8 @@ public class HomeFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         setHasOptionsMenu(true);
+
+        newsFeedWrappers = new ArrayList<>();
 
         pdialog = new ProgressDialog(getActivity());
         pdialog.setIndeterminate(true);
@@ -139,7 +143,11 @@ public class HomeFragment extends Fragment {
                     }
                     list = (new Select().from(NewsFeed.class).queryList());
 
-                    adapter = new HomeFragmentAdapter(getActivity(), list);
+                    for (int aa = 0; aa < list.size(); aa++) {
+                        NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
+                        newsFeedWrappers.add(newsFeedWrapper);
+                    }
+                    adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
                     listView.setAdapter(adapter);
                 }
                 pdialog.dismiss();
@@ -151,7 +159,11 @@ public class HomeFragment extends Fragment {
                 list = (new Select().from(NewsFeed.class).queryList());
 
                 if (list.size() > 0) {
-                    adapter = new HomeFragmentAdapter(getActivity(), list);
+                    for (int aa = 0; aa < list.size(); aa++) {
+                        NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
+                        newsFeedWrappers.add(newsFeedWrapper);
+                    }
+                    adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
                     listView.setAdapter(adapter);
                 } else {
                     Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();

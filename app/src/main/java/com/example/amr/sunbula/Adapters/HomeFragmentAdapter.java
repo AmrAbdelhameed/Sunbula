@@ -9,9 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
+import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 
 import java.util.List;
@@ -23,9 +22,9 @@ import java.util.List;
 public class HomeFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<NewsFeed> List_item_in_home;
+    private List<NewsFeedWrapper> List_item_in_home;
 
-    public HomeFragmentAdapter(Context context, List<NewsFeed> List_item_in_home) {
+    public HomeFragmentAdapter(Context context, List<NewsFeedWrapper> List_item_in_home) {
         super(context, R.layout.item_in_home);
         this.activity = context;
         this.List_item_in_home = List_item_in_home;
@@ -47,7 +46,7 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewHolderHome holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
@@ -57,12 +56,24 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
         } else {
             holder = (ViewHolderHome) convertView.getTag();
         }
+        if (List_item_in_home.get(position).isExpanded()) {
+            holder.linearLayout12.setVisibility(View.VISIBLE);
 
+        } else {
+            holder.linearLayout12.setVisibility(View.GONE);
+
+        }
         holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.linearLayout12.setVisibility(View.VISIBLE);
+                if (List_item_in_home.get(position).isExpanded()) {
+                    holder.linearLayout12.setVisibility(View.GONE);
+                    List_item_in_home.get(position).setExpanded(false);
+                } else {
+                    holder.linearLayout12.setVisibility(View.VISIBLE);
+                    List_item_in_home.get(position).setExpanded(true);
+                }
             }
         });
         return convertView;

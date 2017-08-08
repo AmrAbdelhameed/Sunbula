@@ -13,6 +13,7 @@ import com.example.amr.sunbula.Adapters.JoinedCases_inProfileFragmentAdapter;
 import com.example.amr.sunbula.Adapters.MyCauses_inProfileFragmentAdapter;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowWrappers.JoinedCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 
 import java.util.ArrayList;
@@ -24,10 +25,10 @@ import java.util.List;
 public class JoinedcausesProfileFragment extends Fragment {
 
     private ListView listView;
-    List<JoinedCasesProfile> joinedCasesProfiles;
+    List<JoinedCausesProfileWrapper> joinedCasesProfiles;
     private JoinedCases_inProfileFragmentAdapter adapter;
 
-    public JoinedcausesProfileFragment(List<JoinedCasesProfile> joinedCasesProfiles) {
+    public JoinedcausesProfileFragment(List<JoinedCausesProfileWrapper> joinedCasesProfiles) {
         this.joinedCasesProfiles = joinedCasesProfiles;
     }
 

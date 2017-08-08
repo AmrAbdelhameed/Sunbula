@@ -22,6 +22,7 @@ import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -37,11 +38,11 @@ import retrofit2.Response;
 public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
-    private List<AllCausesProfile> list_name_cause;
+    private List<AllCausesProfileWrapper> list_name_cause;
     private APIService mAPIService;
     private ProgressDialog pdialog;
 
-    public All_inProfileFragmentAdapter(Context context, List<AllCausesProfile> list_name_cause) {
+    public All_inProfileFragmentAdapter(Context context, List<AllCausesProfileWrapper> list_name_cause) {
         super(context, R.layout.item_in_bottom_profile);
         this.activity = context;
         this.list_name_cause = list_name_cause;
@@ -143,26 +144,50 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
             }
         });
 
+        if (list_name_cause.get(position).isSelected()) {
+            holder.text_details_cause.setVisibility(View.VISIBLE);
+            holder.image_edit.setVisibility(View.VISIBLE);
+            holder.image_close1.setVisibility(View.VISIBLE);
+            holder.image_delete.setVisibility(View.VISIBLE);
+            holder.image_switch.setVisibility(View.GONE);
+
+        } else {
+            holder.text_details_cause.setVisibility(View.GONE);
+            holder.image_edit.setVisibility(View.GONE);
+            holder.image_close1.setVisibility(View.GONE);
+            holder.image_delete.setVisibility(View.GONE);
+            holder.image_switch.setVisibility(View.VISIBLE);
+        }
+
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                list_name_cause.get(position).setSelected(true);
+
                 holder.text_details_cause.setVisibility(View.VISIBLE);
                 holder.image_edit.setVisibility(View.VISIBLE);
                 holder.image_close1.setVisibility(View.VISIBLE);
                 holder.image_delete.setVisibility(View.VISIBLE);
                 holder.image_switch.setVisibility(View.GONE);
+
             }
         });
         holder.text_details_cause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                list_name_cause.get(position).setSelected(false);
+
                 holder.text_details_cause.setVisibility(View.GONE);
                 holder.image_edit.setVisibility(View.GONE);
                 holder.image_close1.setVisibility(View.GONE);
                 holder.image_delete.setVisibility(View.GONE);
                 holder.image_switch.setVisibility(View.VISIBLE);
+
             }
         });
+
         return convertView;
     }
 

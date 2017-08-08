@@ -1,63 +1,56 @@
-package com.example.amr.sunbula.Models.DBFlowModels;
+package com.example.amr.sunbula.Models.DBFlowWrappers;
 
-import com.example.amr.sunbula.DBFlow.AppDatabaseSunbula;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ConflictAction;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.annotation.Unique;
-import com.raizlabs.android.dbflow.structure.BaseModel;
+import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 
-@Table(database = AppDatabaseSunbula.class)
-public class NewsFeed extends BaseModel {
+public class JoinedCausesProfileWrapper {
 
-    public NewsFeed() {
+    public JoinedCausesProfileWrapper(JoinedCasesProfile joinedCasesProfile) {
+
+        this.id = joinedCasesProfile.getId();
+        this.CaseName = joinedCasesProfile.getCaseName();
+        this.CaseDescription = joinedCasesProfile.getCaseDescription();
+        this.CauseID = joinedCasesProfile.getCauseID();
+        this.Amount = joinedCasesProfile.getAmount();
+        this.EndDate = joinedCasesProfile.getEndDate();
+        this.IMG = joinedCasesProfile.getIMG();
+        this.status = joinedCasesProfile.getStatus();
+        this.Numberofjoins = joinedCasesProfile.getNumberofjoins();
+        this.IsJoined = joinedCasesProfile.isJoined();
+        this.IsOwner = joinedCasesProfile.isOwner();
+        this.isSelected = false;
     }
 
-    @Column
-    @Unique(unique = true)
-    @PrimaryKey(autoincrement = true)
-    private long id; // package-private recommended, not required
+    private long id;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CaseName;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CaseDescription;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String CauseID;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private int Amount;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String EndDate;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String IMG;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private int status;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private int Numberofjoins;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private boolean IsJoined;
 
-    @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private boolean IsOwner;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    private boolean isSelected;
 
     public long getId() {
         return id;

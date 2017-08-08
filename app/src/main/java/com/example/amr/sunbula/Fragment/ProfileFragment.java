@@ -26,6 +26,10 @@ import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
+import com.example.amr.sunbula.Models.DBFlowWrappers.JoinedCausesProfileWrapper;
+import com.example.amr.sunbula.Models.DBFlowWrappers.MyCausesProfileWrapper;
+import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -55,14 +59,17 @@ public class ProfileFragment extends Fragment {
     List<UserDetailsResponse.AllCasesListBean> allCasesListBeen;
     AllCausesProfile all;
     List<AllCausesProfile> list;
+    List<AllCausesProfileWrapper> allCausesProfileWrappers;
 
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
     MyCausesProfile myCausesProfile;
     List<MyCausesProfile> myCausesProfiles;
+    List<MyCausesProfileWrapper> myCausesProfileWrappers;
 
     List<UserDetailsResponse.JoinedCasesBean> joinedCasesBeen;
     JoinedCasesProfile joinedCasesProfile;
     List<JoinedCasesProfile> joinedCasesProfiles;
+    List<JoinedCausesProfileWrapper> joinedCausesProfileWrappers;
 
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile, text_history_profile;
     ImageView image_profile;
@@ -84,6 +91,10 @@ public class ProfileFragment extends Fragment {
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
+
+        allCausesProfileWrappers = new ArrayList<>();
+        myCausesProfileWrappers = new ArrayList<>();
+        joinedCausesProfileWrappers = new ArrayList<>();
 
         btn_add_cause = (Button) v.findViewById(R.id.btn_add_cause);
 
@@ -118,11 +129,11 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    replaceFragment(new AllProfileFragment(list));
+                    replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
                 } else if (tab.getPosition() == 1) {
-                    replaceFragment(new MycausesProfileFragment(myCausesProfiles));
+                    replaceFragment(new MycausesProfileFragment(myCausesProfileWrappers));
                 } else {
-                    replaceFragment(new JoinedcausesProfileFragment(joinedCasesProfiles));
+                    replaceFragment(new JoinedcausesProfileFragment(joinedCausesProfileWrappers));
                 }
             }
 
@@ -251,7 +262,19 @@ public class ProfileFragment extends Fragment {
                         joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
 
                         //replace default fragment
-                        replaceFragment(new AllProfileFragment(list));
+                        for (int a = 0; a < list.size(); a++) {
+                            AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(list.get(a));
+                            allCausesProfileWrappers.add(allCausesProfileWrapper);
+                        }
+                        for (int b = 0; b < myCausesProfiles.size(); b++) {
+                            MyCausesProfileWrapper myCausesProfileWrapper = new MyCausesProfileWrapper(myCausesProfiles.get(b));
+                            myCausesProfileWrappers.add(myCausesProfileWrapper);
+                        }
+                        for (int c = 0; c < joinedCasesProfiles.size(); c++) {
+                            JoinedCausesProfileWrapper joinedCausesProfileWrapper = new JoinedCausesProfileWrapper(joinedCasesProfiles.get(c));
+                            joinedCausesProfileWrappers.add(joinedCausesProfileWrapper);
+                        }
+                        replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -262,10 +285,23 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
                 list = (new Select().from(AllCausesProfile.class).queryList());
                 //replace default fragment
-                replaceFragment(new AllProfileFragment(list));
+                for (int a = 0; a < list.size(); a++) {
+                    AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(list.get(a));
+                    allCausesProfileWrappers.add(allCausesProfileWrapper);
+                }
+                replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
 
                 myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
                 joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+
+                for (int b = 0; b < myCausesProfiles.size(); b++) {
+                    MyCausesProfileWrapper myCausesProfileWrapper = new MyCausesProfileWrapper(myCausesProfiles.get(b));
+                    myCausesProfileWrappers.add(myCausesProfileWrapper);
+                }
+                for (int c = 0; c < joinedCasesProfiles.size(); c++) {
+                    JoinedCausesProfileWrapper joinedCausesProfileWrapper = new JoinedCausesProfileWrapper(joinedCasesProfiles.get(c));
+                    joinedCausesProfileWrappers.add(joinedCausesProfileWrapper);
+                }
 
                 pdialog.dismiss();
             }

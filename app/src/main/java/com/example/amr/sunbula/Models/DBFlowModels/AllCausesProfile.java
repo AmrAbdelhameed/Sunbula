@@ -1,15 +1,14 @@
 package com.example.amr.sunbula.Models.DBFlowModels;
 
-import com.example.amr.sunbula.DBFlow.AppDatabaseAllCauses;
+import com.example.amr.sunbula.DBFlow.AppDatabaseSunbula;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ConflictAction;
-import com.raizlabs.android.dbflow.annotation.NotNull;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.annotation.Unique;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
-@Table(database = AppDatabaseAllCauses.class)
+@Table(database = AppDatabaseSunbula.class)
 public class AllCausesProfile extends BaseModel {
 
     public AllCausesProfile() {
