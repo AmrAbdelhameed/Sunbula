@@ -35,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
+public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileWrapper> {
 
     private Context activity;
     private List<AllCausesProfileWrapper> list_name_cause;
@@ -61,8 +61,8 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public String getItem(int position) {
-        return list_name_cause.get(position).getCaseName();
+    public AllCausesProfileWrapper getItem(int position) {
+        return list_name_cause.get(position);
     }
 
     @Override

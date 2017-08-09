@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Amr on 22/07/2017.
  */
 
-public class SearchCauses_Adapter extends ArrayAdapter<String> {
+public class SearchCauses_Adapter extends ArrayAdapter<SearchCausesResponse.SearchedCasesBean> {
 
     private Context activity;
     private List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
@@ -36,8 +36,8 @@ public class SearchCauses_Adapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public String getItem(int position) {
-        return searchedCasesBeen.get(position).getCaseName();
+    public SearchCausesResponse.SearchedCasesBean getItem(int position) {
+        return searchedCasesBeen.get(position);
     }
 
     @Override

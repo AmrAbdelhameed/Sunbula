@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Amr on 22/07/2017.
  */
 
-public class HomeFragmentAdapter extends ArrayAdapter<String> {
+public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
 
     private Context activity;
     private List<NewsFeedWrapper> List_item_in_home;
@@ -36,8 +36,8 @@ public class HomeFragmentAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public String getItem(int position) {
-        return List_item_in_home.get(position).getCaseName();
+    public NewsFeedWrapper getItem(int position) {
+        return List_item_in_home.get(position);
     }
 
     @Override

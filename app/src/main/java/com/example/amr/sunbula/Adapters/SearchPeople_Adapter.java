@@ -24,7 +24,7 @@ import java.util.List;
  * Created by Amr on 22/07/2017.
  */
 
-public class SearchPeople_Adapter extends ArrayAdapter<String> {
+public class SearchPeople_Adapter extends ArrayAdapter<SearchPeopleResponse.SearchedPepoleBean> {
 
     private Context activity;
     private List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
@@ -43,8 +43,8 @@ public class SearchPeople_Adapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public String getItem(int position) {
-        return searchedPepoleBeen.get(position).getName();
+    public SearchPeopleResponse.SearchedPepoleBean getItem(int position) {
+        return searchedPepoleBeen.get(position);
     }
 
     @Override
