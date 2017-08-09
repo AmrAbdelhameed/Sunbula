@@ -25,7 +25,7 @@ public class SplashActivity extends AppCompatActivity {
         t_splash.startAnimation(animation);
         i_splash.startAnimation(animation);
 
-        final Intent i = new Intent(this, LoginActivity.class);
+        final Intent i = new Intent(this, ListCategoriesActivity.class);
         Thread timer = new Thread() {
             public void run() {
                 try {

@@ -75,6 +75,7 @@
             android:name=".ShowDetailsUserActivity"
             android:label=""
             android:screenOrientation="portrait" />
+        <activity android:name=".CausesInOneCategoryActivity"></activity>
     </application>
 
 </manifest>
