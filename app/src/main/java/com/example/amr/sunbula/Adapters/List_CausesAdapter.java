@@ -21,7 +21,7 @@ public class List_CausesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCa
 
     private Context activity;
     private List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> list_friends_name;
-    int resource;
+    private int resource;
 
     public List_CausesAdapter(Context context, int resource, List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> objects) {
         super(context, resource, objects);

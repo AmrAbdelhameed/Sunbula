@@ -216,7 +216,7 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
         private TextView text_name_cause, text_details_cause;
         private ImageView image_switch, image_edit, image_close1, image_delete;
 
-        public ViewHolderNotifications(View v) {
+        private ViewHolderNotifications(View v) {
             text_name_cause = (TextView) v.findViewById(R.id.text_name_cause);
             text_details_cause = (TextView) v.findViewById(R.id.text_details_cause);
 

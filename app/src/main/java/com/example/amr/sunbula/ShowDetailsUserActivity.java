@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.example.amr.sunbula.Adapters.HisUserCausesAdapter;
 import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
 import com.example.amr.sunbula.Fragment.AllProfileFragment;
+import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
+import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
@@ -41,9 +43,10 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     String people_id;
+    String UserID;
     APIService mAPIService;
-    ListView list_show_hiscauses;
     private ProgressDialog pdialog;
+    ListView list_show_hiscauses;
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
     List<HisCausesPeopleWrapper> hisCausesPeopleWrappers;
     HisUserCausesAdapter adapter;
@@ -62,6 +65,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
         hisCausesPeopleWrappers = new ArrayList<>();
 
+        SharedPreferences sharedPreferences = ShowDetailsUserActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        UserID = sharedPreferences.getString("UserID", "null");
+
         pdialog = new ProgressDialog(ShowDetailsUserActivity.this);
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
@@ -76,9 +82,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         HisDetailsPost(people_id);
     }
 
-    public void HisDetailsPost(String UserId) {
+    public void HisDetailsPost(final String people_id) {
         pdialog.show();
-        mAPIService.UserDetails(UserId).enqueue(new Callback<UserDetailsResponse>() {
+        mAPIService.UserDetails(people_id).enqueue(new Callback<UserDetailsResponse>() {
 
             @Override
             public void onResponse(Call<UserDetailsResponse> call, Response<UserDetailsResponse> response) {
@@ -98,7 +104,8 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                             hisCausesPeopleWrappers.add(hisCausesPeopleWrapper);
                         }
 
-                        adapter = new HisUserCausesAdapter(ShowDetailsUserActivity.this, R.layout.item_in_bottom_hisprofile, hisCausesPeopleWrappers);
+                        adapter = new HisUserCausesAdapter(ShowDetailsUserActivity.this, R.layout.item_in_bottom_hisprofile,
+                                hisCausesPeopleWrappers, UserID, people_id);
                         list_show_hiscauses.setAdapter(adapter);
 
                     } else

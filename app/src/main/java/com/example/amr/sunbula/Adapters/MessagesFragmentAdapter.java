@@ -64,7 +64,7 @@ public class MessagesFragmentAdapter extends ArrayAdapter<String> {
     private class ViewHolderMessages {
         private TextView user_message;
 
-        public ViewHolderMessages(View v) {
+        private ViewHolderMessages(View v) {
             user_message = (TextView) v.findViewById(R.id.user_message);
         }
     }

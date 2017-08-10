@@ -29,9 +29,9 @@ import java.util.List;
 public class List_CategoriesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCategoriesBean> {
 
     private Context activity;
-    List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
-    List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> allCasesBeen;
-    int resource;
+    private  List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
+    private  List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> allCasesBeen;
+    private int resource;
 
     public List_CategoriesAdapter(Context context, int resource, List<AllCategoriesResponse.AllCategoriesBean> objects) {
         super(context, resource);

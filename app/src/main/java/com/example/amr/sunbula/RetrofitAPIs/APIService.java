@@ -12,6 +12,7 @@ import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
 import com.example.amr.sunbula.Models.APIResponses.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
+import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 
@@ -114,4 +115,10 @@ public interface APIService {
     @FormUrlEncoded
     Call<CompleteOrDeleteCauseResponse> CompleteOrDelete(@Field("CauseID") String CauseID,
                                                          @Field("ActionType") int ActionType);
+
+    @POST("/Charity/Api/Messeging/SendMassege")
+    @FormUrlEncoded
+    Call<SendMassegeResponse> SendMassege(@Field("User_ID") String User_ID,
+                                          @Field("ToID") String ToID,
+                                          @Field("MSGBody") String MSGBody);
 }

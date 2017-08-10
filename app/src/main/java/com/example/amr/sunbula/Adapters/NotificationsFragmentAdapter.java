@@ -20,7 +20,7 @@ public class NotificationsFragmentAdapter extends ArrayAdapter<String> {
 
     private Context activity;
     private List<String> list_friends_name;
-    int resource;
+    private int resource;
 
     public NotificationsFragmentAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
@@ -64,7 +64,7 @@ public class NotificationsFragmentAdapter extends ArrayAdapter<String> {
     private class ViewHolderNotifications {
         private TextView friends_name;
 
-        public ViewHolderNotifications(View v) {
+        private ViewHolderNotifications(View v) {
             friends_name = (TextView) v.findViewById(R.id.friends_name);
         }
     }

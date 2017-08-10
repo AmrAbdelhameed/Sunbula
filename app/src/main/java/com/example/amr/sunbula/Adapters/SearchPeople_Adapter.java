@@ -28,7 +28,7 @@ public class SearchPeople_Adapter extends ArrayAdapter<SearchPeopleResponse.Sear
 
     private Context activity;
     private List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
-    int resource;
+    private int resource;
 
     public SearchPeople_Adapter(Context context, int resource, List<SearchPeopleResponse.SearchedPepoleBean> objects) {
         super(context, resource);
@@ -83,7 +83,7 @@ public class SearchPeople_Adapter extends ArrayAdapter<SearchPeopleResponse.Sear
     private class ViewHolderSearchCauses_People {
         private TextView people_name;
 
-        public ViewHolderSearchCauses_People(View v) {
+        private ViewHolderSearchCauses_People(View v) {
             people_name = (TextView) v.findViewById(R.id.people_name);
         }
     }

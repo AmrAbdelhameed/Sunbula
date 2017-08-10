@@ -84,7 +84,7 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
         private ImageButton image_switch;
         private LinearLayout linearLayout12;
 
-        public ViewHolderHome(View v) {
+        private ViewHolderHome(View v) {
             text_item_in_home = (Button) v.findViewById(R.id.text_item_in_home);
             image_switch = (ImageButton) v.findViewById(R.id.image_switch);
             linearLayout12 = (LinearLayout) v.findViewById(R.id.linearLayout12);

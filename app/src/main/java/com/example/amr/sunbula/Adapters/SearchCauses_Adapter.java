@@ -21,7 +21,7 @@ public class SearchCauses_Adapter extends ArrayAdapter<SearchCausesResponse.Sear
 
     private Context activity;
     private List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
-    int resource;
+    private int resource;
 
     public SearchCauses_Adapter(Context context, int resource, List<SearchCausesResponse.SearchedCasesBean> objects) {
         super(context, resource);
@@ -65,7 +65,7 @@ public class SearchCauses_Adapter extends ArrayAdapter<SearchCausesResponse.Sear
     private class ViewHolderSearchCauses_People {
         private TextView item1;
 
-        public ViewHolderSearchCauses_People(View v) {
+        private ViewHolderSearchCauses_People(View v) {
             item1 = (TextView) v.findViewById(R.id.item1);
         }
     }
