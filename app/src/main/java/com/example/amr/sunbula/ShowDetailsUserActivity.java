@@ -10,14 +10,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Adapters.HisUserCausesAdapter;
+import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
 import com.example.amr.sunbula.Fragment.AllProfileFragment;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
+import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -37,8 +42,11 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     Toolbar toolbar;
     String people_id;
     APIService mAPIService;
+    ListView list_show_hiscauses;
     private ProgressDialog pdialog;
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
+    List<HisCausesPeopleWrapper> hisCausesPeopleWrappers;
+    HisUserCausesAdapter adapter;
     TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, text_history_user_profile;
     ImageView image_user_profile;
 
@@ -49,6 +57,10 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_show_people_details);
         setSupportActionBar(toolbar);
+
+        list_show_hiscauses = (ListView) findViewById(R.id.list_hiscauses);
+
+        hisCausesPeopleWrappers = new ArrayList<>();
 
         pdialog = new ProgressDialog(ShowDetailsUserActivity.this);
         pdialog.setIndeterminate(true);
@@ -73,7 +85,6 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-//                        username_user_profile.setText(response.body().getName());
                         toolbar.setTitle(response.body().getName());
 
 
@@ -81,6 +92,14 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                         myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
 
                         myCasesBeanList = userDetailsResponse.getMyCases();
+
+                        for (int a = 0; a < myCasesBeanList.size(); a++) {
+                            HisCausesPeopleWrapper hisCausesPeopleWrapper = new HisCausesPeopleWrapper(myCasesBeanList.get(a));
+                            hisCausesPeopleWrappers.add(hisCausesPeopleWrapper);
+                        }
+
+                        adapter = new HisUserCausesAdapter(ShowDetailsUserActivity.this, R.layout.item_in_bottom_hisprofile, hisCausesPeopleWrappers);
+                        list_show_hiscauses.setAdapter(adapter);
 
                     } else
                         Toast.makeText(ShowDetailsUserActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
