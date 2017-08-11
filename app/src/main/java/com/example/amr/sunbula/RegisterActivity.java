@@ -320,7 +320,7 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putString("UserID", response.body().getUserID());
                         editor.putBoolean("isVerified", false);
                         editor.putBoolean("facebookID", true);
-                        editor.commit();
+                        editor.apply();
                         Toast.makeText(RegisterActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
                         startActivity(i);

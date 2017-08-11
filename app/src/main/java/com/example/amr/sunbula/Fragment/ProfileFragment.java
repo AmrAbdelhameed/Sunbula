@@ -320,7 +320,7 @@ public class ProfileFragment extends Fragment {
                 editor.putString("UserID", "");
                 editor.putBoolean("isVerified", false);
                 editor.putBoolean("facebookID", false);
-                editor.commit();
+                editor.apply();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("UserID", response.body().getUser_ID());
                         editor.putBoolean("isVerified", true);
                         editor.putBoolean("facebookID", false);
-                        editor.commit();
+                        editor.apply();
                         Toast.makeText(LoginActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(i);
