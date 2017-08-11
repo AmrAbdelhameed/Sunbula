@@ -28,73 +28,123 @@
             android:id="@+id/linearLayout4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginTop="@dimen/_16dp"
-            android:background="#BB000000"
             android:orientation="vertical"
-            android:padding="@dimen/_8dp"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageregister">
 
-            <EditText
-                android:id="@+id/txtusernameregister"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50dp"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="@dimen/_5dp"
-                android:background="@null"
-                android:drawableLeft="@drawable/usernameimage"
-                android:drawablePadding="@dimen/_15dp"
-                android:gravity="left"
-                android:hint="Username"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_8dp"
+                android:background="#BB000000"
+                android:padding="@dimen/_8dp">
 
-                android:inputType="textPersonName"
-                android:padding="@dimen/_15dp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view6"
+                    app:srcCompat="@drawable/message" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1dp"
-                android:background="@color/tab_enable" />
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view5"
+                    app:srcCompat="@drawable/password" />
 
-            <EditText
-                android:id="@+id/txtpasswordregister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50dp"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="@dimen/_5dp"
-                android:background="@null"
-                android:drawableLeft="@drawable/password"
-                android:drawablePadding="@dimen/_15dp"
-                android:gravity="left"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:padding="@dimen/_15dp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/usernameimage" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_1dp"
-                android:background="@color/tab_enable" />
+                <EditText
+                    android:id="@+id/txtusernameregister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginRight="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@null"
+                    android:hint="Username"
+                    android:inputType="textPersonName"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/imageView2"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/txtemailregister"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_50dp"
-                android:layout_gravity="center_horizontal|top"
-                android:layout_marginBottom="@dimen/_5dp"
-                android:background="@null"
-                android:drawableLeft="@drawable/message"
-                android:drawablePadding="@dimen/_15dp"
-                android:gravity="left"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:padding="@dimen/_15dp"
-                android:textStyle="bold" />
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/tab_enable"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtusernameregister" />
+
+                <EditText
+                    android:id="@+id/txtpasswordregister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginRight="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:background="@null"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/imageView3"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/tab_enable"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtpasswordregister" />
+
+                <EditText
+                    android:id="@+id/txtemailregister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_8dp"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginRight="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:background="@null"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/imageView5"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+            </android.support.constraint.ConstraintLayout>
 
         </LinearLayout>
 

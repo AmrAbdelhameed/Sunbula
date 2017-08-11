@@ -101,10 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if (Password.isEmpty()) {
                     password.setError("Please enter here");
-                }
-                if (imagePath.equals(""))
-                    Toast.makeText(RegisterActivity.this, "Please select image for you", Toast.LENGTH_SHORT).show();
-                else
+                } else
                     RegisterPost(1, Name, Password, EMail);
 
             }
@@ -278,7 +275,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                     if (response.body().getIsSuccess()) {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
-                        uploadImage(response.body().getUserID());
+                        if (!imagePath.equals(""))
+                            uploadImage(response.body().getUserID());
+                        else {
+                            pdialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
+                            Bundle b = new Bundle();
+                            b.putString("UserID", response.body().getUserID());
+                            i.putExtras(b);
+                            startActivity(i);
+                            finish();
+                        }
                     } else {
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                         pdialog.dismiss();
@@ -360,7 +368,6 @@ public class RegisterActivity extends AppCompatActivity {
                         i.putExtras(b);
                         startActivity(i);
                         finish();
-
                     } else
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
 

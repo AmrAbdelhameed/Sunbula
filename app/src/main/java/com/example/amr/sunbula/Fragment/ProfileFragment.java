@@ -313,14 +313,14 @@ public class ProfileFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                startActivity(intent);
-//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("UserID", "");
-//                editor.putBoolean("isVerified", false);
-//                editor.putBoolean("facebookID", false);
-//                editor.commit();
+//                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+//                startActivity(intent);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("UserID", "");
+                editor.putBoolean("isVerified", false);
+                editor.putBoolean("facebookID", false);
+                editor.commit();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

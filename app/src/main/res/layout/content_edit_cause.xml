@@ -9,7 +9,6 @@
     tools:context="com.example.amr.sunbula.EditCauseActivity"
     tools:showIn="@layout/activity_edit_cause">
 
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -54,9 +53,8 @@
             android:gravity="top|left"
             android:hint="Enter here"
             android:inputType="textMultiLine"
-            android:lines="8"
             android:maxLines="6"
-            android:minLines="5"
+            android:minLines="4"
             android:padding="@dimen/_8dp"
             android:scrollbars="vertical"
             android:textStyle="bold"

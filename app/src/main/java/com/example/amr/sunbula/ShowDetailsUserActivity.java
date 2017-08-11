@@ -50,7 +50,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
     List<HisCausesPeopleWrapper> hisCausesPeopleWrappers;
     HisUserCausesAdapter adapter;
-    TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, text_history_user_profile;
+    TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, username_user_profile;
     ImageView image_user_profile;
 
     @Override
@@ -59,6 +59,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_details_user);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_show_people_details);
+        toolbar.setTitle("View Profile");
         setSupportActionBar(toolbar);
 
         list_show_hiscauses = (ListView) findViewById(R.id.list_hiscauses);
@@ -74,6 +75,8 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
+
+        username_user_profile = (TextView) findViewById(R.id.username_user_profile);
 
         Intent in = getIntent();
         Bundle b = in.getExtras();
@@ -91,8 +94,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        toolbar.setTitle(response.body().getName());
-
+                        username_user_profile.setText(response.body().getName());
 
                         UserDetailsResponse userDetailsResponse = response.body();
                         myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
