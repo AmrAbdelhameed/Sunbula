@@ -55,51 +55,47 @@
         app:layout_constraintRight_toLeftOf="@+id/image_profile"
         app:layout_constraintTop_toTopOf="@+id/image_profile" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout13"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/text_causes_profile"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8dp"
         android:layout_marginLeft="@dimen/_8dp"
         android:layout_marginRight="@dimen/_8dp"
-        android:layout_marginStart="@dimen/_8dp"
         android:layout_marginTop="@dimen/_8dp"
-        android:orientation="horizontal"
-        android:weightSum="3"
+        android:text="268k My causes"
+        android:textSize="@dimen/_15sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_profile">
+        app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
-        <TextView
-            android:id="@+id/text_reviews_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="192k Reviews"
-            android:textSize="@dimen/_15sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/text_location_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8dp"
+        android:layout_marginRight="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:text="Location"
+        android:textSize="@dimen/_15sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/text_causes_profile"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
-        <TextView
-            android:id="@+id/text_causes_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="268k My causes"
-            android:textSize="@dimen/_15sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/text_location_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Location"
-            android:textSize="@dimen/_15sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/text_reviews_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8dp"
+        android:layout_marginRight="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:text="192k Reviews"
+        android:textSize="@dimen/_15sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/text_causes_profile"
+        app:layout_constraintTop_toBottomOf="@+id/image_profile" />
 
     <TextView
         android:id="@+id/username_profile"
@@ -115,7 +111,7 @@
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout13" />
+        app:layout_constraintTop_toBottomOf="@+id/text_causes_profile" />
 
     <RelativeLayout
         android:layout_width="0dp"

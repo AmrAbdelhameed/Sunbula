@@ -312,6 +312,7 @@ public class AddCauseActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
+                Toast.makeText(AddCauseActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });

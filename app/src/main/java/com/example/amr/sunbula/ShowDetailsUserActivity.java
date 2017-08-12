@@ -118,6 +118,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
+                Toast.makeText(ShowDetailsUserActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });

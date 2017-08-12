@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,24 +12,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.amr.sunbula.CausesInOneCategoryActivity;
-import com.example.amr.sunbula.LoginActivity;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.SwipeLayout;
 import com.google.gson.Gson;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class List_CategoriesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCategoriesBean> {
 
     private Context activity;
-    private  List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
-    private  List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> allCasesBeen;
+    private List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
+    private List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> allCasesBeen;
     private int resource;
 
     public List_CategoriesAdapter(Context context, int resource, List<AllCategoriesResponse.AllCategoriesBean> objects) {
@@ -94,18 +88,13 @@ public class List_CategoriesAdapter extends ArrayAdapter<AllCategoriesResponse.A
 
                         // put the button action here
                         if (holder.buttonHead2.isPressed()) {
-//                            allCategoriesBeen.remove(position);
-//                            notifyDataSetChanged();
-//                            holder.buttonHead2.setPressed(false);
                             allCasesBeen = allCategoriesBeen.get(position).getAllCases();
                             Intent GOTOCauses = new Intent(activity, CausesInOneCategoryActivity.class);
                             Bundle bundle = new Bundle();
                             Gson gson = new Gson();
-
                             String jsonCars = gson.toJson(allCasesBeen);
                             bundle.putString("NameCategory", allCategoriesBeen.get(position).getCategoryName());
                             bundle.putString("Causes", jsonCars);
-//                            bundle.putSerializable("Causes", (Serializable) allCasesBeen);
                             GOTOCauses.putExtras(bundle);
                             activity.startActivity(GOTOCauses);
                         }

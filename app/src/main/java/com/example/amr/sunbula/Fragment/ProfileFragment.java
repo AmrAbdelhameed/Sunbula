@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment {
     List<JoinedCasesProfile> joinedCasesProfiles;
     List<JoinedCausesProfileWrapper> joinedCausesProfileWrappers;
 
-    TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile, text_history_profile;
+    TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile;
     ImageView image_profile;
 
     public ProfileFragment() {
@@ -128,6 +128,9 @@ public class ProfileFragment extends Fragment {
         tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
         container = (LinearLayout) v.findViewById(R.id.fragment_container);
         username_profile = (TextView) v.findViewById(R.id.username_profile);
+        text_reviews_profile = (TextView) v.findViewById(R.id.text_reviews_profile);
+        text_causes_profile = (TextView) v.findViewById(R.id.text_causes_profile);
+        text_location_profile = (TextView) v.findViewById(R.id.text_location_profile);
 
         //create tabs title
         tabLayout.addTab(tabLayout.newTab().setText("All"));
@@ -181,11 +184,8 @@ public class ProfileFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         username_profile.setText(response.body().getName());
-
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserName", response.body().getName());
-                        editor.apply();
+                        text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
+                        text_location_profile.setText(String.valueOf(response.body().getAddress()));
 
                         UserDetailsResponse userDetailsResponse = response.body();
 
@@ -196,6 +196,15 @@ public class ProfileFragment extends Fragment {
                         allCasesListBeen = userDetailsResponse.getAllCasesList();
                         myCasesBeanList = userDetailsResponse.getMyCases();
                         joinedCasesBeen = userDetailsResponse.getJoinedCases();
+                        text_causes_profile.setText(myCasesBeanList.size() + " My Causes");
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserName", response.body().getName());
+                        editor.putString("Reviews", response.body().getReviewNumbers());
+                        editor.putInt("Causes", myCasesBeanList.size());
+                        editor.putString("Location", String.valueOf(response.body().getAddress()));
+                        editor.apply();
 
                         list = (new Select().from(AllCausesProfile.class).queryList());
                         if (list.size() > 0) {
@@ -298,7 +307,15 @@ public class ProfileFragment extends Fragment {
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
                 String UserName = sharedPreferences.getString("UserName", "null");
+                String Reviews = sharedPreferences.getString("Reviews", "null");
+                int Causes = sharedPreferences.getInt("Causes", 0);
+                String Location = sharedPreferences.getString("Location", "null");
+
                 username_profile.setText(UserName);
+                text_reviews_profile.setText(Reviews + " Reviews");
+                text_location_profile.setText(Location);
+                text_causes_profile.setText(Causes + " My Causes");
+
 
                 list = (new Select().from(AllCausesProfile.class).queryList());
                 //replace default fragment

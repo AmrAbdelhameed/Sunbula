@@ -117,6 +117,7 @@ public class SearchCauses_People extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SearchCausesResponse> call, Throwable t) {
+                Toast.makeText(SearchCauses_People.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });
