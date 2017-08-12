@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.example.amr.sunbula.AddCauseActivity;
 import com.example.amr.sunbula.EditProfileActivity;
+import com.example.amr.sunbula.ListCategoriesActivity;
+import com.example.amr.sunbula.LoginActivity;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
@@ -54,7 +56,7 @@ public class ProfileFragment extends Fragment {
     String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;
-    Button btn_add_cause;
+    Button btn_add_cause, btn_heart;
 
     List<UserDetailsResponse.AllCasesListBean> allCasesListBeen;
     AllCausesProfile all;
@@ -97,11 +99,20 @@ public class ProfileFragment extends Fragment {
         joinedCausesProfileWrappers = new ArrayList<>();
 
         btn_add_cause = (Button) v.findViewById(R.id.btn_add_cause);
+        btn_heart = (Button) v.findViewById(R.id.btn_heart);
 
         btn_add_cause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), AddCauseActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btn_heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), ListCategoriesActivity.class);
                 startActivity(i);
             }
         });
@@ -175,6 +186,12 @@ public class ProfileFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         username_profile.setText(response.body().getName());
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserName", response.body().getName());
+                        editor.apply();
+
                         UserDetailsResponse userDetailsResponse = response.body();
 
                         allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
@@ -283,6 +300,11 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
+                String UserName = sharedPreferences.getString("UserName", "null");
+                username_profile.setText(UserName);
+
                 list = (new Select().from(AllCausesProfile.class).queryList());
                 //replace default fragment
                 for (int a = 0; a < list.size(); a++) {
