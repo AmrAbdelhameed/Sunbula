@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -168,12 +169,6 @@ public class ProfileFragment extends Fragment {
         transaction.replace(R.id.fragment_container, fragment);
 
         transaction.commit();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_profile, menu);
     }
 
     public void MyDetailsPost(String UserId) {
@@ -331,18 +326,29 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_profile, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-//                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_logout:
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("UserID", "");
                 editor.putBoolean("isVerified", false);
                 editor.putBoolean("facebookID", false);
                 editor.apply();
+                Intent i = new Intent(getActivity(), LoginActivity.class);
+                startActivity(i);
+                getActivity().finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
