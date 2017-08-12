@@ -8,14 +8,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <!-- you can input the number of left button and right.-->
     <com.example.amr.sunbula.SwipeLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_65dp"
         swipe:leftButton="1">
-
-        <!-- first component is content.-->
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -87,13 +84,11 @@
 
         <Button
             android:id="@+id/buttonHead2"
-            android:layout_width="@dimen/_200dp"
-            android:layout_height="@dimen/_50dp"
-            android:background="#CC000000"
-            android:drawableTop="@drawable/_heart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/_heart"
             android:gravity="center"
-            android:text="Causes"
-            android:textColor="@color/colorAccent" />
+            android:padding="@dimen/_8dp" />
 
     </com.example.amr.sunbula.SwipeLayout>
 
