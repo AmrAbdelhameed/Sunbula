@@ -2,12 +2,14 @@
 <resources>
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
-    <color name="colorAccent">#ffa500</color>
+    <color name="colorAccent">#fe860e</color>
+
+    <!--ffa500-->
 
     <color name="tab_disable">#979797</color>
     <color name="tab_enable">#FFFFFF</color>
 
-    <color name="tab_checked">#ffa500</color>
+    <color name="tab_checked">#fe860e</color>
     <color name="tab_unchecked">#FFFFFF</color>
 
 </resources>

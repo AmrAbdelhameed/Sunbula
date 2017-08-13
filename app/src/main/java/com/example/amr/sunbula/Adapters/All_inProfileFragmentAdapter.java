@@ -108,7 +108,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 1,position);
+                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 1, position);
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -130,7 +130,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 2,position);
+                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 2, position);
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -146,9 +146,11 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
 
         if (list_name_cause.get(position).isSelected()) {
             holder.text_details_cause.setVisibility(View.VISIBLE);
-            holder.image_edit.setVisibility(View.VISIBLE);
-            holder.image_close1.setVisibility(View.VISIBLE);
-            holder.image_delete.setVisibility(View.VISIBLE);
+            if (!list_name_cause.get(position).isJoined()) {
+                holder.image_edit.setVisibility(View.VISIBLE);
+                holder.image_close1.setVisibility(View.VISIBLE);
+                holder.image_delete.setVisibility(View.VISIBLE);
+            }
             holder.image_switch.setVisibility(View.GONE);
 
         } else {
@@ -166,9 +168,11 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                 list_name_cause.get(position).setSelected(true);
 
                 holder.text_details_cause.setVisibility(View.VISIBLE);
-                holder.image_edit.setVisibility(View.VISIBLE);
-                holder.image_close1.setVisibility(View.VISIBLE);
-                holder.image_delete.setVisibility(View.VISIBLE);
+                if (!list_name_cause.get(position).isJoined()) {
+                    holder.image_edit.setVisibility(View.VISIBLE);
+                    holder.image_close1.setVisibility(View.VISIBLE);
+                    holder.image_delete.setVisibility(View.VISIBLE);
+                }
                 holder.image_switch.setVisibility(View.GONE);
 
             }
