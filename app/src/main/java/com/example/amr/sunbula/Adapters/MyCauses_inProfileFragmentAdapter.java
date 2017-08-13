@@ -80,6 +80,11 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
         holder.text_name_cause.setText(list_name_cause.get(position).getCaseName());
         holder.text_details_cause.setText(list_name_cause.get(position).getCaseDescription());
 
+        if (list_name_cause.get(position).getStatus() == 2)
+            holder.text_Completed.setText("Completed");
+        else
+            holder.text_Completed.setText("");
+
         holder.image_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -141,13 +146,17 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
 
         if (list_name_cause.get(position).isSelected()) {
             holder.text_details_cause.setVisibility(View.VISIBLE);
-            holder.image_edit.setVisibility(View.VISIBLE);
-            holder.image_close1.setVisibility(View.VISIBLE);
-            holder.image_delete.setVisibility(View.VISIBLE);
+            holder.text_Completed.setVisibility(View.VISIBLE);
+            if (list_name_cause.get(position).getStatus() != 2) {
+                holder.image_edit.setVisibility(View.VISIBLE);
+                holder.image_close1.setVisibility(View.VISIBLE);
+                holder.image_delete.setVisibility(View.VISIBLE);
+            }
             holder.image_switch.setVisibility(View.GONE);
 
         } else {
             holder.text_details_cause.setVisibility(View.GONE);
+            holder.text_Completed.setVisibility(View.GONE);
             holder.image_edit.setVisibility(View.GONE);
             holder.image_close1.setVisibility(View.GONE);
             holder.image_delete.setVisibility(View.GONE);
@@ -161,9 +170,12 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
                 list_name_cause.get(position).setSelected(true);
 
                 holder.text_details_cause.setVisibility(View.VISIBLE);
-                holder.image_edit.setVisibility(View.VISIBLE);
-                holder.image_close1.setVisibility(View.VISIBLE);
-                holder.image_delete.setVisibility(View.VISIBLE);
+                holder.text_Completed.setVisibility(View.VISIBLE);
+                if (list_name_cause.get(position).getStatus() != 2) {
+                    holder.image_edit.setVisibility(View.VISIBLE);
+                    holder.image_close1.setVisibility(View.VISIBLE);
+                    holder.image_delete.setVisibility(View.VISIBLE);
+                }
                 holder.image_switch.setVisibility(View.GONE);
 
             }
@@ -175,6 +187,23 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
                 list_name_cause.get(position).setSelected(false);
 
                 holder.text_details_cause.setVisibility(View.GONE);
+                holder.text_Completed.setVisibility(View.GONE);
+                holder.image_edit.setVisibility(View.GONE);
+                holder.image_close1.setVisibility(View.GONE);
+                holder.image_delete.setVisibility(View.GONE);
+                holder.image_switch.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        holder.text_name_cause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                list_name_cause.get(position).setSelected(false);
+
+                holder.text_details_cause.setVisibility(View.GONE);
+                holder.text_Completed.setVisibility(View.GONE);
                 holder.image_edit.setVisibility(View.GONE);
                 holder.image_close1.setVisibility(View.GONE);
                 holder.image_delete.setVisibility(View.GONE);
@@ -215,13 +244,13 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
     }
 
     private class ViewHolderNotifications {
-        private TextView text_name_cause, text_details_cause;
+        private TextView text_name_cause, text_details_cause, text_Completed;
         private ImageView image_switch, image_edit, image_close1, image_delete;
 
         private ViewHolderNotifications(View v) {
             text_name_cause = (TextView) v.findViewById(R.id.text_name_cause);
             text_details_cause = (TextView) v.findViewById(R.id.text_details_cause);
-
+            text_Completed = (TextView) v.findViewById(R.id.text_Completed);
             image_switch = (ImageView) v.findViewById(R.id.image_switch);
             image_edit = (ImageView) v.findViewById(R.id.image_edit);
             image_close1 = (ImageView) v.findViewById(R.id.image_close1);

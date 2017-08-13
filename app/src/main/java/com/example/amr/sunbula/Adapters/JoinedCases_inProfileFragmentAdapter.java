@@ -38,7 +38,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
     private ProgressDialog pdialog;
 
     public JoinedCases_inProfileFragmentAdapter(Context context, List<JoinedCausesProfileWrapper> list_name_cause) {
-        super(context, R.layout.item_in_bottom_joinedprofile);
+        super(context, R.layout.item_in_bottom_profile);
         this.activity = context;
         this.list_name_cause = list_name_cause;
 
@@ -70,7 +70,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
         final ViewHolderNotifications holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_in_bottom_joinedprofile, parent, false);
+            convertView = inflater.inflate(R.layout.item_in_bottom_profile, parent, false);
             holder = new ViewHolderNotifications(convertView);
             convertView.setTag(holder);
         } else {
@@ -109,6 +109,19 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
             }
         });
         holder.text_details_cause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                list_name_cause.get(position).setSelected(false);
+
+                holder.text_details_cause.setVisibility(View.GONE);
+                holder.text_Completed.setVisibility(View.GONE);
+                holder.image_switch.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        holder.text_name_cause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

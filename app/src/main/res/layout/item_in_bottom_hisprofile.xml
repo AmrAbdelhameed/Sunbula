@@ -7,85 +7,87 @@
 
     <View
         android:id="@+id/view3"
-        android:layout_width="@dimen/_1dp"
+        android:layout_width="1dp"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="@dimen/_16dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:background="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/image_message"
+        app:layout_constraintLeft_toLeftOf="@+id/image_ellipse_3"
+        app:layout_constraintRight_toRightOf="@+id/image_ellipse_3"
+        app:layout_constraintTop_toTopOf="@+id/image_ellipse_3" />
 
     <ImageView
         android:id="@+id/image_ellipse_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_10dp"
-        android:layout_marginTop="@dimen/_8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ellipse_3" />
-
-    <TextView
-        android:id="@+id/text_name_cause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8dp"
         android:layout_marginLeft="@dimen/_8dp"
         android:layout_marginTop="@dimen/_8dp"
-        android:text="Amr Abdelhameed"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/ellipse_3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_8dp"
+        android:layout_marginStart="@dimen/_8dp"
+        android:layout_marginTop="@dimen/_8dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
         app:layout_constraintLeft_toRightOf="@+id/image_ellipse_3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/text_name_cause"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adam Grason"
+            android:textColor="#000000"
+            android:textSize="@dimen/_15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_details_cause"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I am acollector donations of Ramadan"
+            android:textColor="#000000"
+            android:textSize="@dimen/_12sp"
+            android:visibility="gone" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/image_switch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginLeft="@dimen/_8dp"
         android:layout_marginRight="@dimen/_8dp"
-        android:layout_marginTop="@dimen/_8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/text_name_cause"
+        android:layout_marginTop="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout10"
+        app:layout_constraintLeft_toRightOf="@+id/linearLayout10"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout10"
         app:srcCompat="@drawable/rounded_rectangle_3_copy_3" />
-
-    <TextView
-        android:id="@+id/text_details_cause"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_8dp"
-        android:layout_marginRight="@dimen/_16dp"
-        android:layout_marginTop="@dimen/_8dp"
-        android:text="hahahahhah"
-        android:textColor="#000000"
-        android:visibility="gone"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/image_ellipse_3"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_name_cause" />
 
     <ImageView
         android:id="@+id/image_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_8dp"
-        android:layout_marginLeft="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="@dimen/_8dp"
         android:layout_marginRight="@dimen/_8dp"
         android:layout_marginTop="@dimen/_16dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintHorizontal_bias="0.477"
         app:layout_constraintLeft_toRightOf="@+id/view3"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_details_cause"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/message2" />
 

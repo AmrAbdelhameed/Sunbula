@@ -144,6 +144,19 @@ public class HisUserCausesAdapter extends ArrayAdapter<HisCausesPeopleWrapper> {
             }
         });
 
+        holder.text_name_cause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                hisCausesPeopleWrappers.get(position).setSelected(false);
+
+                holder.text_details_cause.setVisibility(View.GONE);
+                holder.image_message.setVisibility(View.GONE);
+                holder.image_switch.setVisibility(View.VISIBLE);
+
+            }
+        });
+
         return convertView;
     }
 
