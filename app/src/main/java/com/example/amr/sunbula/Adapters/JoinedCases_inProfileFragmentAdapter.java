@@ -38,7 +38,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
     private ProgressDialog pdialog;
 
     public JoinedCases_inProfileFragmentAdapter(Context context, List<JoinedCausesProfileWrapper> list_name_cause) {
-        super(context, R.layout.item_in_bottom_profile);
+        super(context, R.layout.item_in_bottom_joinedprofile);
         this.activity = context;
         this.list_name_cause = list_name_cause;
 
@@ -70,7 +70,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
         final ViewHolderNotifications holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_in_bottom_profile, parent, false);
+            convertView = inflater.inflate(R.layout.item_in_bottom_joinedprofile, parent, false);
             holder = new ViewHolderNotifications(convertView);
             convertView.setTag(holder);
         } else {
@@ -80,77 +80,19 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
         holder.text_name_cause.setText(list_name_cause.get(position).getCaseName());
         holder.text_details_cause.setText(list_name_cause.get(position).getCaseDescription());
 
-        holder.image_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(activity, EditCauseActivity.class);
-                Bundle b = new Bundle();
-                b.putString("CauseID", list_name_cause.get(position).getCauseID());
-                b.putString("Name", list_name_cause.get(position).getCaseName());
-                b.putInt("Amount", list_name_cause.get(position).getAmount());
-                b.putString("EndDate", list_name_cause.get(position).getEndDate());
-                b.putString("CauseDescription", list_name_cause.get(position).getCaseDescription());
-                i.putExtras(b);
-                activity.startActivity(i);
-            }
-        });
-
-        holder.image_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Do you want to delete " + list_name_cause.get(position).getCaseName() + " ?")
-                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 1);
-
-                            }
-                        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Nothing
-                    }
-                });
-                AlertDialog d = builder.create();
-                d.setTitle("Are you sure");
-                d.show();
-            }
-        });
-
-        holder.image_close1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Do you want to close " + list_name_cause.get(position).getCaseName() + " ?")
-                        .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 2);
-
-                            }
-                        }).setNegativeButton("no", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Nothing
-                    }
-                });
-                AlertDialog d = builder.create();
-                d.setTitle("Are you sure");
-                d.show();
-            }
-        });
+        if (list_name_cause.get(position).getStatus() == 2)
+            holder.text_Completed.setText("Completed");
+        else
+            holder.text_Completed.setText("");
 
         if (list_name_cause.get(position).isSelected()) {
             holder.text_details_cause.setVisibility(View.VISIBLE);
-            holder.image_edit.setVisibility(View.VISIBLE);
-            holder.image_close1.setVisibility(View.VISIBLE);
-            holder.image_delete.setVisibility(View.VISIBLE);
+            holder.text_Completed.setVisibility(View.VISIBLE);
             holder.image_switch.setVisibility(View.GONE);
 
         } else {
             holder.text_details_cause.setVisibility(View.GONE);
-            holder.image_edit.setVisibility(View.GONE);
-            holder.image_close1.setVisibility(View.GONE);
-            holder.image_delete.setVisibility(View.GONE);
+            holder.text_Completed.setVisibility(View.GONE);
             holder.image_switch.setVisibility(View.VISIBLE);
         }
 
@@ -161,9 +103,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
                 list_name_cause.get(position).setSelected(true);
 
                 holder.text_details_cause.setVisibility(View.VISIBLE);
-                holder.image_edit.setVisibility(View.VISIBLE);
-                holder.image_close1.setVisibility(View.VISIBLE);
-                holder.image_delete.setVisibility(View.VISIBLE);
+                holder.text_Completed.setVisibility(View.VISIBLE);
                 holder.image_switch.setVisibility(View.GONE);
 
             }
@@ -175,9 +115,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
                 list_name_cause.get(position).setSelected(false);
 
                 holder.text_details_cause.setVisibility(View.GONE);
-                holder.image_edit.setVisibility(View.GONE);
-                holder.image_close1.setVisibility(View.GONE);
-                holder.image_delete.setVisibility(View.GONE);
+                holder.text_Completed.setVisibility(View.GONE);
                 holder.image_switch.setVisibility(View.VISIBLE);
 
             }
@@ -213,17 +151,15 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
     }
 
     private class ViewHolderNotifications {
-        private TextView text_name_cause, text_details_cause;
-        private ImageView image_switch, image_edit, image_close1, image_delete;
+        private TextView text_name_cause, text_details_cause, text_Completed;
+        private ImageView image_switch;
 
         private ViewHolderNotifications(View v) {
             text_name_cause = (TextView) v.findViewById(R.id.text_name_cause);
             text_details_cause = (TextView) v.findViewById(R.id.text_details_cause);
+            text_Completed = (TextView) v.findViewById(R.id.text_Completed);
 
             image_switch = (ImageView) v.findViewById(R.id.image_switch);
-            image_edit = (ImageView) v.findViewById(R.id.image_edit);
-            image_close1 = (ImageView) v.findViewById(R.id.image_close1);
-            image_delete = (ImageView) v.findViewById(R.id.image_delete);
         }
     }
 }

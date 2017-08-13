@@ -137,7 +137,7 @@ public class ProfileFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("My Causes"));
         tabLayout.addTab(tabLayout.newTab().setText("Joined"));
 
-        MyDetailsPost(UserID);
+        MyDetailsPost("29fab372-37c8-4deb-a5ef-3ab8a23ae3ab");
 
         //handling tab click event
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
