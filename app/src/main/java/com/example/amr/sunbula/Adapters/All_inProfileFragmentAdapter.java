@@ -108,7 +108,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                CompleteOrDeletePost(list_name_cause.get(position).getCaseName(), 1);
+                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 1,position);
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -130,7 +130,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                CompleteOrDeletePost(list_name_cause.get(position).getCaseName(), 2);
+                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 2,position);
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -191,7 +191,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
         return convertView;
     }
 
-    private void CompleteOrDeletePost(String CauseID, final int ActionType) {
+    private void CompleteOrDeletePost(String CauseID, final int ActionType, final int position) {
         pdialog.show();
         mAPIService.CompleteOrDelete(CauseID, ActionType).enqueue(new Callback<CompleteOrDeleteCauseResponse>() {
 
@@ -200,9 +200,11 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        if (ActionType == 1)
+                        if (ActionType == 1) {
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                        else
+                            list_name_cause.remove(position);
+                            All_inProfileFragmentAdapter.this.notifyDataSetChanged();
+                        } else
                             Toast.makeText(activity, "Completed cause Successfully", Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(activity, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();

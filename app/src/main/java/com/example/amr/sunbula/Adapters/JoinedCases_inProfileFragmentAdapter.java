@@ -103,7 +103,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                CompleteOrDeletePost(list_name_cause.get(position).getCaseName(), 1);
+                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 1);
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -125,7 +125,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                CompleteOrDeletePost(list_name_cause.get(position).getCaseName(), 2);
+                                CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 2);
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {

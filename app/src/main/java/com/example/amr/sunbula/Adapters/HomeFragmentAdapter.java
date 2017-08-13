@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
@@ -64,6 +65,10 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
 
         }
         holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
+        holder.number_joined.setText("Joined (" + List_item_in_home.get(position).getNumberofjoins() + ")");
+        holder.amount.setText("Amount (" + List_item_in_home.get(position).getAmount() + ")");
+        holder.end_date.setText(List_item_in_home.get(position).getEndDate());
+
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,12 +88,16 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
         private Button text_item_in_home;
         private ImageButton image_switch;
         private LinearLayout linearLayout12;
+        private TextView number_joined, amount, end_date;
 
         private ViewHolderHome(View v) {
             text_item_in_home = (Button) v.findViewById(R.id.text_item_in_home);
             image_switch = (ImageButton) v.findViewById(R.id.image_switch);
             linearLayout12 = (LinearLayout) v.findViewById(R.id.linearLayout12);
 
+            number_joined = (TextView) v.findViewById(R.id.number_joined);
+            amount = (TextView) v.findViewById(R.id.amount);
+            end_date = (TextView) v.findViewById(R.id.end_date);
         }
     }
 }
