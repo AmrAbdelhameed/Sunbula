@@ -29,6 +29,7 @@ import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
+import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.Models.DBFlowWrappers.JoinedCausesProfileWrapper;
 import com.example.amr.sunbula.Models.DBFlowWrappers.MyCausesProfileWrapper;
@@ -36,6 +37,7 @@ import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.facebook.login.LoginManager;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -137,7 +139,7 @@ public class ProfileFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("My Causes"));
         tabLayout.addTab(tabLayout.newTab().setText("Joined"));
 
-        MyDetailsPost("29fab372-37c8-4deb-a5ef-3ab8a23ae3ab");
+        MyDetailsPost(UserID);
 
         //handling tab click event
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -306,10 +308,10 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
-                String UserName = sharedPreferences.getString("UserName", "null");
-                String Reviews = sharedPreferences.getString("Reviews", "null");
+                String UserName = sharedPreferences.getString("UserName", "");
+                String Reviews = sharedPreferences.getString("Reviews", "");
                 int Causes = sharedPreferences.getInt("Causes", 0);
-                String Location = sharedPreferences.getString("Location", "null");
+                String Location = sharedPreferences.getString("Location", "");
 
                 username_profile.setText(UserName);
                 text_reviews_profile.setText(Reviews + " Reviews");
@@ -363,6 +365,18 @@ public class ProfileFragment extends Fragment {
                 editor.putBoolean("isVerified", false);
                 editor.putBoolean("facebookID", false);
                 editor.apply();
+                SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                editor2.putString("UserName", "");
+                editor2.putString("Reviews", "");
+                editor2.putInt("Causes", 0);
+                editor2.putString("Location", "");
+                editor2.apply();
+                Delete.table(AllCausesProfile.class);
+                Delete.table(MyCausesProfile.class);
+                Delete.table(JoinedCasesProfile.class);
+                Delete.table(NewsFeed.class);
+                LoginManager.getInstance().logOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();
