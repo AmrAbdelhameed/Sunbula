@@ -4,8 +4,10 @@ import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
+import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
+import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
@@ -13,6 +15,7 @@ import com.example.amr.sunbula.Models.APIResponses.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
+import com.example.amr.sunbula.Models.APIResponses.UNFollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 
@@ -121,4 +124,18 @@ public interface APIService {
     Call<SendMassegeResponse> SendMassege(@Field("User_ID") String User_ID,
                                           @Field("ToID") String ToID,
                                           @Field("MSGBody") String MSGBody);
+
+    @POST("/Charity/Api/User/Follow")
+    @FormUrlEncoded
+    Call<FollowResponse> Follow(@Field("User_ID") String User_ID,
+                                @Field("FollowingID") String FollowingID);
+
+    @POST("/Charity/Api/Following/ListofPepole")
+    @FormUrlEncoded
+    Call<ListofPepoleResponse> ListofPepole(@Field("User_ID") String User_ID);
+
+    @POST("/Charity/Api/User/UNFollow")
+    @FormUrlEncoded
+    Call<UNFollowResponse> UNFollow(@Field("User_ID") String User_ID,
+                                    @Field("UNFollowingID") String UNFollowingID);
 }
