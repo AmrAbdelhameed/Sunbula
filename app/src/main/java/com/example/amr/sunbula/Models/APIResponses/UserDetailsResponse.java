@@ -30,15 +30,15 @@ public class UserDetailsResponse {
      */
 
     private String Name;
-    private Object ImgURL;
-    private Object Password;
-    private Object EMail;
-    private Object GMailID;
-    private Object FacebookID;
-    private Object Img;
+    private String ImgURL;
+    private String Password;
+    private String EMail;
+    private String GMailID;
+    private String FacebookID;
+    private String Img;
     private String MobileNumber;
-    private Object Address;
-    private Object InterstedCategory;
+    private String Address;
+    private String InterstedCategory;
     private String Gender;
     private boolean IsTrusted;
     private String ReviewNumbers;
@@ -56,51 +56,51 @@ public class UserDetailsResponse {
         this.Name = Name;
     }
 
-    public Object getImgURL() {
+    public String getImgURL() {
         return ImgURL;
     }
 
-    public void setImgURL(Object ImgURL) {
+    public void setImgURL(String ImgURL) {
         this.ImgURL = ImgURL;
     }
 
-    public Object getPassword() {
+    public String getPassword() {
         return Password;
     }
 
-    public void setPassword(Object Password) {
+    public void setPassword(String Password) {
         this.Password = Password;
     }
 
-    public Object getEMail() {
+    public String getEMail() {
         return EMail;
     }
 
-    public void setEMail(Object EMail) {
+    public void setEMail(String EMail) {
         this.EMail = EMail;
     }
 
-    public Object getGMailID() {
+    public String getGMailID() {
         return GMailID;
     }
 
-    public void setGMailID(Object GMailID) {
+    public void setGMailID(String GMailID) {
         this.GMailID = GMailID;
     }
 
-    public Object getFacebookID() {
+    public String getFacebookID() {
         return FacebookID;
     }
 
-    public void setFacebookID(Object FacebookID) {
+    public void setFacebookID(String FacebookID) {
         this.FacebookID = FacebookID;
     }
 
-    public Object getImg() {
+    public String getImg() {
         return Img;
     }
 
-    public void setImg(Object Img) {
+    public void setImg(String Img) {
         this.Img = Img;
     }
 
@@ -112,19 +112,19 @@ public class UserDetailsResponse {
         this.MobileNumber = MobileNumber;
     }
 
-    public Object getAddress() {
+    public String getAddress() {
         return Address;
     }
 
-    public void setAddress(Object Address) {
+    public void setAddress(String Address) {
         this.Address = Address;
     }
 
-    public Object getInterstedCategory() {
+    public String getInterstedCategory() {
         return InterstedCategory;
     }
 
-    public void setInterstedCategory(Object InterstedCategory) {
+    public void setInterstedCategory(String InterstedCategory) {
         this.InterstedCategory = InterstedCategory;
     }
 

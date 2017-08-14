@@ -56,7 +56,6 @@ public class ProfileFragment extends Fragment {
 
     private TabLayout tabLayout;
     private LinearLayout container;
-    String UserID;
     APIService mAPIService;
     private ProgressDialog pdialog;
     Button btn_add_cause, btn_heart;
@@ -78,6 +77,8 @@ public class ProfileFragment extends Fragment {
 
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile;
     ImageView image_profile;
+
+    String UserID, Name, Email, mNumber, Address, Gender;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -185,7 +186,14 @@ public class ProfileFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        username_profile.setText(response.body().getName());
+
+                        Name = response.body().getName();
+                        Email = response.body().getEMail();
+                        mNumber = response.body().getMobileNumber();
+                        Address = response.body().getAddress();
+                        Gender = response.body().getGender();
+
+                        username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
                         text_location_profile.setText(String.valueOf(response.body().getAddress()));
 
@@ -202,7 +210,7 @@ public class ProfileFragment extends Fragment {
 
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserName", response.body().getName());
+                        editor.putString("UserName", Name);
                         editor.putString("Reviews", response.body().getReviewNumbers());
                         editor.putInt("Causes", myCasesBeanList.size());
                         editor.putString("Location", String.valueOf(response.body().getAddress()));
@@ -356,6 +364,14 @@ public class ProfileFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_edit:
                 Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putString("UserID", UserID);
+                b.putString("Name", Name);
+                b.putString("Email", Email);
+                b.putString("mNumber", mNumber);
+                b.putString("Address", Address);
+                b.putString("Gender", Gender);
+                intent.putExtras(b);
                 startActivity(intent);
                 return true;
             case R.id.action_logout:
