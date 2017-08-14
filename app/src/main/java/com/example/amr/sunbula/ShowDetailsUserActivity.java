@@ -52,7 +52,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     String people_id;
     String UserID;
     APIService mAPIService;
-    List<ListofPepoleResponse.ListofPepoleFollowingBean> listofPepoleFollowingBeen;
+    List<String> listofPepoleFollowingBeen;
     private ProgressDialog pdialog;
     ListView list_show_hiscauses;
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
@@ -61,7 +61,6 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, username_user_profile;
     ImageView image_user_profile;
     Button btn_add_user, btn_message_call;
-    boolean switch_following = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +96,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         people_id = b.getString("people_id");
 
         HisDetailsPost(people_id);
+        ListofPepolePost(UserID);
 
         text_reviews_user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,7 +108,27 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         btn_add_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ListofPepolePost(UserID, people_id);
+
+                if (!listofPepoleFollowingBeen.contains(people_id)) {
+                    FollowPost(UserID, people_id);
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ShowDetailsUserActivity.this);
+                    builder.setMessage("Do you want to UnFollow ?")
+                            .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                    UnFollowPost(UserID, people_id);
+
+                                }
+                            }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Nothing
+                        }
+                    });
+                    AlertDialog d = builder.create();
+                    d.setTitle("Are you sure");
+                    d.show();
+                }
             }
         });
     }
@@ -154,7 +174,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
-    public void ListofPepolePost(final String User_ID, final String people_id) {
+    public void ListofPepolePost(final String User_ID) {
         pdialog.show();
         mAPIService.ListofPepole(User_ID).enqueue(new Callback<ListofPepoleResponse>() {
 
@@ -163,37 +183,12 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        listofPepoleFollowingBeen = new ArrayList<ListofPepoleResponse.ListofPepoleFollowingBean>();
+                        listofPepoleFollowingBeen = new ArrayList<String>();
 
                         ListofPepoleResponse listofPepoleResponse = response.body();
 
-                        listofPepoleFollowingBeen = listofPepoleResponse.getListofPepoleFollowing();
-
-                        for (int i = 0; i < listofPepoleFollowingBeen.size(); i++) {
-                            if (people_id.contains(listofPepoleFollowingBeen.get(i).getFollowID()))
-                                switch_following = false;
-                            else
-                                switch_following = true;
-                        }
-                        if (switch_following)
-                            FollowPost(User_ID, people_id);
-                        else {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ShowDetailsUserActivity.this);
-                            builder.setMessage("Do you want to UnFollow ?")
-                                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-
-                                            UnFollowPost(UserID, people_id);
-
-                                        }
-                                    }).setNegativeButton("no", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // Nothing
-                                }
-                            });
-                            AlertDialog d = builder.create();
-                            d.setTitle("Are you sure");
-                            d.show();
+                        for (int i = 0; i < listofPepoleResponse.getListofPepoleFollowing().size(); i++) {
+                            listofPepoleFollowingBeen.add(listofPepoleResponse.getListofPepoleFollowing().get(i).getFollowID());
                         }
 
                     } else
@@ -210,16 +205,16 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
-    public void FollowPost(String User_ID, String people_id) {
+    public void FollowPost(String User_ID, final String people_ID) {
         pdialog.show();
-        mAPIService.Follow(User_ID, people_id).enqueue(new Callback<FollowResponse>() {
+        mAPIService.Follow(User_ID, people_ID).enqueue(new Callback<FollowResponse>() {
 
             @Override
             public void onResponse(Call<FollowResponse> call, Response<FollowResponse> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-
+                        listofPepoleFollowingBeen.add(people_ID);
                         Toast.makeText(ShowDetailsUserActivity.this, "Follow Successfully", Toast.LENGTH_SHORT).show();
 
                     } else
@@ -236,9 +231,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
-    public void UnFollowPost(String User_ID, String people_id) {
+    public void UnFollowPost(String User_ID, final String people_ID) {
         pdialog.show();
-        mAPIService.UNFollow(User_ID, people_id).enqueue(new Callback<UNFollowResponse>() {
+        mAPIService.UNFollow(User_ID, people_ID).enqueue(new Callback<UNFollowResponse>() {
 
             @Override
             public void onResponse(Call<UNFollowResponse> call, Response<UNFollowResponse> response) {
@@ -246,6 +241,8 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
 
+                        int c = listofPepoleFollowingBeen.indexOf(people_ID);
+                        listofPepoleFollowingBeen.remove(c);
                         Toast.makeText(ShowDetailsUserActivity.this, "UnFollow Successfully", Toast.LENGTH_SHORT).show();
 
                     } else
