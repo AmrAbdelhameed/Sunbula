@@ -75,7 +75,8 @@
             android:name=".ShowDetailsUserActivity"
             android:label=""
             android:screenOrientation="portrait" />
-        <activity android:name=".CausesInOneCategoryActivity"></activity>
+        <activity android:name=".CausesInOneCategoryActivity" />
+        <activity android:name=".Reviews_Following_FollowersActivity"></activity>
     </application>
 
 </manifest>

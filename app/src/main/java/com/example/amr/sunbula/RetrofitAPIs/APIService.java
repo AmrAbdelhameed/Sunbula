@@ -7,6 +7,7 @@ import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditProfileResponse;
 import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
+import com.example.amr.sunbula.Models.APIResponses.GetAllReviewsResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
@@ -149,4 +150,8 @@ public interface APIService {
                                           @Field("Address") String Address,
                                           @Field("Gender") String Gender,
                                           @Field("InterestedCategory") String InterestedCategory);
+
+    @POST("/Charity/Api/User/GetAllReviews")
+    @FormUrlEncoded
+    Call<GetAllReviewsResponse> GetAllReviews(@Field("User_ID") String User_ID);
 }
