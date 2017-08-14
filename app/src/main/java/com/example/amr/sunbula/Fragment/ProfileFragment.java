@@ -365,7 +365,6 @@ public class ProfileFragment extends Fragment {
             case R.id.action_edit:
                 Intent intent = new Intent(getActivity(), EditProfileActivity.class);
                 Bundle b = new Bundle();
-                b.putString("UserID", UserID);
                 b.putString("Name", Name);
                 b.putString("Email", Email);
                 b.putString("mNumber", mNumber);

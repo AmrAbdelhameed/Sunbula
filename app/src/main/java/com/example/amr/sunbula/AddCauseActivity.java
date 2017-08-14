@@ -157,7 +157,7 @@ public class AddCauseActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetID = CategoriesIDs_in_AddCause.get(position);
-                    Toast.makeText(AddCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
                 }
             }
 

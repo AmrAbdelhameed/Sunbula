@@ -4,6 +4,7 @@ import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
+import com.example.amr.sunbula.Models.APIResponses.EditProfileResponse;
 import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
@@ -138,4 +139,14 @@ public interface APIService {
     @FormUrlEncoded
     Call<UNFollowResponse> UNFollow(@Field("User_ID") String User_ID,
                                     @Field("UNFollowingID") String UNFollowingID);
+
+    @POST("/Charity/Api/User/EditProfile")
+    @FormUrlEncoded
+    Call<EditProfileResponse> EditProfile(@Field("UserID") String UserID,
+                                          @Field("Name") String Name,
+                                          @Field("EMail") String EMail,
+                                          @Field("MobileNumber") String MobileNumber,
+                                          @Field("Address") String Address,
+                                          @Field("Gender") String Gender,
+                                          @Field("InterestedCategory") String InterestedCategory);
 }
