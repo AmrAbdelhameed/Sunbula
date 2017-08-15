@@ -9,6 +9,7 @@ import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.GetAllReviewsResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
+import com.example.amr.sunbula.Models.APIResponses.ListofFollowersResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
@@ -135,6 +136,10 @@ public interface APIService {
     @POST("/Charity/Api/Following/ListofPepole")
     @FormUrlEncoded
     Call<ListofPepoleResponse> ListofPepole(@Field("User_ID") String User_ID);
+
+    @POST("/Charity/Api/Following/ListofFollowers")
+    @FormUrlEncoded
+    Call<ListofFollowersResponse> ListofFollowers(@Field("User_ID") String User_ID);
 
     @POST("/Charity/Api/User/UNFollow")
     @FormUrlEncoded

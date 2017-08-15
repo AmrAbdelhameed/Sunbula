@@ -19,23 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.HisUserCausesAdapter;
-import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
-import com.example.amr.sunbula.Fragment.AllProfileFragment;
-import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
-import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.Models.APIResponses.UNFollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
-import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
-import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
-import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
-import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -174,7 +164,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
-    public void ListofPepolePost(final String User_ID) {
+    public void ListofPepolePost(String User_ID) {
         pdialog.show();
         mAPIService.ListofPepole(User_ID).enqueue(new Callback<ListofPepoleResponse>() {
 
