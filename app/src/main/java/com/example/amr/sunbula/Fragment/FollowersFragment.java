@@ -17,7 +17,10 @@ import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,8 @@ public class FollowersFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_followers, container, false);
 
+        listofPepoleFollowersBeen = new ArrayList<String>();
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
 
@@ -73,13 +78,20 @@ public class FollowersFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        listofPepoleFollowersBeen = new ArrayList<String>();
 
                         ListofFollowersResponse followersResponse = response.body();
 
                         for (int i = 0; i < followersResponse.getListOFFollowers().size(); i++) {
                             listofPepoleFollowersBeen.add(followersResponse.getListOFFollowers().get(i).getName());
                         }
+
+                        Gson gson = new Gson();
+                        String jsonFollowers = gson.toJson(listofPepoleFollowersBeen);
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("AllFollowers", jsonFollowers);
+                        editor.apply();
 
                         arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowersBeen);
                         list_followers.setAdapter(arrayAdapter);
@@ -91,6 +103,15 @@ public class FollowersFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ListofFollowersResponse> call, Throwable t) {
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                String jsonFollowers = sharedPreferences.getString("AllFollowers", "");
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<String>>() {
+                }.getType();
+                listofPepoleFollowersBeen = gson.fromJson(jsonFollowers, type);
+                arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowersBeen);
+                list_followers.setAdapter(arrayAdapter);
                 Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
