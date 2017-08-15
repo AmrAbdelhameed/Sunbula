@@ -216,7 +216,7 @@ public class ProfileFragment extends Fragment {
                         joinedCasesBeen = userDetailsResponse.getJoinedCases();
                         text_causes_profile.setText(myCasesBeanList.size() + " My Causes");
 
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserName", Name);
                         editor.putString("Reviews", response.body().getReviewNumbers());
@@ -323,7 +323,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
 
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                 String UserName = sharedPreferences.getString("UserName", "");
                 String Reviews = sharedPreferences.getString("Reviews", "");
                 int Causes = sharedPreferences.getInt("Causes", 0);
@@ -355,6 +355,7 @@ public class ProfileFragment extends Fragment {
                     joinedCausesProfileWrappers.add(joinedCausesProfileWrapper);
                 }
 
+                Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });
@@ -385,16 +386,13 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("UserID", "");
+                editor.putString("UserName", "");
+                editor.putString("Reviews", "");
+                editor.putInt("Causes", 0);
+                editor.putString("Location", "");
                 editor.putBoolean("isVerified", false);
                 editor.putBoolean("facebookID", false);
                 editor.apply();
-                SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("sharedPreferences_username", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
-                editor2.putString("UserName", "");
-                editor2.putString("Reviews", "");
-                editor2.putInt("Causes", 0);
-                editor2.putString("Location", "");
-                editor2.apply();
                 Delete.table(AllCausesProfile.class);
                 Delete.table(MyCausesProfile.class);
                 Delete.table(JoinedCasesProfile.class);

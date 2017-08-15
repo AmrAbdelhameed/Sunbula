@@ -8,12 +8,18 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,6 +40,8 @@ public class ListCategoriesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list_categories);
         toolbar.setTitle("List Categories");
         setSupportActionBar(toolbar);
+
+        allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
 
         SharedPreferences sharedPreferences = ListCategoriesActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
@@ -60,8 +68,15 @@ public class ListCategoriesActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         AllCategoriesResponse allCategoriesResponse = response.body();
-                        allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
                         allCategoriesBeen = allCategoriesResponse.getAllCategories();
+
+                        Gson gson = new Gson();
+                        String jsonCategories = gson.toJson(allCategoriesBeen);
+
+                        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("AllCategories", jsonCategories);
+                        editor.apply();
 
                         adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, allCategoriesBeen);
                         listView_allCategoriesBeen.setAdapter(adapter);
@@ -75,6 +90,16 @@ public class ListCategoriesActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
                 Toast.makeText(ListCategoriesActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                String jsonCategories = sharedPreferences.getString("AllCategories", "");
+
+                Gson gson = new Gson();
+                Type type = new TypeToken<List<AllCategoriesResponse.AllCategoriesBean>>() {
+                }.getType();
+                allCategoriesBeen = gson.fromJson(jsonCategories, type);
+                adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, allCategoriesBeen);
+                listView_allCategoriesBeen.setAdapter(adapter);
+
                 pdialog.dismiss();
             }
         });

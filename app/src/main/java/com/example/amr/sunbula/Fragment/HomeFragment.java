@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
+import com.example.amr.sunbula.ListCategoriesActivity;
 import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
@@ -168,6 +169,8 @@ public class HomeFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
                 }
+
+                Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });
