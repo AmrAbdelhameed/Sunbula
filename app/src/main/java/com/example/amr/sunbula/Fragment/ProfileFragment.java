@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -207,7 +208,9 @@ public class ProfileFragment extends Fragment {
                         Picasso.with(getActivity()).load(imageURL).into(image_profile);
                         username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
-                        text_location_profile.setText(String.valueOf(response.body().getAddress()));
+
+                        if (response.body().getAddress() != null)
+                            text_location_profile.setText(String.valueOf(response.body().getAddress()));
 
                         UserDetailsResponse userDetailsResponse = response.body();
 
@@ -332,9 +335,9 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                 String UserImage = sharedPreferences.getString("UserImage", "");
                 String UserName = sharedPreferences.getString("UserName", "");
-                String Reviews = sharedPreferences.getString("Reviews", "");
+                String Reviews = sharedPreferences.getString("Reviews", "Reviews");
                 int Causes = sharedPreferences.getInt("Causes", 0);
-                String Location = sharedPreferences.getString("Location", "");
+                String Location = sharedPreferences.getString("Location", "Location");
 
                 Picasso.with(getActivity()).load(UserImage).into(image_profile);
                 username_profile.setText(UserName);

@@ -26,6 +26,7 @@ import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     List<HisCausesPeopleWrapper> hisCausesPeopleWrappers;
     HisUserCausesAdapter adapter;
     TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, username_user_profile;
-    ImageView image_user_profile;
+    de.hdodenhof.circleimageview.CircleImageView image_user_profile;
     Button btn_add_user, btn_message_call;
 
     @Override
@@ -64,6 +65,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         list_show_hiscauses = (ListView) findViewById(R.id.list_hiscauses);
         btn_add_user = (Button) findViewById(R.id.btn_add_user);
         btn_message_call = (Button) findViewById(R.id.btn_message_call);
+        image_user_profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.image_user_profile);
 
         hisCausesPeopleWrappers = new ArrayList<>();
 
@@ -80,6 +82,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         username_user_profile = (TextView) findViewById(R.id.username_user_profile);
         text_reviews_user_profile = (TextView) findViewById(R.id.text_reviews_user_profile);
         text_causes_user_profile = (TextView) findViewById(R.id.text_causes_user_profile);
+        text_location_user_profile = (TextView) findViewById(R.id.text_location_user_profile);
 
         Intent in = getIntent();
         Bundle b = in.getExtras();
@@ -140,6 +143,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                         myCasesBeanList = userDetailsResponse.getMyCases();
 
                         text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
+                        if (response.body().getAddress() != null)
+                            text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
+                        Picasso.with(ShowDetailsUserActivity.this).load(response.body().getImgURL()).into(image_user_profile);
 
                         for (int a = 0; a < myCasesBeanList.size(); a++) {
                             HisCausesPeopleWrapper hisCausesPeopleWrapper = new HisCausesPeopleWrapper(myCasesBeanList.get(a));
