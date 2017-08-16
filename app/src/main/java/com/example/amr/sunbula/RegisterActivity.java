@@ -50,14 +50,13 @@ public class RegisterActivity extends AppCompatActivity {
     de.hdodenhof.circleimageview.CircleImageView user_profile;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
+    String imagePath = "";
     EditText username, password, Email;
     Button btn_register;
     LoginButton btn_login_facebok;
     CallbackManager c;
     private APIService mAPIService;
     private ProgressDialog pdialog;
-    String imagePath = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

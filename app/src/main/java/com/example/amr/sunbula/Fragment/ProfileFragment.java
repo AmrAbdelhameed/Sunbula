@@ -42,6 +42,7 @@ import com.facebook.login.LoginManager;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +63,8 @@ public class ProfileFragment extends Fragment {
     Button btn_add_cause, btn_heart;
 
     List<UserDetailsResponse.AllCasesListBean> allCasesListBeen;
-    AllCausesProfile all;
-    List<AllCausesProfile> list;
+    AllCausesProfile allCausesProfile;
+    List<AllCausesProfile> allCausesProfileList;
     List<AllCausesProfileWrapper> allCausesProfileWrappers;
 
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
@@ -77,9 +78,9 @@ public class ProfileFragment extends Fragment {
     List<JoinedCausesProfileWrapper> joinedCausesProfileWrappers;
 
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile;
-    ImageView image_profile;
+    de.hdodenhof.circleimageview.CircleImageView image_profile;
 
-    String UserID, Name, Email, mNumber, Address, Gender;
+    String UserID, Name, Email, mNumber, Address, Gender, imageURL;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -135,6 +136,7 @@ public class ProfileFragment extends Fragment {
         text_reviews_profile = (TextView) v.findViewById(R.id.text_reviews_profile);
         text_causes_profile = (TextView) v.findViewById(R.id.text_causes_profile);
         text_location_profile = (TextView) v.findViewById(R.id.text_location_profile);
+        image_profile = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.image_profile);
 
         //create tabs title
         tabLayout.addTab(tabLayout.newTab().setText("All"));
@@ -201,6 +203,8 @@ public class ProfileFragment extends Fragment {
                         Address = response.body().getAddress();
                         Gender = response.body().getGender();
 
+                        imageURL = response.body().getImgURL();
+                        Picasso.with(getActivity()).load(imageURL).into(image_profile);
                         username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
                         text_location_profile.setText(String.valueOf(response.body().getAddress()));
@@ -218,14 +222,15 @@ public class ProfileFragment extends Fragment {
 
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserImage", imageURL);
                         editor.putString("UserName", Name);
                         editor.putString("Reviews", response.body().getReviewNumbers());
                         editor.putInt("Causes", myCasesBeanList.size());
                         editor.putString("Location", String.valueOf(response.body().getAddress()));
                         editor.apply();
 
-                        list = (new Select().from(AllCausesProfile.class).queryList());
-                        if (list.size() > 0) {
+                        allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
+                        if (allCausesProfileList.size() > 0) {
                             Delete.table(AllCausesProfile.class);
                         }
 
@@ -240,21 +245,21 @@ public class ProfileFragment extends Fragment {
                         }
 
                         for (int i = 0; i < allCasesListBeen.size(); i++) {
-                            all = new AllCausesProfile();
+                            allCausesProfile = new AllCausesProfile();
                             if (allCasesListBeen.size() > 0) {
 
-                                all.setCaseName(allCasesListBeen.get(i).getCaseName());
-                                all.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
-                                all.setJoined(allCasesListBeen.get(i).isIsJoined());
-                                all.setOwner(allCasesListBeen.get(i).isIsOwner());
-                                all.setAmount(allCasesListBeen.get(i).getAmount());
-                                all.setCauseID(allCasesListBeen.get(i).getCauseID());
-                                all.setEndDate(allCasesListBeen.get(i).getEndDate());
-                                all.setIMG(allCasesListBeen.get(i).getIMG());
-                                all.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
-                                all.setStatus(allCasesListBeen.get(i).getStatus());
+                                allCausesProfile.setCaseName(allCasesListBeen.get(i).getCaseName());
+                                allCausesProfile.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
+                                allCausesProfile.setJoined(allCasesListBeen.get(i).isIsJoined());
+                                allCausesProfile.setOwner(allCasesListBeen.get(i).isIsOwner());
+                                allCausesProfile.setAmount(allCasesListBeen.get(i).getAmount());
+                                allCausesProfile.setCauseID(allCasesListBeen.get(i).getCauseID());
+                                allCausesProfile.setEndDate(allCasesListBeen.get(i).getEndDate());
+                                allCausesProfile.setIMG(allCasesListBeen.get(i).getIMG());
+                                allCausesProfile.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
+                                allCausesProfile.setStatus(allCasesListBeen.get(i).getStatus());
 
-                                all.save();
+                                allCausesProfile.save();
                             }
                         }
 
@@ -296,15 +301,17 @@ public class ProfileFragment extends Fragment {
                             }
                         }
 
-                        list = (new Select().from(AllCausesProfile.class).queryList());
+                        allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
                         myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
                         joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
 
                         //replace default fragment
-                        for (int a = 0; a < list.size(); a++) {
-                            AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(list.get(a));
+                        for (int a = 0; a < allCausesProfileList.size(); a++) {
+                            AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(allCausesProfileList.get(a));
                             allCausesProfileWrappers.add(allCausesProfileWrapper);
                         }
+                        replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
+
                         for (int b = 0; b < myCausesProfiles.size(); b++) {
                             MyCausesProfileWrapper myCausesProfileWrapper = new MyCausesProfileWrapper(myCausesProfiles.get(b));
                             myCausesProfileWrappers.add(myCausesProfileWrapper);
@@ -313,7 +320,6 @@ public class ProfileFragment extends Fragment {
                             JoinedCausesProfileWrapper joinedCausesProfileWrapper = new JoinedCausesProfileWrapper(joinedCasesProfiles.get(c));
                             joinedCausesProfileWrappers.add(joinedCausesProfileWrapper);
                         }
-                        replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -324,23 +330,26 @@ public class ProfileFragment extends Fragment {
             public void onFailure(Call<UserDetailsResponse> call, Throwable t) {
 
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                String UserImage = sharedPreferences.getString("UserImage", "");
                 String UserName = sharedPreferences.getString("UserName", "");
                 String Reviews = sharedPreferences.getString("Reviews", "");
                 int Causes = sharedPreferences.getInt("Causes", 0);
                 String Location = sharedPreferences.getString("Location", "");
 
+                Picasso.with(getActivity()).load(UserImage).into(image_profile);
                 username_profile.setText(UserName);
                 text_reviews_profile.setText(Reviews + " Reviews");
                 text_location_profile.setText(Location);
                 text_causes_profile.setText(Causes + " My Causes");
 
 
-                list = (new Select().from(AllCausesProfile.class).queryList());
+                allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
                 //replace default fragment
-                for (int a = 0; a < list.size(); a++) {
-                    AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(list.get(a));
+                for (int a = 0; a < allCausesProfileList.size(); a++) {
+                    AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(allCausesProfileList.get(a));
                     allCausesProfileWrappers.add(allCausesProfileWrapper);
                 }
+
                 replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
 
                 myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
@@ -374,6 +383,7 @@ public class ProfileFragment extends Fragment {
             case R.id.action_edit:
                 Intent intent = new Intent(getActivity(), EditProfileActivity.class);
                 Bundle b = new Bundle();
+                b.putString("imageURL", imageURL);
                 b.putString("Name", Name);
                 b.putString("Email", Email);
                 b.putString("mNumber", mNumber);
@@ -386,6 +396,7 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("UserID", "");
+                editor.putString("UserImage", "");
                 editor.putString("UserName", "");
                 editor.putString("Reviews", "");
                 editor.putInt("Causes", 0);
