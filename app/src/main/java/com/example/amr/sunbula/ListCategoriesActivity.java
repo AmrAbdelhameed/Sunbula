@@ -6,15 +6,21 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.Categories;
+import com.example.amr.sunbula.Models.DBFlowModels.Followers;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -31,6 +37,10 @@ public class ListCategoriesActivity extends AppCompatActivity {
     private ProgressDialog pdialog;
     List_CategoriesAdapter adapter;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
+
+    Categories categories;
+    List<Categories> categoriesList;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,8 @@ public class ListCategoriesActivity extends AppCompatActivity {
 
         mAPIService = ApiUtils.getAPIService();
 
+        FlowManager.init(ListCategoriesActivity.this);
+
         listView_allCategoriesBeen = (ListView) findViewById(R.id.list_categories);
 
         GetAllCategories(UserID);
@@ -70,15 +82,30 @@ public class ListCategoriesActivity extends AppCompatActivity {
                         AllCategoriesResponse allCategoriesResponse = response.body();
                         allCategoriesBeen = allCategoriesResponse.getAllCategories();
 
-                        Gson gson = new Gson();
-                        String jsonCategories = gson.toJson(allCategoriesBeen);
+                        categoriesList = (new Select().from(Categories.class).queryList());
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("AllCategories", jsonCategories);
-                        editor.apply();
+                        if (categoriesList.size() > 0) {
+                            Delete.table(Categories.class);
+                        }
 
-                        adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, allCategoriesBeen);
+                        for (int i = 0; i < allCategoriesBeen.size(); i++) {
+                            categories = new Categories();
+                            if (allCategoriesBeen.size() > 0) {
+
+                                categories.setCategoryID(allCategoriesBeen.get(i).getCategoryID());
+                                categories.setCategoryName(allCategoriesBeen.get(i).getCategoryName());
+                                categories.setCategoryDescription(allCategoriesBeen.get(i).getCategoryDescription());
+                                categories.setDateCreated(allCategoriesBeen.get(i).getDateCreated());
+                                gson = new Gson();
+                                String jsonCauses = gson.toJson(allCategoriesBeen.get(i).getAllCases());
+                                categories.setAllCauses(jsonCauses);
+
+                                categories.save();
+                            }
+                        }
+
+                        categoriesList = (new Select().from(Categories.class).queryList());
+                        adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, categoriesList);
                         listView_allCategoriesBeen.setAdapter(adapter);
 
                     } else
@@ -89,17 +116,16 @@ public class ListCategoriesActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
+
+                categoriesList = (new Select().from(Categories.class).queryList());
+
+                if (categoriesList.size() > 0) {
+                    adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, categoriesList);
+                    listView_allCategoriesBeen.setAdapter(adapter);
+                } else {
+                    Toast.makeText(ListCategoriesActivity.this, "No Data", Toast.LENGTH_SHORT).show();
+                }
                 Toast.makeText(ListCategoriesActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
-                SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                String jsonCategories = sharedPreferences.getString("AllCategories", "");
-
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<AllCategoriesResponse.AllCategoriesBean>>() {
-                }.getType();
-                allCategoriesBeen = gson.fromJson(jsonCategories, type);
-                adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, allCategoriesBeen);
-                listView_allCategoriesBeen.setAdapter(adapter);
-
                 pdialog.dismiss();
             }
         });

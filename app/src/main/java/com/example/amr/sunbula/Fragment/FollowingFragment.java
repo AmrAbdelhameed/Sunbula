@@ -103,6 +103,8 @@ public class FollowingFragment extends Fragment {
                             }
                         }
 
+                        followings = (new Select().from(Following.class).queryList());
+
                         for (int i = 0; i < followings.size(); i++) {
                             listofPepoleFollowingBeen.add(followings.get(i).getName());
                         }

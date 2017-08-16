@@ -111,6 +111,8 @@ public class ReviewsFragment extends Fragment {
                             }
                         }
 
+                        reviewsList = (new Select().from(Reviews.class).queryList());
+
                         for (int i = 0; i < reviewsList.size(); i++) {
                             list_reviewsBeen.add(reviewsList.get(i).getReviewBody());
                         }

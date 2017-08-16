@@ -12,27 +12,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.example.amr.sunbula.CausesInOneCategoryActivity;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.Categories;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.SwipeLayout;
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class List_CategoriesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCategoriesBean> {
+public class List_CategoriesAdapter extends ArrayAdapter<Categories> {
 
     private Context activity;
-    private List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
-    private List<AllCategoriesResponse.AllCategoriesBean.AllCasesBean> allCasesBeen;
+    private List<Categories> allCategoriesBeen;
     private int resource;
 
-    public List_CategoriesAdapter(Context context, int resource, List<AllCategoriesResponse.AllCategoriesBean> objects) {
+    public List_CategoriesAdapter(Context context, int resource, List<Categories> objects) {
         super(context, resource);
         this.activity = context;
         this.resource = resource;
         this.allCategoriesBeen = objects;
-        allCasesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean.AllCasesBean>();
     }
 
     @Override
@@ -41,7 +42,7 @@ public class List_CategoriesAdapter extends ArrayAdapter<AllCategoriesResponse.A
     }
 
     @Override
-    public AllCategoriesResponse.AllCategoriesBean getItem(int position) {
+    public Categories getItem(int position) {
         return allCategoriesBeen.get(position);
     }
 
@@ -88,17 +89,13 @@ public class List_CategoriesAdapter extends ArrayAdapter<AllCategoriesResponse.A
 
                         // put the button action here
                         if (holder.buttonHead2.isPressed()) {
-                            allCasesBeen = allCategoriesBeen.get(position).getAllCases();
                             Intent GOTOCauses = new Intent(activity, CausesInOneCategoryActivity.class);
                             Bundle bundle = new Bundle();
-                            Gson gson = new Gson();
-                            String jsonCars = gson.toJson(allCasesBeen);
                             bundle.putString("NameCategory", allCategoriesBeen.get(position).getCategoryName());
-                            bundle.putString("Causes", jsonCars);
+                            bundle.putString("Causes", allCategoriesBeen.get(position).getAllCauses());
                             GOTOCauses.putExtras(bundle);
                             activity.startActivity(GOTOCauses);
                         }
-
                         holder.mSwipe.computeVelocityTracker();
                         holder.mSwipe.doReset();
                         holder.mSwipe.releaseTracker();
