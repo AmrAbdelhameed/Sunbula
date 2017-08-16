@@ -49,6 +49,7 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
         allCasesBeanList = gson.fromJson(JsonCauses, type);
 
         list_causesAdapter = new List_CausesAdapter(CausesInOneCategoryActivity.this, R.layout.item_in_causes, allCasesBeanList);
+        listView_causesInCategroied.setDivider(null);
         listView_causesInCategroied.setAdapter(list_causesAdapter);
 
     }

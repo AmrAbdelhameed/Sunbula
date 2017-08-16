@@ -39,6 +39,7 @@ import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Reviews_Following_FollowersActivity;
+import com.example.amr.sunbula.SearchCauses_People;
 import com.facebook.login.LoginManager;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -82,6 +83,7 @@ public class ProfileFragment extends Fragment {
     de.hdodenhof.circleimageview.CircleImageView image_profile;
 
     String UserID, Name, Email, mNumber, Address, Gender, imageURL;
+    boolean check_con = false;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -111,8 +113,11 @@ public class ProfileFragment extends Fragment {
         btn_add_cause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AddCauseActivity.class);
-                startActivity(i);
+                if (check_con) {
+                    Intent i = new Intent(getActivity(), AddCauseActivity.class);
+                    startActivity(i);
+                } else
+                    Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -197,7 +202,7 @@ public class ProfileFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-
+                        check_con = true;
                         Name = response.body().getName();
                         Email = response.body().getEMail();
                         mNumber = response.body().getMobileNumber();
@@ -384,16 +389,19 @@ public class ProfileFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_edit:
-                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putString("imageURL", imageURL);
-                b.putString("Name", Name);
-                b.putString("Email", Email);
-                b.putString("mNumber", mNumber);
-                b.putString("Address", Address);
-                b.putString("Gender", Gender);
-                intent.putExtras(b);
-                startActivity(intent);
+                if (check_con) {
+                    Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("imageURL", imageURL);
+                    b.putString("Name", Name);
+                    b.putString("Email", Email);
+                    b.putString("mNumber", mNumber);
+                    b.putString("Address", Address);
+                    b.putString("Gender", Gender);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                } else
+                    Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_logout:
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);

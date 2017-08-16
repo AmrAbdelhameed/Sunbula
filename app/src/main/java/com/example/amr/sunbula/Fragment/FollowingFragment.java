@@ -13,12 +13,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.Following;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.ShowDetailsUserActivity;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -39,6 +40,9 @@ public class FollowingFragment extends Fragment {
     APIService mAPIService;
     List<String> listofPepoleFollowingBeen;
     private ProgressDialog pdialog;
+
+    Following following;
+    List<Following> followings;
 
     public FollowingFragment() {
 
@@ -62,6 +66,8 @@ public class FollowingFragment extends Fragment {
 
         mAPIService = ApiUtils.getAPIService();
 
+        FlowManager.init(getActivity());
+
         list_following = (ListView) v.findViewById(R.id.list_item_following);
 
         ListofPepolePost(UserID);
@@ -80,17 +86,27 @@ public class FollowingFragment extends Fragment {
 
                         ListofPepoleResponse listofPepoleResponse = response.body();
 
-                        for (int i = 0; i < listofPepoleResponse.getListofPepoleFollowing().size(); i++) {
-                            listofPepoleFollowingBeen.add(listofPepoleResponse.getListofPepoleFollowing().get(i).getName());
+                        followings = (new Select().from(Following.class).queryList());
+
+                        if (followings.size() > 0) {
+                            Delete.table(Following.class);
                         }
 
-                        Gson gson = new Gson();
-                        String jsonFollowing = gson.toJson(listofPepoleFollowingBeen);
+                        for (int i = 0; i < listofPepoleResponse.getListofPepoleFollowing().size(); i++) {
+                            following = new Following();
+                            if (listofPepoleResponse.getListofPepoleFollowing().size() > 0) {
 
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("AllFollowing", jsonFollowing);
-                        editor.apply();
+                                following.setFollowID(listofPepoleResponse.getListofPepoleFollowing().get(i).getFollowID());
+                                following.setName(listofPepoleResponse.getListofPepoleFollowing().get(i).getName());
+
+                                following.save();
+                            }
+                        }
+
+                        for (int i = 0; i < followings.size(); i++) {
+                            listofPepoleFollowingBeen.add(followings.get(i).getName());
+                        }
+
 
                         arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowingBeen);
                         list_following.setAdapter(arrayAdapter);
@@ -102,15 +118,20 @@ public class FollowingFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ListofPepoleResponse> call, Throwable t) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                String jsonFollowing = sharedPreferences.getString("AllFollowing", "");
 
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<String>>() {
-                }.getType();
-                listofPepoleFollowingBeen = gson.fromJson(jsonFollowing, type);
-                arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowingBeen);
-                list_following.setAdapter(arrayAdapter);
+                followings = (new Select().from(Following.class).queryList());
+
+                if (followings.size() > 0) {
+                    for (int i = 0; i < followings.size(); i++) {
+                        listofPepoleFollowingBeen.add(followings.get(i).getName());
+                    }
+
+                    arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowingBeen);
+                    list_following.setAdapter(arrayAdapter);
+                } else {
+                    Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
+                }
+
                 Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }

@@ -41,6 +41,7 @@ public class JoinedcausesProfileFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.list_item_joined);
 
         adapter = new JoinedCases_inProfileFragmentAdapter(getActivity(), joinedCasesProfiles);
+        listView.setDivider(null);
         listView.setAdapter(adapter);
 
         return v;

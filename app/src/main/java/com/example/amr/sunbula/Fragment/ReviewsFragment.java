@@ -18,12 +18,16 @@ import com.example.amr.sunbula.ListCategoriesActivity;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.GetAllReviewsResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.Reviews;
 import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -44,6 +48,9 @@ public class ReviewsFragment extends Fragment {
     APIService mAPIService;
     List<String> list_reviewsBeen;
     private ProgressDialog pdialog;
+
+    Reviews reviews;
+    List<Reviews> reviewsList;
 
     public ReviewsFragment() {
     }
@@ -66,6 +73,8 @@ public class ReviewsFragment extends Fragment {
 
         mAPIService = ApiUtils.getAPIService();
 
+        FlowManager.init(getActivity());
+
         list_reviews = (ListView) v.findViewById(R.id.list_item_reviews);
         GetAllReviewsPost(UserID);
         return v;
@@ -83,16 +92,28 @@ public class ReviewsFragment extends Fragment {
 
                         GetAllReviewsResponse listofPepoleResponse = response.body();
 
-                        for (int i = 0; i < listofPepoleResponse.getAllUsersReview().size(); i++) {
-                            list_reviewsBeen.add(listofPepoleResponse.getAllUsersReview().get(i).getReviewBody());
-                        }
-                        Gson gson = new Gson();
-                        String jsonReviews = gson.toJson(list_reviewsBeen);
+                        reviewsList = (new Select().from(Reviews.class).queryList());
 
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("AllReviews", jsonReviews);
-                        editor.apply();
+                        if (reviewsList.size() > 0) {
+                            Delete.table(Reviews.class);
+                        }
+
+                        for (int i = 0; i < listofPepoleResponse.getAllUsersReview().size(); i++) {
+                            reviews = new Reviews();
+                            if (listofPepoleResponse.getAllUsersReview().size() > 0) {
+
+                                reviews.setReviewID(listofPepoleResponse.getAllUsersReview().get(i).getReviewID());
+                                reviews.setReviedPerson(listofPepoleResponse.getAllUsersReview().get(i).getReviedPerson());
+                                reviews.setReviewBody(listofPepoleResponse.getAllUsersReview().get(i).getReviewBody());
+                                reviews.setReviewStar(listofPepoleResponse.getAllUsersReview().get(i).getReviewStar());
+
+                                reviews.save();
+                            }
+                        }
+
+                        for (int i = 0; i < reviewsList.size(); i++) {
+                            list_reviewsBeen.add(reviewsList.get(i).getReviewBody());
+                        }
 
                         arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_reviewsBeen);
                         list_reviews.setAdapter(arrayAdapter);
@@ -104,15 +125,20 @@ public class ReviewsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<GetAllReviewsResponse> call, Throwable t) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                String jsonReviews = sharedPreferences.getString("AllReviews", "");
 
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<String>>() {
-                }.getType();
-                list_reviewsBeen = gson.fromJson(jsonReviews, type);
-                arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_reviewsBeen);
-                list_reviews.setAdapter(arrayAdapter);
+                reviewsList = (new Select().from(Reviews.class).queryList());
+
+                if (reviewsList.size() > 0) {
+                    for (int i = 0; i < reviewsList.size(); i++) {
+                        list_reviewsBeen.add(reviewsList.get(i).getReviewBody());
+                    }
+
+                    arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_reviewsBeen);
+                    list_reviews.setAdapter(arrayAdapter);
+                } else {
+                    Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
+                }
+
                 Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }

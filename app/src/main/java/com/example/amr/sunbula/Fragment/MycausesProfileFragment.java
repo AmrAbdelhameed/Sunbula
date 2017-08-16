@@ -37,6 +37,7 @@ public class MycausesProfileFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.list_item_mycauses);
 
         adapter = new MyCauses_inProfileFragmentAdapter(getActivity(), myCasesBeanList);
+        listView.setDivider(null);
         listView.setAdapter(adapter);
 
         return v;

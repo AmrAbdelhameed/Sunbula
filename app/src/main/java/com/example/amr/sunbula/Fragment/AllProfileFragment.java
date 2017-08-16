@@ -37,6 +37,7 @@ public class AllProfileFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.list_item_all);
 
         adapter = new All_inProfileFragmentAdapter(getActivity(), allCasesListBeen);
+        listView.setDivider(null);
         listView.setAdapter(adapter);
 
         return v;

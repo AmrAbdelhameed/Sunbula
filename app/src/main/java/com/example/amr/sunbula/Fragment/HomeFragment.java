@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     List<NewsFeedWrapper> newsFeedWrappers;
     List<NewsfeedResponse.MyANDJoinedCasesListBean> myANDJoinedCasesListBeen;
     List<NewsfeedResponse.FollowingCassesListBean> followingCassesListBeen;
+    boolean check_con = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,6 +94,7 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<NewsfeedResponse> call, Response<NewsfeedResponse> response) {
 
                 if (response.isSuccessful()) {
+                    check_con = true;
                     myANDJoinedCasesListBeen = new ArrayList<NewsfeedResponse.MyANDJoinedCasesListBean>();
                     followingCassesListBeen = new ArrayList<NewsfeedResponse.FollowingCassesListBean>();
 
@@ -149,6 +151,7 @@ public class HomeFragment extends Fragment {
                         newsFeedWrappers.add(newsFeedWrapper);
                     }
                     adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
+                    listView.setDivider(null);
                     listView.setAdapter(adapter);
                 }
                 pdialog.dismiss();
@@ -165,6 +168,7 @@ public class HomeFragment extends Fragment {
                         newsFeedWrappers.add(newsFeedWrapper);
                     }
                     adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
+                    listView.setDivider(null);
                     listView.setAdapter(adapter);
                 } else {
                     Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
@@ -187,8 +191,11 @@ public class HomeFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_search:
-                Intent intent = new Intent(getActivity(), SearchCauses_People.class);
-                startActivity(intent);
+                if (check_con) {
+                    Intent intent = new Intent(getActivity(), SearchCauses_People.class);
+                    startActivity(intent);
+                } else
+                    Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
