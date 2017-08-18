@@ -189,7 +189,6 @@ public class ProfileFragment extends Fragment {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-
         transaction.commit();
     }
 
@@ -203,13 +202,14 @@ public class ProfileFragment extends Fragment {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         check_con = true;
+
                         Name = response.body().getName();
                         Email = response.body().getEMail();
                         mNumber = response.body().getMobileNumber();
                         Address = response.body().getAddress();
                         Gender = response.body().getGender();
-
                         imageURL = response.body().getImgURL();
+
                         Picasso.with(getActivity()).load(imageURL).into(image_profile);
                         username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");

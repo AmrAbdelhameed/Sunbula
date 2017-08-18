@@ -96,6 +96,7 @@ public class ListCategoriesActivity extends AppCompatActivity {
                                 categories.setCategoryName(allCategoriesBeen.get(i).getCategoryName());
                                 categories.setCategoryDescription(allCategoriesBeen.get(i).getCategoryDescription());
                                 categories.setDateCreated(allCategoriesBeen.get(i).getDateCreated());
+
                                 gson = new Gson();
                                 String jsonCauses = gson.toJson(allCategoriesBeen.get(i).getAllCases());
                                 categories.setAllCauses(jsonCauses);
