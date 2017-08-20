@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -9,11 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,22 +22,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Fragment.AllProfileFragment;
-import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
-import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
-import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
-import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
-import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
+import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
+import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.Select;
+import com.example.amr.sunbula.Utility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,10 +48,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddCauseActivity extends AppCompatActivity {
+public class EditCauseActivity extends AppCompatActivity {
 
     TextView txt_calender;
-    EditText txt_add_description_addcause, name_addcause, amount_addcause;
+    EditText txt_add_description_editcause, name_editcause, amount_editcause;
     ArrayList<String> CategoriesNames_in_AddCause;
     ArrayList<String> CategoriesIDs_in_AddCause;
     String GetID = "";
@@ -70,35 +64,36 @@ public class AddCauseActivity extends AppCompatActivity {
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
     Bitmap bitmap = null;
-    de.hdodenhof.circleimageview.CircleImageView image_addcause;
+    de.hdodenhof.circleimageview.CircleImageView image_editcause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_cause);
+        setContentView(R.layout.activity_edit_cause);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addcause);
-        toolbar.setTitle("Add Cause");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_edit_cause);
+        toolbar.setTitle("Edit Cause");
         setSupportActionBar(toolbar);
 
-        pdialog = new ProgressDialog(AddCauseActivity.this);
+        pdialog = new ProgressDialog(EditCauseActivity.this);
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
 
-        txt_add_description_addcause = (EditText) findViewById(R.id.txt_add_description_addcause);
-        amount_addcause = (EditText) findViewById(R.id.amount_addcause);
-        name_addcause = (EditText) findViewById(R.id.name_addcause);
+        txt_add_description_editcause = (EditText) findViewById(R.id.txt_add_description_editcause);
+        amount_editcause = (EditText) findViewById(R.id.amount_editcause);
+        name_editcause = (EditText) findViewById(R.id.name_editcause);
+        txt_calender = (TextView) findViewById(R.id.txt_calender_edit);
 
-        SharedPreferences sharedPreferences = AddCauseActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = EditCauseActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
 
         myCalendar = Calendar.getInstance();
-        image_addcause = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.image_addcause);
+        image_editcause = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.image_editcause);
 
-        image_addcause.setOnClickListener(new View.OnClickListener() {
+        image_editcause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectImage();
@@ -119,13 +114,24 @@ public class AddCauseActivity extends AppCompatActivity {
 
         };
 
-        txt_calender = (TextView) findViewById(R.id.txt_calender);
-        txt_calender.setText("End date");
+        Intent in = getIntent();
+        Bundle b = in.getExtras();
+        String CauseID = b.getString("CauseID");
+        String Name = b.getString("Name");
+        int Amount = b.getInt("Amount");
+        String EndDate = b.getString("EndDate");
+        String CauseDescription = b.getString("CauseDescription");
+
+        txt_add_description_editcause.setText(CauseDescription);
+        name_editcause.setText(Name);
+        amount_editcause.setText(String.valueOf(Amount));
+        txt_calender.setText(EndDate);
+        Toast.makeText(this, CauseID, Toast.LENGTH_SHORT).show();
 
         txt_calender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(AddCauseActivity.this, date, myCalendar
+                new DatePickerDialog(EditCauseActivity.this, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -139,7 +145,7 @@ public class AddCauseActivity extends AppCompatActivity {
 
         GetAllCategories(UserID);
 
-        Spinner staticSpinner = (Spinner) findViewById(R.id.spinner_Categories);
+        Spinner staticSpinner = (Spinner) findViewById(R.id.spinner_EditCategories);
 
         // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter staticAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CategoriesNames_in_AddCause);
@@ -157,7 +163,7 @@ public class AddCauseActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetID = CategoriesIDs_in_AddCause.get(position);
-//                    Toast.makeText(AddCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -190,12 +196,12 @@ public class AddCauseActivity extends AppCompatActivity {
         final CharSequence[] items = {"From Camera", "From Library",
                 "Cancel"};
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddCauseActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditCauseActivity.this);
         builder.setTitle("Add Photo");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                boolean result = Utility.checkPermission(AddCauseActivity.this);
+                boolean result = Utility.checkPermission(EditCauseActivity.this);
 
                 if (items[item].equals("From Camera")) {
                     userChoosenTask = "From Camera";
@@ -259,7 +265,7 @@ public class AddCauseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         bitmap = thumbnail;
-        image_addcause.setImageBitmap(thumbnail);
+        image_editcause.setImageBitmap(thumbnail);
     }
 
     @SuppressWarnings("deprecation")
@@ -274,7 +280,7 @@ public class AddCauseActivity extends AppCompatActivity {
             }
         }
         bitmap = bm;
-        image_addcause.setImageBitmap(bm);
+        image_editcause.setImageBitmap(bm);
     }
 
     private void updateLabel() {
@@ -305,40 +311,39 @@ public class AddCauseActivity extends AppCompatActivity {
                             CategoriesNames_in_AddCause.add(allCategoriesBeen.get(i).getCategoryName());
                         }
                     } else
-                        Toast.makeText(AddCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                     pdialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
-                Toast.makeText(AddCauseActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });
     }
 
-    public void AddCause(String name, String amount, String catID, String end_date, String cause_desc, String user_id) {
+    public void EditCause(String cause_id, String name, String amount, String cat_id, String end_date, String cat_desc) {
         pdialog.show();
-        mAPIService.AddCause(name, amount, catID, end_date, cause_desc, 1, user_id).enqueue(new Callback<AddCauseResponse>() {
+        mAPIService.EditCause(cause_id, name, amount, cat_id, end_date, cat_desc, 1).enqueue(new Callback<EditCauseResponse>() {
 
             @Override
-            public void onResponse(Call<AddCauseResponse> call, Response<AddCauseResponse> response) {
+            public void onResponse(Call<EditCauseResponse> call, Response<EditCauseResponse> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         {
-                            Toast.makeText(AddCauseActivity.this, "Added cause successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCauseActivity.this, "Updated cause successfully", Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     } else
-                        Toast.makeText(AddCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                     pdialog.dismiss();
                 }
             }
 
             @Override
-            public void onFailure(Call<AddCauseResponse> call, Throwable t) {
+            public void onFailure(Call<EditCauseResponse> call, Throwable t) {
                 pdialog.dismiss();
             }
         });
@@ -354,21 +359,16 @@ public class AddCauseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_addcause) {
-            if (name_addcause.getText().toString().isEmpty()) {
-                name_addcause.setError("enter here");
-            }
-            if (amount_addcause.getText().toString().isEmpty()) {
-                amount_addcause.setError("enter here");
-            }
-            if (GetID.equals(""))
-                Toast.makeText(this, "Please select category", Toast.LENGTH_SHORT).show();
-            if (txt_calender.getText().toString().equals("End date"))
-                Toast.makeText(this, "Please select End date", Toast.LENGTH_SHORT).show();
-            if (txt_add_description_addcause.getText().toString().isEmpty())
-                txt_add_description_addcause.setError("enter here");
+            if (txt_add_description_editcause.getText().toString().isEmpty())
+                txt_add_description_editcause.setError("enter here");
+            if (name_editcause.getText().toString().isEmpty())
+                name_editcause.setError("enter here");
+            if (amount_editcause.getText().toString().isEmpty())
+                amount_editcause.setError("enter here");
             else {
-                AddCause(name_addcause.getText().toString(), amount_addcause.getText().toString(), GetID,
-                        txt_calender.getText().toString(), txt_add_description_addcause.getText().toString(), UserID);
+                Toast.makeText(this, "M3lsh", Toast.LENGTH_SHORT).show();
+//                EditCause(name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
+//                        txt_calender.getText().toString(), txt_add_description_editcause.getText().toString(), UserID);
             }
             return true;
         }

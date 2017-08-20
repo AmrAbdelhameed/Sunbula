@@ -13,14 +13,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.amr.sunbula.CausesInOneCategoryActivity;
-import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Activities.CausesInOneCategoryActivity;
 import com.example.amr.sunbula.Models.DBFlowModels.Categories;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.SwipeLayout;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class List_CategoriesAdapter extends ArrayAdapter<Categories> {

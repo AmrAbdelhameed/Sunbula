@@ -15,10 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.EditCauseActivity;
+import com.example.amr.sunbula.Activities.EditCauseActivity;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
-import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
-import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowWrappers.MyCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;

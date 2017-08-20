@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.amr.sunbula.R;
 
 public class SplashActivity extends AppCompatActivity {
 

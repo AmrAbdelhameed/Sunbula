@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,7 @@ import com.example.amr.sunbula.Fragment.FollowingFragment;
 import com.example.amr.sunbula.Fragment.JoinedcausesProfileFragment;
 import com.example.amr.sunbula.Fragment.MycausesProfileFragment;
 import com.example.amr.sunbula.Fragment.ReviewsFragment;
+import com.example.amr.sunbula.R;
 
 public class Reviews_Following_FollowersActivity extends AppCompatActivity {
 

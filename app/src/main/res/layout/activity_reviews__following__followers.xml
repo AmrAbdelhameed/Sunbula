@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context="com.example.amr.sunbula.Reviews_Following_FollowersActivity">
+    tools:context="com.example.amr.sunbula.Activities.Reviews_Following_FollowersActivity">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

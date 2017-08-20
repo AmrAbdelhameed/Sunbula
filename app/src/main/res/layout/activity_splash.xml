@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context="com.example.amr.sunbula.SplashActivity">
+    tools:context="com.example.amr.sunbula.Activities.SplashActivity">
 
     <ImageView
         android:id="@+id/image_splash"

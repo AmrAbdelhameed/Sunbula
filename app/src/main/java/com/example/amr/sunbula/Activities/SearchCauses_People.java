@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -16,6 +16,7 @@ import com.example.amr.sunbula.Adapters.SearchCauses_Adapter;
 import com.example.amr.sunbula.Adapters.SearchPeople_Adapter;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
+import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 

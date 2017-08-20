@@ -13,15 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
-import com.example.amr.sunbula.ListCategoriesActivity;
 import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.SearchCauses_People;
-import com.raizlabs.android.dbflow.config.FlowManager;
+import com.example.amr.sunbula.Activities.SearchCauses_People;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -73,8 +71,6 @@ public class HomeFragment extends Fragment {
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
-
-        FlowManager.init(getActivity());
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");

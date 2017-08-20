@@ -65,8 +65,6 @@ public class FollowersFragment extends Fragment {
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
-        
-        FlowManager.init(getActivity());
 
         list_followers = (ListView) v.findViewById(R.id.list_item_followers);
 

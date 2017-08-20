@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -6,23 +6,19 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.Categories;
-import com.example.amr.sunbula.Models.DBFlowModels.Followers;
+import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,8 +58,6 @@ public class ListCategoriesActivity extends AppCompatActivity {
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
-
-        FlowManager.init(ListCategoriesActivity.this);
 
         listView_allCategoriesBeen = (ListView) findViewById(R.id.list_categories);
 

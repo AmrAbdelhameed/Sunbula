@@ -12,24 +12,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Adapters.All_inProfileFragmentAdapter;
-import com.example.amr.sunbula.Adapters.List_CategoriesAdapter;
-import com.example.amr.sunbula.ListCategoriesActivity;
-import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.GetAllReviewsResponse;
-import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.Reviews;
-import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +62,6 @@ public class ReviewsFragment extends Fragment {
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
-
-        FlowManager.init(getActivity());
 
         list_reviews = (ListView) v.findViewById(R.id.list_item_reviews);
         GetAllReviewsPost(UserID);

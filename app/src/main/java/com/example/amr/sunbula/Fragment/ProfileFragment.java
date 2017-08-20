@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,16 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.AddCauseActivity;
-import com.example.amr.sunbula.EditProfileActivity;
-import com.example.amr.sunbula.ListCategoriesActivity;
-import com.example.amr.sunbula.LoginActivity;
+import com.example.amr.sunbula.Activities.AddCauseActivity;
+import com.example.amr.sunbula.Activities.EditProfileActivity;
+import com.example.amr.sunbula.Activities.ListCategoriesActivity;
+import com.example.amr.sunbula.Activities.LoginActivity;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.Categories;
@@ -38,14 +35,11 @@ import com.example.amr.sunbula.Models.DBFlowModels.Reviews;
 import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.Models.DBFlowWrappers.JoinedCausesProfileWrapper;
 import com.example.amr.sunbula.Models.DBFlowWrappers.MyCausesProfileWrapper;
-import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.Reviews_Following_FollowersActivity;
-import com.example.amr.sunbula.SearchCauses_People;
+import com.example.amr.sunbula.Activities.Reviews_Following_FollowersActivity;
 import com.facebook.login.LoginManager;
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.squareup.picasso.Picasso;
@@ -132,8 +126,6 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
-
-        FlowManager.init(getActivity());
 
         mAPIService = ApiUtils.getAPIService();
 

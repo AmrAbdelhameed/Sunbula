@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import com.example.amr.sunbula.Fragment.NotificationsFragment;
 import com.example.amr.sunbula.Fragment.HomeFragment;
 import com.example.amr.sunbula.Fragment.ProfileFragment;
 import com.example.amr.sunbula.Fragment.MessagesFragment;
+import com.example.amr.sunbula.R;
 
 public class HomeActivity extends AppCompatActivity {
 

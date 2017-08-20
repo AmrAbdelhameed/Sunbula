@@ -15,20 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.ConfirmEmailActivity;
-import com.example.amr.sunbula.EditCauseActivity;
-import com.example.amr.sunbula.LoginActivity;
+import com.example.amr.sunbula.Activities.EditCauseActivity;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
-import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
-import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
-import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.SearchCauses_People;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

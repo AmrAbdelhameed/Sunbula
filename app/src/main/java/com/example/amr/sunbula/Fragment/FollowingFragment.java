@@ -66,8 +66,6 @@ public class FollowingFragment extends Fragment {
 
         mAPIService = ApiUtils.getAPIService();
 
-        FlowManager.init(getActivity());
-
         list_following = (ListView) v.findViewById(R.id.list_item_following);
 
         ListofPepolePost(UserID);

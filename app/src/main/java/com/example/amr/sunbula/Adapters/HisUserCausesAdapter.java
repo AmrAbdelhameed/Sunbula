@@ -14,12 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
-import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.ShowDetailsUserActivity;
 
 import java.util.List;
 

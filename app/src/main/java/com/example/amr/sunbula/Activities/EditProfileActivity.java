@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -27,8 +27,10 @@ import android.widget.Toast;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditProfileResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
+import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.example.amr.sunbula.Utility;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;

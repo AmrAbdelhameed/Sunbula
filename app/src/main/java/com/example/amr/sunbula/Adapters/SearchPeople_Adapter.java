@@ -11,12 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.amr.sunbula.ConfirmEmailActivity;
-import com.example.amr.sunbula.LoginActivity;
-import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.R;
-import com.example.amr.sunbula.ShowDetailsUserActivity;
+import com.example.amr.sunbula.Activities.ShowDetailsUserActivity;
 
 import java.util.List;
 

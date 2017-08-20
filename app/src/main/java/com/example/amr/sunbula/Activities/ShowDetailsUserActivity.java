@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,7 @@ import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.UNFollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
+import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.squareup.picasso.Picasso;
