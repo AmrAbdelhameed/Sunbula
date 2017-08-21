@@ -21,8 +21,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image_user_cause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_50dp"
+        android:layout_height="@dimen/_50dp"
         android:layout_marginLeft="@dimen/_8dp"
         android:layout_marginTop="@dimen/_8dp"
         android:src="@drawable/avatar_1"
@@ -83,7 +83,7 @@
         android:layout_marginTop="@dimen/_8dp"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
         android:textColor="@color/tab_enable"
-        android:textSize="@dimen/_11sp"
+        android:textSize="@dimen/_12sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/view2"
         app:layout_constraintRight_toRightOf="parent"
@@ -180,6 +180,7 @@
         android:text="Donate"
         android:textAllCaps="false"
         android:textColor="@color/colorAccent"
+        android:textSize="@dimen/_20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/view2"
