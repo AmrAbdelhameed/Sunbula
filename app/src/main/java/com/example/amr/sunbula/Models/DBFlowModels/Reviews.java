@@ -20,19 +20,15 @@ public class Reviews extends BaseModel {
     private long id; // package-private recommended, not required
 
     @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String ReviewBody;
 
     @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String ReviewStar;
 
     @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String ReviewID;
 
     @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String ReviedPerson;
 
     public long getId() {

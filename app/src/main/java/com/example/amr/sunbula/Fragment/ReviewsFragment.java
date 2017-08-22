@@ -80,33 +80,36 @@ public class ReviewsFragment extends Fragment {
 
                         GetAllReviewsResponse listofPepoleResponse = response.body();
 
-                        reviewsList = (new Select().from(Reviews.class).queryList());
+                        if (listofPepoleResponse.getAllUsersReview().size() > 0) {
 
-                        if (reviewsList.size() > 0) {
-                            Delete.table(Reviews.class);
-                        }
+                            reviewsList = (new Select().from(Reviews.class).queryList());
 
-                        for (int i = 0; i < listofPepoleResponse.getAllUsersReview().size(); i++) {
-                            reviews = new Reviews();
-                            if (listofPepoleResponse.getAllUsersReview().size() > 0) {
-
-                                reviews.setReviewID(listofPepoleResponse.getAllUsersReview().get(i).getReviewID());
-                                reviews.setReviedPerson(listofPepoleResponse.getAllUsersReview().get(i).getReviedPerson());
-                                reviews.setReviewBody(listofPepoleResponse.getAllUsersReview().get(i).getReviewBody());
-                                reviews.setReviewStar(listofPepoleResponse.getAllUsersReview().get(i).getReviewStar());
-
-                                reviews.save();
+                            if (reviewsList.size() > 0) {
+                                Delete.table(Reviews.class);
                             }
+
+                            for (int i = 0; i < listofPepoleResponse.getAllUsersReview().size(); i++) {
+                                reviews = new Reviews();
+                                if (listofPepoleResponse.getAllUsersReview().size() > 0) {
+
+                                    reviews.setReviewID(listofPepoleResponse.getAllUsersReview().get(i).getReviewID());
+                                    reviews.setReviedPerson(listofPepoleResponse.getAllUsersReview().get(i).getReviedPerson());
+                                    reviews.setReviewBody(listofPepoleResponse.getAllUsersReview().get(i).getReviewBody());
+                                    reviews.setReviewStar(listofPepoleResponse.getAllUsersReview().get(i).getReviewStar());
+
+                                    reviews.save();
+                                }
+                            }
+
+                            reviewsList = (new Select().from(Reviews.class).queryList());
+
+                            for (int i = 0; i < reviewsList.size(); i++) {
+                                list_reviewsBeen.add(reviewsList.get(i).getReviewBody());
+                            }
+
+                            arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_reviewsBeen);
+                            list_reviews.setAdapter(arrayAdapter);
                         }
-
-                        reviewsList = (new Select().from(Reviews.class).queryList());
-
-                        for (int i = 0; i < reviewsList.size(); i++) {
-                            list_reviewsBeen.add(reviewsList.get(i).getReviewBody());
-                        }
-
-                        arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_reviewsBeen);
-                        list_reviews.setAdapter(arrayAdapter);
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

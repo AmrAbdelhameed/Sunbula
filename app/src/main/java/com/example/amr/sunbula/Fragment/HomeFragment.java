@@ -91,64 +91,69 @@ public class HomeFragment extends Fragment {
 
                 if (response.isSuccessful()) {
                     check_con = true;
-                    myANDJoinedCasesListBeen = new ArrayList<NewsfeedResponse.MyANDJoinedCasesListBean>();
-                    followingCassesListBeen = new ArrayList<NewsfeedResponse.FollowingCassesListBean>();
 
                     NewsfeedResponse newsfeedResponse = response.body();
-                    myANDJoinedCasesListBeen = newsfeedResponse.getMyANDJoinedCasesList();
-                    followingCassesListBeen = newsfeedResponse.getFollowingCassesList();
 
-                    list = (new Select().from(NewsFeed.class).queryList());
 
-                    if (list.size() > 0) {
-                        Delete.table(NewsFeed.class);
-                    }
+                    if (newsfeedResponse.getMyANDJoinedCasesList().size() > 0 || newsfeedResponse.getFollowingCassesList().size() > 0) {
+                        myANDJoinedCasesListBeen = new ArrayList<NewsfeedResponse.MyANDJoinedCasesListBean>();
+                        followingCassesListBeen = new ArrayList<NewsfeedResponse.FollowingCassesListBean>();
 
-                    for (int i = 0; i < myANDJoinedCasesListBeen.size(); i++) {
-                        n = new NewsFeed();
-                        if (myANDJoinedCasesListBeen.size() > 0) {
+                        myANDJoinedCasesListBeen = newsfeedResponse.getMyANDJoinedCasesList();
+                        followingCassesListBeen = newsfeedResponse.getFollowingCassesList();
 
-                            n.setCaseName(myANDJoinedCasesListBeen.get(i).getCaseName());
-                            n.setCaseDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
-                            n.setJoined(myANDJoinedCasesListBeen.get(i).isIsJoined());
-                            n.setOwner(myANDJoinedCasesListBeen.get(i).isIsOwner());
-                            n.setAmount(myANDJoinedCasesListBeen.get(i).getAmount());
-                            n.setCauseID(myANDJoinedCasesListBeen.get(i).getCauseID());
-                            n.setEndDate(myANDJoinedCasesListBeen.get(i).getEndDate());
-                            n.setIMG(myANDJoinedCasesListBeen.get(i).getIMG());
-                            n.setNumberofjoins(myANDJoinedCasesListBeen.get(i).getNumberofjoins());
-                            n.setStatus(myANDJoinedCasesListBeen.get(i).getStatus());
+                        list = (new Select().from(NewsFeed.class).queryList());
 
-                            n.save();
+                        if (list.size() > 0) {
+                            Delete.table(NewsFeed.class);
                         }
-                    }
-                    for (int i = 0; i < followingCassesListBeen.size(); i++) {
-                        n = new NewsFeed();
-                        if (followingCassesListBeen.size() > 0) {
 
-                            n.setCaseName(followingCassesListBeen.get(i).getCaseName());
-                            n.setCaseDescription(followingCassesListBeen.get(i).getCaseDescription());
-                            n.setJoined(followingCassesListBeen.get(i).isIsJoined());
-                            n.setOwner(followingCassesListBeen.get(i).isIsOwner());
-                            n.setAmount(followingCassesListBeen.get(i).getAmount());
-                            n.setCauseID(followingCassesListBeen.get(i).getCauseID());
-                            n.setEndDate(followingCassesListBeen.get(i).getEndDate());
-                            n.setIMG(followingCassesListBeen.get(i).getIMG());
-                            n.setNumberofjoins(followingCassesListBeen.get(i).getNumberofjoins());
-                            n.setStatus(followingCassesListBeen.get(i).getStatus());
+                        for (int i = 0; i < myANDJoinedCasesListBeen.size(); i++) {
+                            n = new NewsFeed();
+                            if (myANDJoinedCasesListBeen.size() > 0) {
 
-                            n.save();
+                                n.setCaseName(myANDJoinedCasesListBeen.get(i).getCaseName());
+                                n.setCaseDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
+                                n.setJoined(myANDJoinedCasesListBeen.get(i).isIsJoined());
+                                n.setOwner(myANDJoinedCasesListBeen.get(i).isIsOwner());
+                                n.setAmount(myANDJoinedCasesListBeen.get(i).getAmount());
+                                n.setCauseID(myANDJoinedCasesListBeen.get(i).getCauseID());
+                                n.setEndDate(myANDJoinedCasesListBeen.get(i).getEndDate());
+                                n.setIMG(myANDJoinedCasesListBeen.get(i).getIMG());
+                                n.setNumberofjoins(myANDJoinedCasesListBeen.get(i).getNumberofjoins());
+                                n.setStatus(myANDJoinedCasesListBeen.get(i).getStatus());
+
+                                n.save();
+                            }
                         }
-                    }
-                    list = (new Select().from(NewsFeed.class).queryList());
+                        for (int i = 0; i < followingCassesListBeen.size(); i++) {
+                            n = new NewsFeed();
+                            if (followingCassesListBeen.size() > 0) {
 
-                    for (int aa = 0; aa < list.size(); aa++) {
-                        NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
-                        newsFeedWrappers.add(newsFeedWrapper);
+                                n.setCaseName(followingCassesListBeen.get(i).getCaseName());
+                                n.setCaseDescription(followingCassesListBeen.get(i).getCaseDescription());
+                                n.setJoined(followingCassesListBeen.get(i).isIsJoined());
+                                n.setOwner(followingCassesListBeen.get(i).isIsOwner());
+                                n.setAmount(followingCassesListBeen.get(i).getAmount());
+                                n.setCauseID(followingCassesListBeen.get(i).getCauseID());
+                                n.setEndDate(followingCassesListBeen.get(i).getEndDate());
+                                n.setIMG(followingCassesListBeen.get(i).getIMG());
+                                n.setNumberofjoins(followingCassesListBeen.get(i).getNumberofjoins());
+                                n.setStatus(followingCassesListBeen.get(i).getStatus());
+
+                                n.save();
+                            }
+                        }
+                        list = (new Select().from(NewsFeed.class).queryList());
+
+                        for (int aa = 0; aa < list.size(); aa++) {
+                            NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
+                            newsFeedWrappers.add(newsFeedWrapper);
+                        }
+                        adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
+                        listView.setDivider(null);
+                        listView.setAdapter(adapter);
                     }
-                    adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
-                    listView.setDivider(null);
-                    listView.setAdapter(adapter);
                 }
                 pdialog.dismiss();
             }

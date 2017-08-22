@@ -6,9 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.R;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -16,13 +21,13 @@ import java.util.List;
  * Created by Amr on 22/07/2017.
  */
 
-public class MessagesFragmentAdapter extends ArrayAdapter<String> {
+public class MessagesFragmentAdapter extends ArrayAdapter<InboxResponse.ListOfMassegesBean> {
 
     private Context activity;
-    private List<String> list_user_message;
+    private List<InboxResponse.ListOfMassegesBean> list_user_message;
     private int resource;
 
-    public MessagesFragmentAdapter(Context context, int resource, List<String> objects) {
+    public MessagesFragmentAdapter(Context context, int resource, List<InboxResponse.ListOfMassegesBean> objects) {
         super(context, resource, objects);
         this.activity = context;
         this.resource = resource;
@@ -35,7 +40,7 @@ public class MessagesFragmentAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public String getItem(int position) {
+    public InboxResponse.ListOfMassegesBean getItem(int position) {
         return list_user_message.get(position);
     }
 
@@ -56,16 +61,33 @@ public class MessagesFragmentAdapter extends ArrayAdapter<String> {
             holder = (ViewHolderMessages) convertView.getTag();
         }
 
-        holder.user_message.setText(getItem(position));
+        holder.user_message.setText(list_user_message.get(position).getName());
+
+        if (list_user_message.get(position).isIsMine())
+            holder.message_details.setText("You: " + list_user_message.get(position).getMSGBoody());
+        else
+            holder.message_details.setText(list_user_message.get(position).getMSGBoody());
+
+        if (!list_user_message.get(position).isIsSeen()) {
+            holder.counter_of_messages.setText(String.valueOf(list_user_message.get(position).getCounter()));
+            holder.counter_of_messages.setVisibility(View.VISIBLE);
+        }
+
+        Picasso.with(activity).load(list_user_message.get(position).getImg()).into(holder.message_user_pic);
 
         return convertView;
     }
 
     private class ViewHolderMessages {
-        private TextView user_message;
+        private TextView user_message, message_details;
+        de.hdodenhof.circleimageview.CircleImageView message_user_pic;
+        Button counter_of_messages;
 
         private ViewHolderMessages(View v) {
             user_message = (TextView) v.findViewById(R.id.user_message);
+            message_details = (TextView) v.findViewById(R.id.message_details);
+            message_user_pic = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.message_user_pic);
+            counter_of_messages = (Button) v.findViewById(R.id.counter_of_messages);
         }
     }
 }

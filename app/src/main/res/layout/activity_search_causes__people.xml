@@ -41,8 +41,8 @@
 
             <ImageView
                 android:id="@+id/btn_search"
-                android:layout_width="@dimen/_25dp"
-                android:layout_height="@dimen/_25dp"
+                android:layout_width="@dimen/_35dp"
+                android:layout_height="@dimen/_35dp"
                 android:layout_marginBottom="@dimen/_8dp"
                 android:layout_marginEnd="@dimen/_8dp"
                 android:layout_marginRight="@dimen/_8dp"

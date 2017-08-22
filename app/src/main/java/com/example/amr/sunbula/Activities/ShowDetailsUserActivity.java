@@ -138,24 +138,26 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                         username_user_profile.setText(response.body().getName());
 
                         UserDetailsResponse userDetailsResponse = response.body();
-                        myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
 
-                        myCasesBeanList = userDetailsResponse.getMyCases();
+                        if (userDetailsResponse.getMyCases().size() > 0) {
+                            myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
+                            myCasesBeanList = userDetailsResponse.getMyCases();
 
-                        text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
-                        if (response.body().getAddress() != null)
-                            text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
-                        Picasso.with(ShowDetailsUserActivity.this).load(response.body().getImgURL()).into(image_user_profile);
+                            text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
+                            if (response.body().getAddress() != null)
+                                text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
+                            if (response.body().getImgURL().contains("http"))
+                                Picasso.with(ShowDetailsUserActivity.this).load(response.body().getImgURL()).into(image_user_profile);
 
-                        for (int a = 0; a < myCasesBeanList.size(); a++) {
-                            HisCausesPeopleWrapper hisCausesPeopleWrapper = new HisCausesPeopleWrapper(myCasesBeanList.get(a));
-                            hisCausesPeopleWrappers.add(hisCausesPeopleWrapper);
+                            for (int a = 0; a < myCasesBeanList.size(); a++) {
+                                HisCausesPeopleWrapper hisCausesPeopleWrapper = new HisCausesPeopleWrapper(myCasesBeanList.get(a));
+                                hisCausesPeopleWrappers.add(hisCausesPeopleWrapper);
+                            }
+
+                            adapter = new HisUserCausesAdapter(ShowDetailsUserActivity.this, R.layout.item_in_bottom_hisprofile,
+                                    hisCausesPeopleWrappers, UserID, people_id);
+                            list_show_hiscauses.setAdapter(adapter);
                         }
-
-                        adapter = new HisUserCausesAdapter(ShowDetailsUserActivity.this, R.layout.item_in_bottom_hisprofile,
-                                hisCausesPeopleWrappers, UserID, people_id);
-                        list_show_hiscauses.setAdapter(adapter);
-
                     } else
                         Toast.makeText(ShowDetailsUserActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

@@ -87,45 +87,48 @@ public class FollowingFragment extends Fragment {
 
                         ListofPepoleResponse listofPepoleResponse = response.body();
 
-                        followings = (new Select().from(Following.class).queryList());
+                        if (listofPepoleResponse.getListofPepoleFollowing().size() > 0) {
 
-                        if (followings.size() > 0) {
-                            Delete.table(Following.class);
-                        }
+                            followings = (new Select().from(Following.class).queryList());
 
-                        for (int i = 0; i < listofPepoleResponse.getListofPepoleFollowing().size(); i++) {
-                            following = new Following();
-                            if (listofPepoleResponse.getListofPepoleFollowing().size() > 0) {
-
-                                following.setFollowID(listofPepoleResponse.getListofPepoleFollowing().get(i).getFollowID());
-                                following.setName(listofPepoleResponse.getListofPepoleFollowing().get(i).getName());
-
-                                following.save();
+                            if (followings.size() > 0) {
+                                Delete.table(Following.class);
                             }
-                        }
 
-                        followings = (new Select().from(Following.class).queryList());
+                            for (int i = 0; i < listofPepoleResponse.getListofPepoleFollowing().size(); i++) {
+                                following = new Following();
+                                if (listofPepoleResponse.getListofPepoleFollowing().size() > 0) {
 
-                        for (int i = 0; i < followings.size(); i++) {
-                            listofPepoleFollowingBeen.add(followings.get(i).getName());
-                        }
+                                    following.setFollowID(listofPepoleResponse.getListofPepoleFollowing().get(i).getFollowID());
+                                    following.setName(listofPepoleResponse.getListofPepoleFollowing().get(i).getName());
 
-
-                        arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowingBeen);
-                        list_following.setAdapter(arrayAdapter);
-
-                        list_following.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-
-                                // TODO Auto-generated method stub
-                                Intent i = new Intent(getActivity(), ShowDetailsUserActivity.class);
-                                Bundle b = new Bundle();
-                                b.putString("people_id", followings.get(pos).getFollowID());
-                                i.putExtras(b);
-                                getActivity().startActivity(i);
+                                    following.save();
+                                }
                             }
-                        });
+
+                            followings = (new Select().from(Following.class).queryList());
+
+                            for (int i = 0; i < followings.size(); i++) {
+                                listofPepoleFollowingBeen.add(followings.get(i).getName());
+                            }
+
+
+                            arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowingBeen);
+                            list_following.setAdapter(arrayAdapter);
+
+                            list_following.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                                    // TODO Auto-generated method stub
+                                    Intent i = new Intent(getActivity(), ShowDetailsUserActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putString("people_id", followings.get(pos).getFollowID());
+                                    i.putExtras(b);
+                                    getActivity().startActivity(i);
+                                }
+                            });
+                        }
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

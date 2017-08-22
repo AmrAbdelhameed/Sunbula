@@ -212,7 +212,8 @@ public class ProfileFragment extends Fragment {
                         Gender = response.body().getGender();
                         imageURL = response.body().getImgURL();
 
-                        Picasso.with(getActivity()).load(imageURL).into(image_profile);
+                        if (imageURL.contains("http"))
+                            Picasso.with(getActivity()).load(imageURL).into(image_profile);
                         username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
 
@@ -221,114 +222,117 @@ public class ProfileFragment extends Fragment {
 
                         UserDetailsResponse userDetailsResponse = response.body();
 
-                        allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
-                        myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
-                        joinedCasesBeen = new ArrayList<UserDetailsResponse.JoinedCasesBean>();
 
-                        allCasesListBeen = userDetailsResponse.getAllCasesList();
-                        myCasesBeanList = userDetailsResponse.getMyCases();
-                        joinedCasesBeen = userDetailsResponse.getJoinedCases();
-                        text_causes_profile.setText(myCasesBeanList.size() + " My Causes");
+                        if (userDetailsResponse.getAllCasesList().size() > 0 || userDetailsResponse.getMyCases().size() > 0 || userDetailsResponse.getJoinedCases().size() > 0) {
+                            allCasesListBeen = new ArrayList<UserDetailsResponse.AllCasesListBean>();
+                            myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
+                            joinedCasesBeen = new ArrayList<UserDetailsResponse.JoinedCasesBean>();
 
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("UserImage", imageURL);
-                        editor.putString("UserName", Name);
-                        editor.putString("Reviews", response.body().getReviewNumbers());
-                        editor.putInt("Causes", myCasesBeanList.size());
-                        editor.putString("Location", String.valueOf(response.body().getAddress()));
-                        editor.apply();
+                            allCasesListBeen = userDetailsResponse.getAllCasesList();
+                            myCasesBeanList = userDetailsResponse.getMyCases();
+                            joinedCasesBeen = userDetailsResponse.getJoinedCases();
+                            text_causes_profile.setText(myCasesBeanList.size() + " My Causes");
 
-                        allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
-                        if (allCausesProfileList.size() > 0) {
-                            Delete.table(AllCausesProfile.class);
-                        }
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("UserImage", imageURL);
+                            editor.putString("UserName", Name);
+                            editor.putString("Reviews", response.body().getReviewNumbers());
+                            editor.putInt("Causes", myCasesBeanList.size());
+                            editor.putString("Location", String.valueOf(response.body().getAddress()));
+                            editor.apply();
 
-                        myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
-                        if (myCausesProfiles.size() > 0) {
-                            Delete.table(MyCausesProfile.class);
-                        }
-
-                        joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
-                        if (joinedCasesProfiles.size() > 0) {
-                            Delete.table(JoinedCasesProfile.class);
-                        }
-
-                        for (int i = 0; i < allCasesListBeen.size(); i++) {
-                            allCausesProfile = new AllCausesProfile();
-                            if (allCasesListBeen.size() > 0) {
-
-                                allCausesProfile.setCaseName(allCasesListBeen.get(i).getCaseName());
-                                allCausesProfile.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
-                                allCausesProfile.setJoined(allCasesListBeen.get(i).isIsJoined());
-                                allCausesProfile.setOwner(allCasesListBeen.get(i).isIsOwner());
-                                allCausesProfile.setAmount(allCasesListBeen.get(i).getAmount());
-                                allCausesProfile.setCauseID(allCasesListBeen.get(i).getCauseID());
-                                allCausesProfile.setEndDate(allCasesListBeen.get(i).getEndDate());
-                                allCausesProfile.setIMG(allCasesListBeen.get(i).getIMG());
-                                allCausesProfile.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
-                                allCausesProfile.setStatus(allCasesListBeen.get(i).getStatus());
-
-                                allCausesProfile.save();
+                            allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
+                            if (allCausesProfileList.size() > 0) {
+                                Delete.table(AllCausesProfile.class);
                             }
-                        }
 
-                        for (int i = 0; i < myCasesBeanList.size(); i++) {
-                            myCausesProfile = new MyCausesProfile();
-                            if (myCasesBeanList.size() > 0) {
-
-                                myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
-                                myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
-                                myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
-                                myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
-                                myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
-                                myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
-                                myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
-                                myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
-                                myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
-                                myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
-
-                                myCausesProfile.save();
+                            myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                            if (myCausesProfiles.size() > 0) {
+                                Delete.table(MyCausesProfile.class);
                             }
-                        }
 
-                        for (int i = 0; i < joinedCasesBeen.size(); i++) {
-                            joinedCasesProfile = new JoinedCasesProfile();
-                            if (joinedCasesBeen.size() > 0) {
-
-                                joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
-                                joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
-                                joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
-                                joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
-                                joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
-                                joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
-                                joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
-                                joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
-                                joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
-                                joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
-
-                                joinedCasesProfile.save();
+                            joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+                            if (joinedCasesProfiles.size() > 0) {
+                                Delete.table(JoinedCasesProfile.class);
                             }
-                        }
 
-                        allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
-                        myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
-                        joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+                            for (int i = 0; i < allCasesListBeen.size(); i++) {
+                                allCausesProfile = new AllCausesProfile();
+                                if (allCasesListBeen.size() > 0) {
 
-                        //replace default fragment
-                        for (int a = 0; a < allCausesProfileList.size(); a++) {
-                            AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(allCausesProfileList.get(a));
-                            allCausesProfileWrappers.add(allCausesProfileWrapper);
-                        }
-                        replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
+                                    allCausesProfile.setCaseName(allCasesListBeen.get(i).getCaseName());
+                                    allCausesProfile.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
+                                    allCausesProfile.setJoined(allCasesListBeen.get(i).isIsJoined());
+                                    allCausesProfile.setOwner(allCasesListBeen.get(i).isIsOwner());
+                                    allCausesProfile.setAmount(allCasesListBeen.get(i).getAmount());
+                                    allCausesProfile.setCauseID(allCasesListBeen.get(i).getCauseID());
+                                    allCausesProfile.setEndDate(allCasesListBeen.get(i).getEndDate());
+                                    allCausesProfile.setIMG(allCasesListBeen.get(i).getIMG());
+                                    allCausesProfile.setNumberofjoins(allCasesListBeen.get(i).getNumberofjoins());
+                                    allCausesProfile.setStatus(allCasesListBeen.get(i).getStatus());
 
-                        for (int b = 0; b < myCausesProfiles.size(); b++) {
-                            MyCausesProfileWrapper myCausesProfileWrapper = new MyCausesProfileWrapper(myCausesProfiles.get(b));
-                            myCausesProfileWrappers.add(myCausesProfileWrapper);
-                        }
-                        for (int c = 0; c < joinedCasesProfiles.size(); c++) {
-                            JoinedCausesProfileWrapper joinedCausesProfileWrapper = new JoinedCausesProfileWrapper(joinedCasesProfiles.get(c));
-                            joinedCausesProfileWrappers.add(joinedCausesProfileWrapper);
+                                    allCausesProfile.save();
+                                }
+                            }
+
+                            for (int i = 0; i < myCasesBeanList.size(); i++) {
+                                myCausesProfile = new MyCausesProfile();
+                                if (myCasesBeanList.size() > 0) {
+
+                                    myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
+                                    myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
+                                    myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
+                                    myCausesProfile.setOwner(myCasesBeanList.get(i).isIsOwner());
+                                    myCausesProfile.setAmount(myCasesBeanList.get(i).getAmount());
+                                    myCausesProfile.setCauseID(myCasesBeanList.get(i).getCauseID());
+                                    myCausesProfile.setEndDate(myCasesBeanList.get(i).getEndDate());
+                                    myCausesProfile.setIMG(myCasesBeanList.get(i).getIMG());
+                                    myCausesProfile.setNumberofjoins(myCasesBeanList.get(i).getNumberofjoins());
+                                    myCausesProfile.setStatus(myCasesBeanList.get(i).getStatus());
+
+                                    myCausesProfile.save();
+                                }
+                            }
+
+                            for (int i = 0; i < joinedCasesBeen.size(); i++) {
+                                joinedCasesProfile = new JoinedCasesProfile();
+                                if (joinedCasesBeen.size() > 0) {
+
+                                    joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
+                                    joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
+                                    joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());
+                                    joinedCasesProfile.setOwner(joinedCasesBeen.get(i).isIsOwner());
+                                    joinedCasesProfile.setAmount(joinedCasesBeen.get(i).getAmount());
+                                    joinedCasesProfile.setCauseID(joinedCasesBeen.get(i).getCauseID());
+                                    joinedCasesProfile.setEndDate(joinedCasesBeen.get(i).getEndDate());
+                                    joinedCasesProfile.setIMG(joinedCasesBeen.get(i).getIMG());
+                                    joinedCasesProfile.setNumberofjoins(joinedCasesBeen.get(i).getNumberofjoins());
+                                    joinedCasesProfile.setStatus(joinedCasesBeen.get(i).getStatus());
+
+                                    joinedCasesProfile.save();
+                                }
+                            }
+
+                            allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
+                            myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
+                            joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
+
+                            //replace default fragment
+                            for (int a = 0; a < allCausesProfileList.size(); a++) {
+                                AllCausesProfileWrapper allCausesProfileWrapper = new AllCausesProfileWrapper(allCausesProfileList.get(a));
+                                allCausesProfileWrappers.add(allCausesProfileWrapper);
+                            }
+                            replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
+
+                            for (int b = 0; b < myCausesProfiles.size(); b++) {
+                                MyCausesProfileWrapper myCausesProfileWrapper = new MyCausesProfileWrapper(myCausesProfiles.get(b));
+                                myCausesProfileWrappers.add(myCausesProfileWrapper);
+                            }
+                            for (int c = 0; c < joinedCasesProfiles.size(); c++) {
+                                JoinedCausesProfileWrapper joinedCausesProfileWrapper = new JoinedCausesProfileWrapper(joinedCasesProfiles.get(c));
+                                joinedCausesProfileWrappers.add(joinedCausesProfileWrapper);
+                            }
                         }
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -346,7 +350,8 @@ public class ProfileFragment extends Fragment {
                 int Causes = sharedPreferences.getInt("Causes", 0);
                 String Location = sharedPreferences.getString("Location", "Location");
 
-                Picasso.with(getActivity()).load(UserImage).into(image_profile);
+                if (UserImage.contains("http"))
+                    Picasso.with(getActivity()).load(UserImage).into(image_profile);
                 username_profile.setText(UserName);
                 text_reviews_profile.setText(Reviews + " Reviews");
                 text_location_profile.setText(Location);

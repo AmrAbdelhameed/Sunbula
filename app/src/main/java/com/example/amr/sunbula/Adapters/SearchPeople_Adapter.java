@@ -63,17 +63,6 @@ public class SearchPeople_Adapter extends ArrayAdapter<SearchPeopleResponse.Sear
 
         holder.people_name.setText(searchedPepoleBeen.get(position).getName());
 
-        holder.people_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(activity, ShowDetailsUserActivity.class);
-                Bundle b = new Bundle();
-                b.putString("people_id", searchedPepoleBeen.get(position).getUser_ID());
-                i.putExtras(b);
-                activity.startActivity(i);
-            }
-        });
-
         return convertView;
     }
 

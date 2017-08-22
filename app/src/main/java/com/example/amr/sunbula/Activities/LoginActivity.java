@@ -28,8 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView Email, password, forgetpassword, go_to_register;
     APIService mAPIService;
     private ProgressDialog pdialog;
-    private boolean loggedIn = false;
-    private boolean loggedIn2 = false;
+    private boolean loggedIn = false, loggedIn2 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

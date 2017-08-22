@@ -2,10 +2,12 @@ package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,13 +105,14 @@ public class SearchCauses_People extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        searchedCasesBeen = new ArrayList<SearchCausesResponse.SearchedCasesBean>();
-
                         SearchCausesResponse searchCausesResponse = response.body();
-                        searchedCasesBeen = searchCausesResponse.getSearchedCases();
+                        if (searchCausesResponse.getSearchedCases().size() > 0) {
+                            searchedCasesBeen = new ArrayList<SearchCausesResponse.SearchedCasesBean>();
+                            searchedCasesBeen = searchCausesResponse.getSearchedCases();
 
-                        adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
-                        listView.setAdapter(adapter);
+                            adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
+                            listView.setAdapter(adapter);
+                        }
                     } else
                         Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -133,13 +136,28 @@ public class SearchCauses_People extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        searchedPepoleBeen = new ArrayList<SearchPeopleResponse.SearchedPepoleBean>();
-
                         SearchPeopleResponse searchCausesResponse = response.body();
-                        searchedPepoleBeen = searchCausesResponse.getSearchedPepole();
 
-                        adapter2 = new SearchPeople_Adapter(SearchCauses_People.this, R.layout.item_in_search_people, searchedPepoleBeen);
-                        listView.setAdapter(adapter2);
+                        if (searchCausesResponse.getSearchedPepole().size() > 0) {
+                            searchedPepoleBeen = new ArrayList<SearchPeopleResponse.SearchedPepoleBean>();
+                            searchedPepoleBeen = searchCausesResponse.getSearchedPepole();
+
+                            adapter2 = new SearchPeople_Adapter(SearchCauses_People.this, R.layout.item_in_search_people, searchedPepoleBeen);
+                            listView.setAdapter(adapter2);
+
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                                    // TODO Auto-generated method stub
+                                    Intent i = new Intent(SearchCauses_People.this, ShowDetailsUserActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putString("people_id", searchedPepoleBeen.get(pos).getUser_ID());
+                                    i.putExtras(b);
+                                    startActivity(i);
+                                }
+                            });
+                        }
                     } else
                         Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

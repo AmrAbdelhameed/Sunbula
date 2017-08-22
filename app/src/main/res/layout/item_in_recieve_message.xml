@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_8dp"
-        android:layout_marginRight="@dimen/_24dp"
+        android:layout_marginRight="@dimen/_16dp"
         android:layout_marginTop="@dimen/_8dp"
         android:text="2 min ago"
         android:textStyle="bold"
@@ -21,7 +21,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/message_recieve_pic"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/_50dp"
         android:layout_height="@dimen/_50dp"
         android:layout_marginBottom="@dimen/_8dp"
         android:layout_marginLeft="@dimen/_8dp"

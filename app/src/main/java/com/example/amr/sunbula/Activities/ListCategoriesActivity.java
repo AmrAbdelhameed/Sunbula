@@ -74,35 +74,37 @@ public class ListCategoriesActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         AllCategoriesResponse allCategoriesResponse = response.body();
-                        allCategoriesBeen = allCategoriesResponse.getAllCategories();
 
-                        categoriesList = (new Select().from(Categories.class).queryList());
+                        if (allCategoriesResponse.getAllCategories().size() > 0) {
+                            allCategoriesBeen = allCategoriesResponse.getAllCategories();
 
-                        if (categoriesList.size() > 0) {
-                            Delete.table(Categories.class);
-                        }
+                            categoriesList = (new Select().from(Categories.class).queryList());
 
-                        for (int i = 0; i < allCategoriesBeen.size(); i++) {
-                            categories = new Categories();
-                            if (allCategoriesBeen.size() > 0) {
-
-                                categories.setCategoryID(allCategoriesBeen.get(i).getCategoryID());
-                                categories.setCategoryName(allCategoriesBeen.get(i).getCategoryName());
-                                categories.setCategoryDescription(allCategoriesBeen.get(i).getCategoryDescription());
-                                categories.setDateCreated(allCategoriesBeen.get(i).getDateCreated());
-
-                                gson = new Gson();
-                                String jsonCauses = gson.toJson(allCategoriesBeen.get(i).getAllCases());
-                                categories.setAllCauses(jsonCauses);
-
-                                categories.save();
+                            if (categoriesList.size() > 0) {
+                                Delete.table(Categories.class);
                             }
+
+                            for (int i = 0; i < allCategoriesBeen.size(); i++) {
+                                categories = new Categories();
+                                if (allCategoriesBeen.size() > 0) {
+
+                                    categories.setCategoryID(allCategoriesBeen.get(i).getCategoryID());
+                                    categories.setCategoryName(allCategoriesBeen.get(i).getCategoryName());
+                                    categories.setCategoryDescription(allCategoriesBeen.get(i).getCategoryDescription());
+                                    categories.setDateCreated(allCategoriesBeen.get(i).getDateCreated());
+
+                                    gson = new Gson();
+                                    String jsonCauses = gson.toJson(allCategoriesBeen.get(i).getAllCases());
+                                    categories.setAllCauses(jsonCauses);
+
+                                    categories.save();
+                                }
+                            }
+
+                            categoriesList = (new Select().from(Categories.class).queryList());
+                            adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, categoriesList);
+                            listView_allCategoriesBeen.setAdapter(adapter);
                         }
-
-                        categoriesList = (new Select().from(Categories.class).queryList());
-                        adapter = new List_CategoriesAdapter(ListCategoriesActivity.this, R.layout.item_in_list_categories, categoriesList);
-                        listView_allCategoriesBeen.setAdapter(adapter);
-
                     } else
                         Toast.makeText(ListCategoriesActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                     pdialog.dismiss();

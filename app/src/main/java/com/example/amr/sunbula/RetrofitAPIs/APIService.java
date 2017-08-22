@@ -9,10 +9,12 @@ import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.GetAllReviewsResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
+import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofFollowersResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
+import com.example.amr.sunbula.Models.APIResponses.RecieveMassegeResponse;
 import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
 import com.example.amr.sunbula.Models.APIResponses.ResetPasswordResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
@@ -122,11 +124,21 @@ public interface APIService {
     Call<CompleteOrDeleteCauseResponse> CompleteOrDelete(@Field("CauseID") String CauseID,
                                                          @Field("ActionType") int ActionType);
 
+    @POST("/Charity/Api/Messeging/Inbox")
+    @FormUrlEncoded
+    Call<InboxResponse> Inbox(@Field("User_ID") String User_ID);
+
     @POST("/Charity/Api/Messeging/SendMassege")
     @FormUrlEncoded
     Call<SendMassegeResponse> SendMassege(@Field("User_ID") String User_ID,
                                           @Field("ToID") String ToID,
                                           @Field("MSGBody") String MSGBody);
+
+    @POST("/Charity/Api/Messeging/RecieveMassege")
+    @FormUrlEncoded
+    Call<RecieveMassegeResponse> RecieveMassege(@Field("ThreadID") String ThreadID,
+                                                @Field("MasgDate") String MasgDate,
+                                                @Field("User_ID") String User_ID);
 
     @POST("/Charity/Api/User/Follow")
     @FormUrlEncoded

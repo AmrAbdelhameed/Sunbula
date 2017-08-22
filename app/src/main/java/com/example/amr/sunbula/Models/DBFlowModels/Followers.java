@@ -20,11 +20,9 @@ public class Followers extends BaseModel {
     private long id; // package-private recommended, not required
 
     @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String Name;
 
     @Column
-    @Unique(unique = false, uniqueGroups = 1, onUniqueConflict = ConflictAction.REPLACE)
     private String FollowID;
 
     public long getId() {
