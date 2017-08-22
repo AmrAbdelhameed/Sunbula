@@ -2,16 +2,19 @@ package com.example.amr.sunbula.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Activities.ShowDetailsUserActivity;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.Following;
 import com.example.amr.sunbula.R;
@@ -110,6 +113,19 @@ public class FollowingFragment extends Fragment {
 
                         arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowingBeen);
                         list_following.setAdapter(arrayAdapter);
+
+                        list_following.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                                // TODO Auto-generated method stub
+                                Intent i = new Intent(getActivity(), ShowDetailsUserActivity.class);
+                                Bundle b = new Bundle();
+                                b.putString("people_id", followings.get(pos).getFollowID());
+                                i.putExtras(b);
+                                getActivity().startActivity(i);
+                            }
+                        });
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

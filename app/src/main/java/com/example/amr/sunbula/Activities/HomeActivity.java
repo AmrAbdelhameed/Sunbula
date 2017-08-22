@@ -18,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
     int x = R.id.navigation_home;
     Toolbar toolbar;
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+    boolean homeChecked = false, profileChecked = false, messagesChecked = false, notificationChecked = false;
 
     private BottomNavigationViewNew.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationViewNew.OnNavigationItemSelectedListener() {
@@ -27,24 +28,48 @@ public class HomeActivity extends AppCompatActivity {
             x = item.getItemId();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
-                    toolbar.setTitle("News Feed");
-                    setSupportActionBar(toolbar);
+                    if (!homeChecked) {
+                        fragmentManager.beginTransaction().replace(R.id.content, new HomeFragment()).commit();
+                        toolbar.setTitle("News Feed");
+                        setSupportActionBar(toolbar);
+                        homeChecked = true;
+                        profileChecked = false;
+                        messagesChecked = false;
+                        notificationChecked = false;
+                    }
                     return true;
                 case R.id.navigation_dashboard:
-                    fragmentManager.beginTransaction().replace(R.id.content, new ProfileFragment()).commit();
-                    toolbar.setTitle("View Profile");
-                    setSupportActionBar(toolbar);
+                    if (!profileChecked) {
+                        fragmentManager.beginTransaction().replace(R.id.content, new ProfileFragment()).commit();
+                        toolbar.setTitle("View Profile");
+                        setSupportActionBar(toolbar);
+                        profileChecked = true;
+                        homeChecked = false;
+                        messagesChecked = false;
+                        notificationChecked = false;
+                    }
                     return true;
                 case R.id.navigation_notifications:
-                    fragmentManager.beginTransaction().replace(R.id.content, new MessagesFragment()).commit();
-                    toolbar.setTitle("Messages");
-                    setSupportActionBar(toolbar);
+                    if (!messagesChecked) {
+                        fragmentManager.beginTransaction().replace(R.id.content, new MessagesFragment()).commit();
+                        toolbar.setTitle("Messages");
+                        setSupportActionBar(toolbar);
+                        messagesChecked = true;
+                        homeChecked = false;
+                        profileChecked = false;
+                        notificationChecked = false;
+                    }
                     return true;
                 case R.id.navigation_dashboard1:
-                    fragmentManager.beginTransaction().replace(R.id.content, new NotificationsFragment()).commit();
-                    toolbar.setTitle("Notification");
-                    setSupportActionBar(toolbar);
+                    if (!notificationChecked) {
+                        fragmentManager.beginTransaction().replace(R.id.content, new NotificationsFragment()).commit();
+                        toolbar.setTitle("Notification");
+                        setSupportActionBar(toolbar);
+                        notificationChecked = true;
+                        homeChecked = false;
+                        profileChecked = false;
+                        messagesChecked = false;
+                    }
                     return true;
             }
             return false;

@@ -81,7 +81,7 @@ public class ProfileFragment extends Fragment {
     de.hdodenhof.circleimageview.CircleImageView image_profile;
 
     String UserID, Name, Email, mNumber, Address, Gender, imageURL;
-    boolean check_con = false;
+    boolean check_con = false, addChecked = false, showCauses = false;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -112,8 +112,11 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (check_con) {
-                    Intent i = new Intent(getActivity(), AddCauseActivity.class);
-                    startActivity(i);
+                    if (!addChecked) {
+                        Intent i = new Intent(getActivity(), AddCauseActivity.class);
+                        startActivity(i);
+                        addChecked = true;
+                    }
                 } else
                     Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
             }
@@ -122,8 +125,11 @@ public class ProfileFragment extends Fragment {
         btn_heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), ListCategoriesActivity.class);
-                startActivity(i);
+                if (!showCauses) {
+                    Intent i = new Intent(getActivity(), ListCategoriesActivity.class);
+                    startActivity(i);
+                    showCauses = true;
+                }
             }
         });
 
