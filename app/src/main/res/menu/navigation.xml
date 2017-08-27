@@ -7,17 +7,17 @@
         android:title="@string/tab1" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/profile"
         android:title="@string/tab2" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_message"
         android:icon="@drawable/message2"
         android:title="@string/tab3" />
 
     <item
-        android:id="@+id/navigation_dashboard1"
+        android:id="@+id/navigation_notification"
         android:icon="@drawable/notification"
         android:title="@string/tab4" />
 </menu>

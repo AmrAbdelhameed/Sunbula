@@ -1,10 +1,12 @@
 package com.example.amr.sunbula.Activities;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.amr.sunbula.BottomNavigationClasses.BottomNavigationViewNew;
 import com.example.amr.sunbula.Fragment.NotificationsFragment;
@@ -38,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
                         notificationChecked = false;
                     }
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_profile:
                     if (!profileChecked) {
                         fragmentManager.beginTransaction().replace(R.id.content, new ProfileFragment()).commit();
                         toolbar.setTitle("View Profile");
@@ -49,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
                         notificationChecked = false;
                     }
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_message:
                     if (!messagesChecked) {
                         fragmentManager.beginTransaction().replace(R.id.content, new MessagesFragment()).commit();
                         toolbar.setTitle("Messages");
@@ -60,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
                         notificationChecked = false;
                     }
                     return true;
-                case R.id.navigation_dashboard1:
+                case R.id.navigation_notification:
                     if (!notificationChecked) {
                         fragmentManager.beginTransaction().replace(R.id.content, new NotificationsFragment()).commit();
                         toolbar.setTitle("Notification");
@@ -96,9 +98,18 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_home);
         toolbar.setTitle("News Feed");
         setSupportActionBar(toolbar);
+
+        Intent in = getIntent();
+        Bundle b = in.getExtras();
+
         BottomNavigationViewNew navigation = (BottomNavigationViewNew) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(x);
-    }
 
+        if (b != null) {
+            navigation.setSelectedItemId(R.id.navigation_notification);
+            String body = b.getString("NotificationMessage");
+            Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+        } else
+            navigation.setSelectedItemId(x);
+    }
 }

@@ -13,6 +13,8 @@ import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofFollowersResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
+import com.example.amr.sunbula.Models.APIResponses.MakeReportResponse;
+import com.example.amr.sunbula.Models.APIResponses.MakeReviewResponse;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
 import com.example.amr.sunbula.Models.APIResponses.RecieveMassegeResponse;
 import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
@@ -171,4 +173,18 @@ public interface APIService {
     @POST("/Charity/Api/User/GetAllReviews")
     @FormUrlEncoded
     Call<GetAllReviewsResponse> GetAllReviews(@Field("User_ID") String User_ID);
+
+    @POST("/Charity/Api/User/MakeReview")
+    @FormUrlEncoded
+    Call<MakeReviewResponse> MakeReview(@Field("ReviweeID") String ReviweeID,
+                                        @Field("ReviewStars") String ReviewStars,
+                                        @Field("ReviewBody") String ReviewBody);
+
+    @POST("/Charity/Api/User/MakeReport")
+    @FormUrlEncoded
+    Call<MakeReportResponse> MakeReport(@Field("ReportBody") String ReportBody,
+                                        @Field("ReportName") String ReportName,
+                                        @Field("ReportDate") String ReportDate,
+                                        @Field("ReportedPerson") String ReportedPerson,
+                                        @Field("ReporterPerson") String ReporterPerson);
 }

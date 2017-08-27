@@ -9,10 +9,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 import com.example.amr.sunbula.Adapters.HisUserCausesAdapter;
 import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
+import com.example.amr.sunbula.Models.APIResponses.MakeReportResponse;
+import com.example.amr.sunbula.Models.APIResponses.MakeReviewResponse;
 import com.example.amr.sunbula.Models.APIResponses.UNFollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
@@ -94,7 +98,40 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         text_reviews_user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ShowDetailsUserActivity.this, "Make Review", Toast.LENGTH_SHORT).show();
+                LayoutInflater li = LayoutInflater.from(ShowDetailsUserActivity.this);
+                View dialogView = li.inflate(R.layout.dialog_review, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                        ShowDetailsUserActivity.this);
+
+                alertDialogBuilder.setTitle("Make Review");
+                alertDialogBuilder.setIcon(R.drawable.logo);
+
+                alertDialogBuilder.setView(dialogView);
+                final EditText review_star = (EditText) dialogView
+                        .findViewById(R.id.review_star);
+                final EditText review_body = (EditText) dialogView
+                        .findViewById(R.id.review_body);
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        MakeReviewPost(people_id, review_star.getText().toString(), review_body.getText().toString());
+                                    }
+                                })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                // create alert dialog
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                // show it
+                alertDialog.show();
             }
         });
 
@@ -257,6 +294,54 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
+    public void MakeReviewPost(String ReviweeID, String ReviewStars, String ReviewBody) {
+        pdialog.show();
+        mAPIService.MakeReview(ReviweeID, ReviewStars, ReviewBody).enqueue(new Callback<MakeReviewResponse>() {
+
+            @Override
+            public void onResponse(Call<MakeReviewResponse> call, Response<MakeReviewResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        Toast.makeText(ShowDetailsUserActivity.this, "Make Review Successfully", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(ShowDetailsUserActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<MakeReviewResponse> call, Throwable t) {
+                Toast.makeText(ShowDetailsUserActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    public void MakeReportPost(String ReportBody, String ReportName, String ReportDate, String ReportedPerson, String ReporterPerson) {
+        pdialog.show();
+        mAPIService.MakeReport(ReportBody, ReportName, ReportDate, ReportedPerson, ReporterPerson).enqueue(new Callback<MakeReportResponse>() {
+
+            @Override
+            public void onResponse(Call<MakeReportResponse> call, Response<MakeReportResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        Toast.makeText(ShowDetailsUserActivity.this, "Make Report Successfully", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(ShowDetailsUserActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<MakeReportResponse> call, Throwable t) {
+                Toast.makeText(ShowDetailsUserActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_people_profile, menu);
@@ -267,9 +352,43 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.report) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            String currentDateandTime = sdf.format(new Date());
-            Toast.makeText(this, currentDateandTime, Toast.LENGTH_SHORT).show();
+            LayoutInflater li = LayoutInflater.from(ShowDetailsUserActivity.this);
+            View dialogView = li.inflate(R.layout.dialog_report, null);
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    ShowDetailsUserActivity.this);
+
+            alertDialogBuilder.setTitle("Make Report");
+            alertDialogBuilder.setIcon(R.drawable.logo);
+
+            alertDialogBuilder.setView(dialogView);
+            final EditText report_name = (EditText) dialogView
+                    .findViewById(R.id.report_name);
+            final EditText report_body = (EditText) dialogView
+                    .findViewById(R.id.report_body);
+            // set dialog message
+            alertDialogBuilder
+                    .setCancelable(false)
+                    .setPositiveButton("OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                                    String currentDateandTime = sdf.format(new Date());
+                                    MakeReportPost(report_body.getText().toString()
+                                            , report_name.getText().toString(), currentDateandTime, people_id, UserID);
+                                }
+                            })
+                    .setNegativeButton("Cancel",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    dialog.cancel();
+                                }
+                            });
+            // create alert dialog
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // show it
+            alertDialog.show();
             return true;
         }
         return super.onOptionsItemSelected(item);
