@@ -2,6 +2,8 @@ package com.example.amr.sunbula.RetrofitAPIs;
 
 import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.APIResponses.AllCitiesResponse;
+import com.example.amr.sunbula.Models.APIResponses.AllCountriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditProfileResponse;
@@ -187,4 +189,12 @@ public interface APIService {
                                         @Field("ReportDate") String ReportDate,
                                         @Field("ReportedPerson") String ReportedPerson,
                                         @Field("ReporterPerson") String ReporterPerson);
+
+    @POST("/Charity/Api/Country/AllCountries")
+    @FormUrlEncoded
+    Call<AllCountriesResponse> AllCountries();
+
+    @POST("/Charity/Api/Country/AllCities")
+    @FormUrlEncoded
+    Call<AllCitiesResponse> AllCities(@Field("CountryID") String CountryID);
 }

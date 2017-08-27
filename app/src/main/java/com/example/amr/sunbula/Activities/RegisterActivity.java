@@ -17,10 +17,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.APIResponses.AllCitiesResponse;
+import com.example.amr.sunbula.Models.APIResponses.AllCountriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
 import com.example.amr.sunbula.R;
@@ -38,6 +44,8 @@ import com.facebook.login.widget.LoginButton;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -59,6 +67,12 @@ public class RegisterActivity extends AppCompatActivity {
     CallbackManager c;
     private APIService mAPIService;
     private ProgressDialog pdialog;
+    ArrayList<String> CountryIDs, CountryNames;
+    String GetIDCountry = "";
+    List<AllCountriesResponse.AllCountriesBean> allCountriesBeen;
+    ArrayList<String> CityIDs, CityNames;
+    String GetIDCity = "";
+    List<AllCitiesResponse.AllCitiesBean> allCitiesBeen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +93,80 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_login_facebok = (LoginButton) findViewById(R.id.btn_login_facebok);
         c = CallbackManager.Factory.create();
+
+        CountryNames = new ArrayList<>();
+        CountryIDs = new ArrayList<>();
+
+        CountryNames.add("Select your country");
+        CountryIDs.add("IDs");
+
+//        GetAllCountries();
+
+        Spinner spinner_countries = (Spinner) findViewById(R.id.spinner_countries);
+
+        // Create an ArrayAdapter using the string array and a default spinner
+        ArrayAdapter spinner_countriesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CountryNames);
+
+        // Specify the layout to use when the list of choices appears
+        spinner_countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner_countries.setAdapter(spinner_countriesAdapter);
+
+        spinner_countries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (!CountryNames.get(position).equals("Select your country")) {
+                    GetIDCountry = CountryIDs.get(position);
+                    Toast.makeText(RegisterActivity.this, GetIDCountry, Toast.LENGTH_SHORT).show();
+                } else
+                    GetIDCountry = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        CityIDs = new ArrayList<>();
+        CityNames = new ArrayList<>();
+
+        CityNames.add("Select your city");
+        CityIDs.add("IDs");
+
+        GetAllCities("9ffec365-09d9-40a7-bb8d-028d246f12d5");
+
+        Spinner spinner_cities = (Spinner) findViewById(R.id.spinner_cities);
+
+        // Create an ArrayAdapter using the string array and a default spinner
+        ArrayAdapter spinner_citiesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CityNames);
+
+        // Specify the layout to use when the list of choices appears
+        spinner_citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        spinner_cities.setAdapter(spinner_citiesAdapter);
+
+        spinner_cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (!CityNames.get(position).equals("Select your city")) {
+                    GetIDCity = CityIDs.get(position);
+                    Toast.makeText(RegisterActivity.this, GetIDCity, Toast.LENGTH_SHORT).show();
+                }else
+                    GetIDCity = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -383,6 +471,72 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ImageResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    public void GetAllCountries() {
+        pdialog.show();
+        mAPIService.AllCountries().enqueue(new Callback<AllCountriesResponse>() {
+
+            @Override
+            public void onResponse(Call<AllCountriesResponse> call, Response<AllCountriesResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        AllCountriesResponse allCategoriesResponse = response.body();
+
+                        allCountriesBeen = new ArrayList<AllCountriesResponse.AllCountriesBean>();
+
+                        allCountriesBeen = allCategoriesResponse.getAllCountries();
+
+                        for (int i = 0; i < allCountriesBeen.size(); i++) {
+                            CountryIDs.add(allCountriesBeen.get(i).getCountryID());
+                            CountryNames.add(allCountriesBeen.get(i).getCountryname());
+                        }
+                    } else
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    pdialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCountriesResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    public void GetAllCities(String CountryID) {
+        pdialog.show();
+        mAPIService.AllCities(CountryID).enqueue(new Callback<AllCitiesResponse>() {
+
+            @Override
+            public void onResponse(Call<AllCitiesResponse> call, Response<AllCitiesResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        AllCitiesResponse allCitiesResponse = response.body();
+
+                        allCitiesBeen = new ArrayList<AllCitiesResponse.AllCitiesBean>();
+
+                        allCitiesBeen = allCitiesResponse.getAllCities();
+
+                        for (int i = 0; i < allCitiesBeen.size(); i++) {
+                            CityIDs.add(allCitiesBeen.get(i).getCityID());
+                            CityNames.add(allCitiesBeen.get(i).getCityName());
+                        }
+                    } else
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    pdialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCitiesResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });

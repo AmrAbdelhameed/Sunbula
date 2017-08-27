@@ -54,7 +54,7 @@ public class AddCauseActivity extends AppCompatActivity {
     EditText txt_add_description_addcause, name_addcause, amount_addcause;
     ArrayList<String> CategoriesNames_in_AddCause;
     ArrayList<String> CategoriesIDs_in_AddCause;
-    String GetID = "";
+    String GetIDCategoires = "";
     Calendar myCalendar;
     String UserID;
     APIService mAPIService;
@@ -150,9 +150,10 @@ public class AddCauseActivity extends AppCompatActivity {
                                        int position, long id) {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
-                    GetID = CategoriesIDs_in_AddCause.get(position);
-//                    Toast.makeText(AddCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
-                }
+                    GetIDCategoires = CategoriesIDs_in_AddCause.get(position);
+//                    Toast.makeText(AddCauseActivity.this, GetIDCategoires, Toast.LENGTH_SHORT).show();
+                }else
+                    GetIDCategoires = "";
             }
 
             @Override
@@ -354,14 +355,14 @@ public class AddCauseActivity extends AppCompatActivity {
             if (amount_addcause.getText().toString().isEmpty()) {
                 amount_addcause.setError("enter here");
             }
-            if (GetID.equals(""))
+            if (GetIDCategoires.equals(""))
                 Toast.makeText(this, "Please select category", Toast.LENGTH_SHORT).show();
             if (txt_calender.getText().toString().equals("End date"))
                 Toast.makeText(this, "Please select End date", Toast.LENGTH_SHORT).show();
             if (txt_add_description_addcause.getText().toString().isEmpty())
                 txt_add_description_addcause.setError("enter here");
             else {
-                AddCause(name_addcause.getText().toString(), amount_addcause.getText().toString(), GetID,
+                AddCause(name_addcause.getText().toString(), amount_addcause.getText().toString(), GetIDCategoires,
                         txt_calender.getText().toString(), txt_add_description_addcause.getText().toString(), UserID);
             }
             return true;
