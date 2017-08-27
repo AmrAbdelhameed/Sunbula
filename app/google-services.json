@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "950538941661",
+    "firebase_url": "https://sunbula-a41c7.firebaseio.com",
+    "project_id": "sunbula-a41c7",
+    "storage_bucket": "sunbula-a41c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950538941661:android:bad8243aa22a05bd",
+        "android_client_info": {
+          "package_name": "com.example.amr.sunbula"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950538941661-85ipt77h5vcfp1uegkuui0dbcvdu5t4b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.amr.sunbula",
+            "certificate_hash": "7273d5c7945103272dac109b2c90b21c4c53fced"
+          }
+        },
+        {
+          "client_id": "950538941661-s100j7eqtgtg4l5bs221hfm0fmk0r5fd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyK2dawuU9Ex7ZfBFI237pqS-jfziXZBQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950538941661-s100j7eqtgtg4l5bs221hfm0fmk0r5fd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
