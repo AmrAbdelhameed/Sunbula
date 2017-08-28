@@ -103,14 +103,8 @@ public class RegisterActivity extends AppCompatActivity {
 //        GetAllCountries();
 
         Spinner spinner_countries = (Spinner) findViewById(R.id.spinner_countries);
-
-        // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter spinner_countriesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CountryNames);
-
-        // Specify the layout to use when the list of choices appears
         spinner_countriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
         spinner_countries.setAdapter(spinner_countriesAdapter);
 
         spinner_countries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -140,14 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
         GetAllCities("9ffec365-09d9-40a7-bb8d-028d246f12d5");
 
         Spinner spinner_cities = (Spinner) findViewById(R.id.spinner_cities);
-
-        // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter spinner_citiesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CityNames);
-
-        // Specify the layout to use when the list of choices appears
         spinner_citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
         spinner_cities.setAdapter(spinner_citiesAdapter);
 
         spinner_cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -206,27 +194,21 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
 //                      1076606079140782
-//                      AccessToken accessToken = loginResult.getAccessToken();
+
                         Profile profile = Profile.getCurrentProfile();
                         String imageURL = "https://graph.facebook.com/" + profile.getId() + "/picture?type=large";
                         String fbemail = profile.getId() + "@facebook.com";
                         FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL);
 
-//                        username.setText(profile.getName());
-//                        Picasso.with(RegisterActivity.this)
-//                                .load("https://graph.facebook.com/" + profile.getId() + "/picture?type=large")
-//                                .into(user_profile);
                     }
 
                     @Override
                     public void onCancel() {
-                        // App code
                         LoginManager.getInstance().logOut();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
                         Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

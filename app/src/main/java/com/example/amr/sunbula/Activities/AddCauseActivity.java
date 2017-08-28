@@ -134,14 +134,8 @@ public class AddCauseActivity extends AppCompatActivity {
         GetAllCategories(UserID);
 
         Spinner staticSpinner = (Spinner) findViewById(R.id.spinner_Categories);
-
-        // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter staticAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CategoriesNames_in_AddCause);
-
-        // Specify the layout to use when the list of choices appears
         staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Apply the adapter to the spinner
         staticSpinner.setAdapter(staticAdapter);
 
         staticSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -151,8 +145,7 @@ public class AddCauseActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetIDCategoires = CategoriesIDs_in_AddCause.get(position);
-//                    Toast.makeText(AddCauseActivity.this, GetIDCategoires, Toast.LENGTH_SHORT).show();
-                }else
+                } else
                     GetIDCategoires = "";
             }
 
