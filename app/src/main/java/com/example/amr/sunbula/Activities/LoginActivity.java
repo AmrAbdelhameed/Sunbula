@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,15 @@ import com.example.amr.sunbula.Models.APIResponses.LoginResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,9 +40,21 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog pdialog;
     private boolean loggedIn = false, loggedIn2 = false;
 
+    DatabaseReference databaseReference;
+    private FirebaseAuth firebaseAuth;
+    String UserID = "";
+    private ProgressDialog progressDialog2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        if (firebaseAuth.getCurrentUser() != null) {
+            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(i);
+            finish();
+        }
         setContentView(R.layout.activity_login);
 
         mAPIService = ApiUtils.getAPIService();
@@ -56,8 +78,59 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (password.getText().toString().isEmpty()) {
                     password.setError("Please enter here");
-                } else
-                    LoginPost(Email.getText().toString(), password.getText().toString());
+                } else {
+                    final String emaill = Email.getText().toString();
+
+//                    LoginPost(Email.getText().toString(), password.getText().toString());
+                    final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Proccessing...", true);
+
+                    (firebaseAuth.signInWithEmailAndPassword(Email.getText().toString(), password.getText().toString()))
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+
+                                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                        databaseReference = database.getReference();
+                                        databaseReference.child("users").addValueEventListener(new ValueEventListener() {
+
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                                                for (DataSnapshot child : children) {
+                                                    String uid = child.getKey();
+                                                    String email = child.child("email").getValue().toString();
+
+                                                    if (emaill.equals(email))
+                                                    {
+                                                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
+                                                        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                        editor.putString("UserID", uid);
+                                                        editor.apply();
+                                                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                                        startActivity(i);
+                                                        finish();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(DatabaseError databaseError) {
+
+                                            }
+                                        });
+
+
+                                    } else {
+                                        Log.e("ERROR", task.getException().toString());
+                                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    }
+                                    progressDialog.dismiss();
+                                }
+                            });
+                }
             }
         });
 
@@ -74,25 +147,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, ResetPasswordActivity.class);
                 startActivity(i);
-                finish();
-
             }
         });
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-        loggedIn = sharedPreferences.getBoolean("isVerified", false);
-        loggedIn2 = sharedPreferences.getBoolean("facebookID", false);
-
-        if (loggedIn || loggedIn2) {
-            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
     public void LoginPost(String email, String pass) {

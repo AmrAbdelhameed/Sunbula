@@ -20,6 +20,7 @@ import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Activities.SearchCauses_People;
+import com.google.firebase.auth.FirebaseAuth;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -77,8 +78,8 @@ public class HomeFragment extends Fragment {
 
         listView = (ListView) v.findViewById(R.id.list_item_home);
 
-        News_FeedPost(UserID);
-
+//        News_FeedPost(UserID);
+        Toast.makeText(getActivity(),UserID, Toast.LENGTH_SHORT).show();
         return v;
     }
 
@@ -192,6 +193,7 @@ public class HomeFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_search:
+                FirebaseAuth.getInstance().signOut();
                 if (check_con) {
                     Intent intent = new Intent(getActivity(), SearchCauses_People.class);
                     startActivity(intent);

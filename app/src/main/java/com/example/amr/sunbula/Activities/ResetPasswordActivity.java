@@ -15,6 +15,9 @@ import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,11 +30,14 @@ public class ResetPasswordActivity extends AppCompatActivity {
     private ProgressDialog pdialog;
     EditText txtemailresetpassword;
     Button btn_resetpassword;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         mAPIService = ApiUtils.getAPIService();
         pdialog = new ProgressDialog(ResetPasswordActivity.this);
@@ -47,8 +53,22 @@ public class ResetPasswordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (txtemailresetpassword.getText().toString().isEmpty()) {
                     txtemailresetpassword.setError("Please enter here");
-                } else
-                    ForgetPassword(txtemailresetpassword.getText().toString());
+                } else {
+//                    ForgetPassword(txtemailresetpassword.getText().toString());
+                    firebaseAuth.sendPasswordResetEmail(txtemailresetpassword.getText().toString())
+                            .addOnCompleteListener(ResetPasswordActivity.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(Task<Void> task) {
+
+                                    if (!task.isSuccessful()) {
+                                        Toast.makeText(ResetPasswordActivity.this, "Failed to send reset Email!", Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password on mail!", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
+                                }
+                            });
+                }
             }
         });
     }
