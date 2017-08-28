@@ -12,6 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.amr.sunbula.Activities.HomeActivity;
+import com.example.amr.sunbula.Activities.LoginActivity;
 import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
 import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
@@ -21,6 +23,11 @@ import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Activities.SearchCauses_People;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -52,6 +59,9 @@ public class HomeFragment extends Fragment {
     List<NewsfeedResponse.FollowingCassesListBean> followingCassesListBeen;
     boolean check_con = false;
 
+    DatabaseReference databaseReference;
+    private ProgressDialog progressDialog;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -79,7 +89,120 @@ public class HomeFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.list_item_home);
 
 //        News_FeedPost(UserID);
-        Toast.makeText(getActivity(), UserID, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), UserID, Toast.LENGTH_SHORT).show();
+
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
+        databaseReference.child("Newsfeed").child("MyANDJoinedCasesList").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                list = (new Select().from(NewsFeed.class).queryList());
+
+                if (list.size() > 0) {
+                    Delete.table(NewsFeed.class);
+                }
+
+                for (DataSnapshot child : children) {
+
+                    String CauseID = child.getKey();
+                    String CaseName = child.child("CaseName").getValue().toString();
+                    String CaseDescription = child.child("CaseDescription").getValue().toString();
+                    String EndDate = child.child("EndDate").getValue().toString();
+                    String IMG = child.child("IMG").getValue().toString();
+                    boolean IsJoined = (boolean) child.child("IsJoined").getValue();
+                    boolean IsOwner = (boolean) child.child("IsOwner").getValue();
+                    String Numberofjoins = child.child("Numberofjoins").getValue().toString();
+                    String status = child.child("status").getValue().toString();
+                    String Amount = child.child("Amount").getValue().toString();
+                    String User_ID = child.child("User_ID").getValue().toString();
+
+                    if (User_ID.equals(UserID)) {
+                        n = new NewsFeed();
+
+                        n.setCaseName(CaseName);
+                        n.setCaseDescription(CaseDescription);
+                        n.setJoined(IsJoined);
+                        n.setOwner(IsOwner);
+                        n.setCauseID(CauseID);
+                        n.setEndDate(EndDate);
+                        n.setIMG(IMG);
+                        n.setAmount(Integer.parseInt(Amount));
+                        n.setNumberofjoins(Integer.parseInt(Numberofjoins));
+                        n.setStatus(Integer.parseInt(status));
+
+                        n.save();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        databaseReference.child("Newsfeed").child("FollowingCassesList").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                for (DataSnapshot child : children) {
+
+                    String CauseID = child.getKey();
+                    String CaseName = child.child("CaseName").getValue().toString();
+                    String CaseDescription = child.child("CaseDescription").getValue().toString();
+                    String EndDate = child.child("EndDate").getValue().toString();
+                    String IMG = child.child("IMG").getValue().toString();
+                    boolean IsJoined = (boolean) child.child("IsJoined").getValue();
+                    boolean IsOwner = (boolean) child.child("IsOwner").getValue();
+                    String Numberofjoins = child.child("Numberofjoins").getValue().toString();
+                    String status = child.child("status").getValue().toString();
+                    String Amount = child.child("Amount").getValue().toString();
+                    String User_ID = child.child("User_ID").getValue().toString();
+
+                    if (User_ID.equals(UserID)) {
+                        n = new NewsFeed();
+
+                        n.setCaseName(CaseName);
+                        n.setCaseDescription(CaseDescription);
+                        n.setJoined(IsJoined);
+                        n.setOwner(IsOwner);
+                        n.setCauseID(CauseID);
+                        n.setEndDate(EndDate);
+                        n.setIMG(IMG);
+                        n.setAmount(Integer.parseInt(Amount));
+                        n.setNumberofjoins(Integer.parseInt(Numberofjoins));
+                        n.setStatus(Integer.parseInt(status));
+
+                        n.save();
+                    }
+
+                }
+                list = (new Select().from(NewsFeed.class).queryList());
+
+                for (int aa = 0; aa < list.size(); aa++) {
+                    NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
+                    newsFeedWrappers.add(newsFeedWrapper);
+                }
+                adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
+                listView.setDivider(null);
+                listView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         return v;
     }
 
