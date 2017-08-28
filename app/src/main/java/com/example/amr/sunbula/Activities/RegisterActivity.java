@@ -212,7 +212,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
 
                                     if (task.isSuccessful()) {
-                                        uploadFile();
+                                        if (!imagePath.isEmpty())
+                                            uploadFile();
+                                        else
+                                            DataSavedonFirebase();
                                     } else {
                                         Log.e("ERROR", task.getException().toString());
                                         Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -596,33 +599,7 @@ public class RegisterActivity extends AppCompatActivity {
                     // ba5odha fe string as url
                     imageurl = taskSnapshot.getDownloadUrl().toString();
 
-                    DatabaseReference mDatabase;
-
-                    mDatabase = FirebaseDatabase.getInstance().getReference();
-
-                    String s = mDatabase.push().getKey();
-
-                    UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
-
-                    userDetailsResponse.setEMail(Email.getText().toString());
-                    userDetailsResponse.setImgURL(imageurl);
-                    userDetailsResponse.setName(username.getText().toString());
-                    userDetailsResponse.setPassword(password.getText().toString());
-                    userDetailsResponse.setFacebookID("123");
-
-                    // b3ml save fel firebase lel object of admin
-                    mDatabase.child("users").child(s).setValue(userDetailsResponse);
-                    mDatabase.child("users").child(s).child("Login_Type").setValue(1);
-
-                    SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("UserID", s);
-                    editor.apply();
-
-                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
-                    startActivity(i);
-                    finish();
+                    DataSavedonFirebase();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -641,6 +618,36 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             Toast.makeText(RegisterActivity.this, "File Error", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void DataSavedonFirebase() {
+        DatabaseReference mDatabase;
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        String s = mDatabase.push().getKey();
+
+        UserDetailsResponse userDetailsResponse = new UserDetailsResponse();
+
+        userDetailsResponse.setEMail(Email.getText().toString());
+        userDetailsResponse.setImgURL(imageurl);
+        userDetailsResponse.setName(username.getText().toString());
+        userDetailsResponse.setPassword(password.getText().toString());
+        userDetailsResponse.setFacebookID("123");
+
+        // b3ml save fel firebase lel object of admin
+        mDatabase.child("users").child(s).setValue(userDetailsResponse);
+        mDatabase.child("users").child(s).child("Login_Type").setValue(1);
+
+        SharedPreferences sharedPreferences = RegisterActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("UserID", s);
+        editor.apply();
+
+        Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
+        startActivity(i);
+        finish();
     }
 
     @Override

@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
         listView = (ListView) v.findViewById(R.id.list_item_home);
 
 //        News_FeedPost(UserID);
-        Toast.makeText(getActivity(),UserID, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), UserID, Toast.LENGTH_SHORT).show();
         return v;
     }
 
@@ -194,11 +194,12 @@ public class HomeFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_search:
                 FirebaseAuth.getInstance().signOut();
-                if (check_con) {
-                    Intent intent = new Intent(getActivity(), SearchCauses_People.class);
-                    startActivity(intent);
-                } else
-                    Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                getActivity().finish();
+//                if (check_con) {
+//                    Intent intent = new Intent(getActivity(), SearchCauses_People.class);
+//                    startActivity(intent);
+//                } else
+//                    Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
