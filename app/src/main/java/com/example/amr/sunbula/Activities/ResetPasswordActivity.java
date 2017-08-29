@@ -2,6 +2,8 @@ package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,19 +57,23 @@ public class ResetPasswordActivity extends AppCompatActivity {
                     txtemailresetpassword.setError("Please enter here");
                 } else {
 //                    ForgetPassword(txtemailresetpassword.getText().toString());
-                    firebaseAuth.sendPasswordResetEmail(txtemailresetpassword.getText().toString())
-                            .addOnCompleteListener(ResetPasswordActivity.this, new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(Task<Void> task) {
+                    if (isNetworkAvailable()) {
+                        firebaseAuth.sendPasswordResetEmail(txtemailresetpassword.getText().toString())
+                                .addOnCompleteListener(ResetPasswordActivity.this, new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(Task<Void> task) {
 
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(ResetPasswordActivity.this, "Failed to send reset Email!", Toast.LENGTH_LONG).show();
-                                    } else {
-                                        Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password on mail!", Toast.LENGTH_LONG).show();
-                                        finish();
+                                        if (!task.isSuccessful()) {
+                                            Toast.makeText(ResetPasswordActivity.this, "Failed to send reset Email!", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(ResetPasswordActivity.this, "We have sent you instructions to reset your password on mail!", Toast.LENGTH_LONG).show();
+                                            finish();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    } else {
+                        Toast.makeText(ResetPasswordActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -117,5 +123,12 @@ public class ResetPasswordActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
