@@ -102,15 +102,17 @@ public class SearchCauses_People extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                progressDialog = new ProgressDialog(SearchCauses_People.this);
-                progressDialog.setMessage("Please wait...");
-                progressDialog.show();
-                if (choice) {
+                if (!text_search.getText().toString().isEmpty()) {
+                    progressDialog = new ProgressDialog(SearchCauses_People.this);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+                    if (choice) {
 //                    SearchCausesPost(UserID, text_search.getText().toString());
-                    SearchCausesFirebase();
-                } else {
+                        SearchCausesFirebase(text_search.getText().toString());
+                    } else {
 //                    SearchPeoplePost(UserID, text_search.getText().toString());
-                    SearchPeopleFirebase();
+                        SearchPeopleFirebase(text_search.getText().toString());
+                    }
                 }
             }
         });
@@ -147,7 +149,7 @@ public class SearchCauses_People extends AppCompatActivity {
         });
     }
 
-    public void SearchCausesFirebase() {
+    public void SearchCausesFirebase(final String body) {
 
         searchedCasesBeen = new ArrayList<SearchCausesResponse.SearchedCasesBean>();
 
@@ -174,21 +176,23 @@ public class SearchCauses_People extends AppCompatActivity {
                     String status = child.child("status").getValue().toString();
                     String Amount = child.child("Amount").getValue().toString();
 
-                    searchedCasesBean.setCaseName(CaseName);
-                    searchedCasesBean.setCaseDescription(CaseDescription);
-                    searchedCasesBean.setIsJoined(IsJoined);
-                    searchedCasesBean.setIsOwner(IsOwner);
-                    searchedCasesBean.setCauseID(CauseID);
-                    searchedCasesBean.setEndDate(EndDate);
-                    searchedCasesBean.setIMG(IMG);
-                    searchedCasesBean.setAmount(Integer.parseInt(Amount));
-                    searchedCasesBean.setNumberofjoins(Integer.parseInt(Numberofjoins));
-                    searchedCasesBean.setStatus(Integer.parseInt(status));
+                    if (CaseName.contains(body)) {
+                        searchedCasesBean.setCaseName(CaseName);
+                        searchedCasesBean.setCaseDescription(CaseDescription);
+                        searchedCasesBean.setIsJoined(IsJoined);
+                        searchedCasesBean.setIsOwner(IsOwner);
+                        searchedCasesBean.setCauseID(CauseID);
+                        searchedCasesBean.setEndDate(EndDate);
+                        searchedCasesBean.setIMG(IMG);
+                        searchedCasesBean.setAmount(Integer.parseInt(Amount));
+                        searchedCasesBean.setNumberofjoins(Integer.parseInt(Numberofjoins));
+                        searchedCasesBean.setStatus(Integer.parseInt(status));
 
-                    searchedCasesBeen.add(searchedCasesBean);
+                        searchedCasesBeen.add(searchedCasesBean);
 
-                    adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
-                    listView.setAdapter(adapter);
+                        adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
+                        listView.setAdapter(adapter);
+                    }
                 }
             }
 
@@ -243,7 +247,7 @@ public class SearchCauses_People extends AppCompatActivity {
         });
     }
 
-    public void SearchPeopleFirebase() {
+    public void SearchPeopleFirebase(final String body) {
 
         searchedPepoleBeen = new ArrayList<SearchPeopleResponse.SearchedPepoleBean>();
 
@@ -265,27 +269,29 @@ public class SearchCauses_People extends AppCompatActivity {
                     String User_ID = child.child("User_ID").getValue().toString();
                     String ImgURL = child.child("ImgURL").getValue().toString();
 
-                    searchedPepoleBean.setName(Name);
-                    searchedPepoleBean.setUser_ID(User_ID);
-                    searchedPepoleBean.setImgURL(ImgURL);
+                    if (Name.contains(body)) {
+                        searchedPepoleBean.setName(Name);
+                        searchedPepoleBean.setUser_ID(User_ID);
+                        searchedPepoleBean.setImgURL(ImgURL);
 
-                    searchedPepoleBeen.add(searchedPepoleBean);
+                        searchedPepoleBeen.add(searchedPepoleBean);
 
-                    adapter2 = new SearchPeople_Adapter(SearchCauses_People.this, R.layout.item_in_search_people, searchedPepoleBeen);
-                    listView.setAdapter(adapter2);
+                        adapter2 = new SearchPeople_Adapter(SearchCauses_People.this, R.layout.item_in_search_people, searchedPepoleBeen);
+                        listView.setAdapter(adapter2);
 
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 
-                            // TODO Auto-generated method stub
-                            Intent i = new Intent(SearchCauses_People.this, ShowDetailsUserActivity.class);
-                            Bundle b = new Bundle();
-                            b.putString("people_id", searchedPepoleBeen.get(pos).getUser_ID());
-                            i.putExtras(b);
-                            startActivity(i);
-                        }
-                    });
+                                // TODO Auto-generated method stub
+                                Intent i = new Intent(SearchCauses_People.this, ShowDetailsUserActivity.class);
+                                Bundle b = new Bundle();
+                                b.putString("people_id", searchedPepoleBeen.get(pos).getUser_ID());
+                                i.putExtras(b);
+                                startActivity(i);
+                            }
+                        });
+                    }
                 }
             }
 
