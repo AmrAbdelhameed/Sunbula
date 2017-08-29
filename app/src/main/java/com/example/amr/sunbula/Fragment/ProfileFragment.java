@@ -40,6 +40,7 @@ import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Activities.Reviews_Following_FollowersActivity;
 import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 import com.squareup.picasso.Picasso;
@@ -431,6 +432,7 @@ public class ProfileFragment extends Fragment {
                 Delete.table(Following.class);
                 Delete.table(Followers.class);
                 LoginManager.getInstance().logOut();
+                FirebaseAuth.getInstance().signOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
                 getActivity().finish();

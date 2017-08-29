@@ -97,6 +97,13 @@ public class HomeFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference();
+
+        MyANDJoinedCasesList();
+        FollowingCassesList();
+        return v;
+    }
+
+    public void MyANDJoinedCasesList() {
         databaseReference.child("Newsfeed").child("MyANDJoinedCasesList").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -148,6 +155,9 @@ public class HomeFragment extends Fragment {
 
             }
         });
+    }
+
+    public void FollowingCassesList() {
         databaseReference.child("Newsfeed").child("FollowingCassesList").addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -203,7 +213,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        return v;
     }
 
     public void News_FeedPost(String UserId) {
@@ -316,8 +325,8 @@ public class HomeFragment extends Fragment {
 
         switch (item.getItemId()) {
             case R.id.action_search:
-                FirebaseAuth.getInstance().signOut();
-                getActivity().finish();
+                Intent intent = new Intent(getActivity(), SearchCauses_People.class);
+                startActivity(intent);
 //                if (check_con) {
 //                    Intent intent = new Intent(getActivity(), SearchCauses_People.class);
 //                    startActivity(intent);

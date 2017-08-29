@@ -18,9 +18,17 @@ import com.example.amr.sunbula.Adapters.SearchCauses_Adapter;
 import com.example.amr.sunbula.Adapters.SearchPeople_Adapter;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +51,11 @@ public class SearchCauses_People extends AppCompatActivity {
     boolean choice;
     List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
     List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
+
+    DatabaseReference databaseReference;
+    private ProgressDialog progressDialog;
+    SearchCausesResponse.SearchedCasesBean searchedCasesBean;
+    SearchPeopleResponse.SearchedPepoleBean searchedPepoleBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +101,17 @@ public class SearchCauses_People extends AppCompatActivity {
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (choice)
-                    SearchCausesPost(UserID, text_search.getText().toString());
-                else
-                    SearchPeoplePost(UserID, text_search.getText().toString());
+
+                progressDialog = new ProgressDialog(SearchCauses_People.this);
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+                if (choice) {
+//                    SearchCausesPost(UserID, text_search.getText().toString());
+                    SearchCausesFirebase();
+                } else {
+//                    SearchPeoplePost(UserID, text_search.getText().toString());
+                    SearchPeopleFirebase();
+                }
             }
         });
     }
@@ -123,6 +143,58 @@ public class SearchCauses_People extends AppCompatActivity {
             public void onFailure(Call<SearchCausesResponse> call, Throwable t) {
                 Toast.makeText(SearchCauses_People.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
+            }
+        });
+    }
+
+    public void SearchCausesFirebase() {
+
+        searchedCasesBeen = new ArrayList<SearchCausesResponse.SearchedCasesBean>();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
+        databaseReference.child("Search").child("SearchedCases").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                searchedCasesBeen.clear();
+                for (DataSnapshot child : children) {
+
+                    searchedCasesBean = new SearchCausesResponse.SearchedCasesBean();
+                    String CauseID = child.getKey();
+                    String CaseName = child.child("CaseName").getValue().toString();
+                    String CaseDescription = child.child("CaseDescription").getValue().toString();
+                    String EndDate = child.child("EndDate").getValue().toString();
+                    String IMG = child.child("IMG").getValue().toString();
+                    boolean IsJoined = (boolean) child.child("IsJoined").getValue();
+                    boolean IsOwner = (boolean) child.child("IsOwner").getValue();
+                    String Numberofjoins = child.child("Numberofjoins").getValue().toString();
+                    String status = child.child("status").getValue().toString();
+                    String Amount = child.child("Amount").getValue().toString();
+
+                    searchedCasesBean.setCaseName(CaseName);
+                    searchedCasesBean.setCaseDescription(CaseDescription);
+                    searchedCasesBean.setIsJoined(IsJoined);
+                    searchedCasesBean.setIsOwner(IsOwner);
+                    searchedCasesBean.setCauseID(CauseID);
+                    searchedCasesBean.setEndDate(EndDate);
+                    searchedCasesBean.setIMG(IMG);
+                    searchedCasesBean.setAmount(Integer.parseInt(Amount));
+                    searchedCasesBean.setNumberofjoins(Integer.parseInt(Numberofjoins));
+                    searchedCasesBean.setStatus(Integer.parseInt(status));
+
+                    searchedCasesBeen.add(searchedCasesBean);
+
+                    adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
+                    listView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -167,6 +239,59 @@ public class SearchCauses_People extends AppCompatActivity {
             @Override
             public void onFailure(Call<SearchPeopleResponse> call, Throwable t) {
                 pdialog.dismiss();
+            }
+        });
+    }
+
+    public void SearchPeopleFirebase() {
+
+        searchedPepoleBeen = new ArrayList<SearchPeopleResponse.SearchedPepoleBean>();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference();
+        databaseReference.child("Search").child("SearchedPepole").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                searchedPepoleBeen.clear();
+                for (DataSnapshot child : children) {
+
+                    searchedPepoleBean = new SearchPeopleResponse.SearchedPepoleBean();
+
+//                    String User_ID = child.getKey();
+                    String Name = child.child("Name").getValue().toString();
+                    String User_ID = child.child("User_ID").getValue().toString();
+                    String ImgURL = child.child("ImgURL").getValue().toString();
+
+                    searchedPepoleBean.setName(Name);
+                    searchedPepoleBean.setUser_ID(User_ID);
+                    searchedPepoleBean.setImgURL(ImgURL);
+
+                    searchedPepoleBeen.add(searchedPepoleBean);
+
+                    adapter2 = new SearchPeople_Adapter(SearchCauses_People.this, R.layout.item_in_search_people, searchedPepoleBeen);
+                    listView.setAdapter(adapter2);
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                            // TODO Auto-generated method stub
+                            Intent i = new Intent(SearchCauses_People.this, ShowDetailsUserActivity.class);
+                            Bundle b = new Bundle();
+                            b.putString("people_id", searchedPepoleBeen.get(pos).getUser_ID());
+                            i.putExtras(b);
+                            startActivity(i);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
