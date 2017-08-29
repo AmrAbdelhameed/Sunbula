@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -91,128 +93,132 @@ public class HomeFragment extends Fragment {
 //        News_FeedPost(UserID);
 //        Toast.makeText(getActivity(), UserID, Toast.LENGTH_SHORT).show();
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
+        if (isNetworkAvailable()) {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            databaseReference = database.getReference();
+            databaseReference.child("Newsfeed").child("MyANDJoinedCasesList").addValueEventListener(new ValueEventListener() {
 
-        MyANDJoinedCasesList();
-        FollowingCassesList();
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                    list = (new Select().from(NewsFeed.class).queryList());
+
+                    if (list.size() > 0) {
+                        Delete.table(NewsFeed.class);
+                    }
+
+                    for (DataSnapshot child : children) {
+
+                        String CauseID = child.getKey();
+                        String CaseName = child.child("CaseName").getValue().toString();
+                        String CaseDescription = child.child("CaseDescription").getValue().toString();
+                        String EndDate = child.child("EndDate").getValue().toString();
+                        String IMG = child.child("IMG").getValue().toString();
+                        boolean IsJoined = (boolean) child.child("IsJoined").getValue();
+                        boolean IsOwner = (boolean) child.child("IsOwner").getValue();
+                        String Numberofjoins = child.child("Numberofjoins").getValue().toString();
+                        String status = child.child("status").getValue().toString();
+                        String Amount = child.child("Amount").getValue().toString();
+                        String User_ID = child.child("User_ID").getValue().toString();
+
+                        if (User_ID.equals(UserID)) {
+                            n = new NewsFeed();
+
+                            n.setCaseName(CaseName);
+                            n.setCaseDescription(CaseDescription);
+                            n.setJoined(IsJoined);
+                            n.setOwner(IsOwner);
+                            n.setCauseID(CauseID);
+                            n.setEndDate(EndDate);
+                            n.setIMG(IMG);
+                            n.setAmount(Integer.parseInt(Amount));
+                            n.setNumberofjoins(Integer.parseInt(Numberofjoins));
+                            n.setStatus(Integer.parseInt(status));
+
+                            n.save();
+                        }
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+            databaseReference.child("Newsfeed").child("FollowingCassesList").addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    progressDialog.dismiss();
+                    Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                    for (DataSnapshot child : children) {
+
+                        String CauseID = child.getKey();
+                        String CaseName = child.child("CaseName").getValue().toString();
+                        String CaseDescription = child.child("CaseDescription").getValue().toString();
+                        String EndDate = child.child("EndDate").getValue().toString();
+                        String IMG = child.child("IMG").getValue().toString();
+                        boolean IsJoined = (boolean) child.child("IsJoined").getValue();
+                        boolean IsOwner = (boolean) child.child("IsOwner").getValue();
+                        String Numberofjoins = child.child("Numberofjoins").getValue().toString();
+                        String status = child.child("status").getValue().toString();
+                        String Amount = child.child("Amount").getValue().toString();
+                        String User_ID = child.child("User_ID").getValue().toString();
+
+                        if (User_ID.equals(UserID)) {
+                            n = new NewsFeed();
+
+                            n.setCaseName(CaseName);
+                            n.setCaseDescription(CaseDescription);
+                            n.setJoined(IsJoined);
+                            n.setOwner(IsOwner);
+                            n.setCauseID(CauseID);
+                            n.setEndDate(EndDate);
+                            n.setIMG(IMG);
+                            n.setAmount(Integer.parseInt(Amount));
+                            n.setNumberofjoins(Integer.parseInt(Numberofjoins));
+                            n.setStatus(Integer.parseInt(status));
+
+                            n.save();
+                        }
+
+                    }
+                    list = (new Select().from(NewsFeed.class).queryList());
+
+                    for (int aa = 0; aa < list.size(); aa++) {
+                        NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
+                        newsFeedWrappers.add(newsFeedWrapper);
+                    }
+                    adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
+                    listView.setDivider(null);
+                    listView.setAdapter(adapter);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+
+            list = (new Select().from(NewsFeed.class).queryList());
+            for (int aa = 0; aa < list.size(); aa++) {
+                NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
+                newsFeedWrappers.add(newsFeedWrapper);
+            }
+            adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
+            listView.setDivider(null);
+            listView.setAdapter(adapter);
+        }
         return v;
-    }
-
-    public void MyANDJoinedCasesList() {
-        databaseReference.child("Newsfeed").child("MyANDJoinedCasesList").addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-
-                list = (new Select().from(NewsFeed.class).queryList());
-
-                if (list.size() > 0) {
-                    Delete.table(NewsFeed.class);
-                }
-
-                for (DataSnapshot child : children) {
-
-                    String CauseID = child.getKey();
-                    String CaseName = child.child("CaseName").getValue().toString();
-                    String CaseDescription = child.child("CaseDescription").getValue().toString();
-                    String EndDate = child.child("EndDate").getValue().toString();
-                    String IMG = child.child("IMG").getValue().toString();
-                    boolean IsJoined = (boolean) child.child("IsJoined").getValue();
-                    boolean IsOwner = (boolean) child.child("IsOwner").getValue();
-                    String Numberofjoins = child.child("Numberofjoins").getValue().toString();
-                    String status = child.child("status").getValue().toString();
-                    String Amount = child.child("Amount").getValue().toString();
-                    String User_ID = child.child("User_ID").getValue().toString();
-
-                    if (User_ID.equals(UserID)) {
-                        n = new NewsFeed();
-
-                        n.setCaseName(CaseName);
-                        n.setCaseDescription(CaseDescription);
-                        n.setJoined(IsJoined);
-                        n.setOwner(IsOwner);
-                        n.setCauseID(CauseID);
-                        n.setEndDate(EndDate);
-                        n.setIMG(IMG);
-                        n.setAmount(Integer.parseInt(Amount));
-                        n.setNumberofjoins(Integer.parseInt(Numberofjoins));
-                        n.setStatus(Integer.parseInt(status));
-
-                        n.save();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    public void FollowingCassesList() {
-        databaseReference.child("Newsfeed").child("FollowingCassesList").addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-
-                for (DataSnapshot child : children) {
-
-                    String CauseID = child.getKey();
-                    String CaseName = child.child("CaseName").getValue().toString();
-                    String CaseDescription = child.child("CaseDescription").getValue().toString();
-                    String EndDate = child.child("EndDate").getValue().toString();
-                    String IMG = child.child("IMG").getValue().toString();
-                    boolean IsJoined = (boolean) child.child("IsJoined").getValue();
-                    boolean IsOwner = (boolean) child.child("IsOwner").getValue();
-                    String Numberofjoins = child.child("Numberofjoins").getValue().toString();
-                    String status = child.child("status").getValue().toString();
-                    String Amount = child.child("Amount").getValue().toString();
-                    String User_ID = child.child("User_ID").getValue().toString();
-
-                    if (User_ID.equals(UserID)) {
-                        n = new NewsFeed();
-
-                        n.setCaseName(CaseName);
-                        n.setCaseDescription(CaseDescription);
-                        n.setJoined(IsJoined);
-                        n.setOwner(IsOwner);
-                        n.setCauseID(CauseID);
-                        n.setEndDate(EndDate);
-                        n.setIMG(IMG);
-                        n.setAmount(Integer.parseInt(Amount));
-                        n.setNumberofjoins(Integer.parseInt(Numberofjoins));
-                        n.setStatus(Integer.parseInt(status));
-
-                        n.save();
-                    }
-
-                }
-                list = (new Select().from(NewsFeed.class).queryList());
-
-                for (int aa = 0; aa < list.size(); aa++) {
-                    NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
-                    newsFeedWrappers.add(newsFeedWrapper);
-                }
-                adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
-                listView.setDivider(null);
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void News_FeedPost(String UserId) {
@@ -336,5 +342,12 @@ public class HomeFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(getActivity().CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -206,22 +208,26 @@ public class RegisterActivity extends AppCompatActivity {
                     password.setError("Please enter here");
                 } else {
 //                    RegisterPost(1, Name, Password, EMail);
-                    (firebaseAuth.createUserWithEmailAndPassword(EMail, Password))
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (isNetworkAvailable()) {
+                        (firebaseAuth.createUserWithEmailAndPassword(EMail, Password))
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
 
-                                    if (task.isSuccessful()) {
-                                        if (!imagePath.isEmpty())
-                                            uploadFile();
-                                        else
-                                            DataSavedonFirebase();
-                                    } else {
-                                        Log.e("ERROR", task.getException().toString());
-                                        Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        if (task.isSuccessful()) {
+                                            if (!imagePath.isEmpty())
+                                                uploadFile();
+                                            else
+                                                DataSavedonFirebase();
+                                        } else {
+                                            Log.e("ERROR", task.getException().toString());
+                                            Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    } else {
+                        Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -651,6 +657,13 @@ public class RegisterActivity extends AppCompatActivity {
         Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
         startActivity(i);
         finish();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,61 +81,65 @@ public class LoginActivity extends AppCompatActivity {
                 if (password.getText().toString().isEmpty()) {
                     password.setError("Please enter here");
                 } else {
-                    final String emaill = Email.getText().toString();
+                    if (isNetworkAvailable()) {
+                        final String emaill = Email.getText().toString();
 
 //                    LoginPost(Email.getText().toString(), password.getText().toString());
-                    final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Proccessing...", true);
+                        final ProgressDialog progressDialog = ProgressDialog.show(LoginActivity.this, "Please wait...", "Proccessing...", true);
 
-                    (firebaseAuth.signInWithEmailAndPassword(Email.getText().toString(), password.getText().toString()))
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
+                        (firebaseAuth.signInWithEmailAndPassword(Email.getText().toString(), password.getText().toString()))
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
 
-                                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                        databaseReference = database.getReference();
-                                        databaseReference.child("users").addValueEventListener(new ValueEventListener() {
+                                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                            databaseReference = database.getReference();
+                                            databaseReference.child("users").addValueEventListener(new ValueEventListener() {
 
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                                                @Override
+                                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                                    Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-                                                for (DataSnapshot child : children) {
-                                                    String uid = child.getKey();
-                                                    String uemail = child.child("email").getValue().toString();
-                                                    String uimgURL = child.child("imgURL").getValue().toString();
-                                                    String uname = child.child("name").getValue().toString();
+                                                    for (DataSnapshot child : children) {
+                                                        String uid = child.getKey();
+                                                        String uemail = child.child("email").getValue().toString();
+                                                        String uimgURL = child.child("imgURL").getValue().toString();
+                                                        String uname = child.child("name").getValue().toString();
 
-                                                    if (emaill.equals(uemail)) {
-                                                        Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
-                                                        SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-                                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                        editor.putString("UserID", uid);
-                                                        editor.putString("UserName", uname);
-                                                        editor.putString("UserImgURL", uimgURL);
-                                                        editor.putString("UserEmail", uemail);
-                                                        editor.apply();
-                                                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                                                        startActivity(i);
-                                                        finish();
+                                                        if (emaill.equals(uemail)) {
+                                                            Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
+                                                            SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                                            editor.putString("UserID", uid);
+                                                            editor.putString("UserName", uname);
+                                                            editor.putString("UserImgURL", uimgURL);
+                                                            editor.putString("UserEmail", uemail);
+                                                            editor.apply();
+                                                            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                                            startActivity(i);
+                                                            finish();
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
+                                                @Override
+                                                public void onCancelled(DatabaseError databaseError) {
 
-                                            }
-                                        });
+                                                }
+                                            });
 
 
-                                    } else {
-                                        Log.e("ERROR", task.getException().toString());
-                                        Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Log.e("ERROR", task.getException().toString());
+                                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                        }
+                                        progressDialog.dismiss();
                                     }
-                                    progressDialog.dismiss();
-                                }
-                            });
+                                });
+                    } else {
+                        Toast.makeText(LoginActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -201,5 +207,12 @@ public class LoginActivity extends AppCompatActivity {
                 pdialog.dismiss();
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

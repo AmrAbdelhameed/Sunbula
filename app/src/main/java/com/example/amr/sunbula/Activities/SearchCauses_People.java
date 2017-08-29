@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -102,17 +104,21 @@ public class SearchCauses_People extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (!text_search.getText().toString().isEmpty()) {
-                    progressDialog = new ProgressDialog(SearchCauses_People.this);
-                    progressDialog.setMessage("Please wait...");
-                    progressDialog.show();
-                    if (choice) {
+                if (isNetworkAvailable()) {
+                    if (!text_search.getText().toString().isEmpty()) {
+                        progressDialog = new ProgressDialog(SearchCauses_People.this);
+                        progressDialog.setMessage("Please wait...");
+                        progressDialog.show();
+                        if (choice) {
 //                    SearchCausesPost(UserID, text_search.getText().toString());
-                        SearchCausesFirebase(text_search.getText().toString());
-                    } else {
+                            SearchCausesFirebase(text_search.getText().toString());
+                        } else {
 //                    SearchPeoplePost(UserID, text_search.getText().toString());
-                        SearchPeopleFirebase(text_search.getText().toString());
+                            SearchPeopleFirebase(text_search.getText().toString());
+                        }
                     }
+                } else {
+                    Toast.makeText(SearchCauses_People.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -324,5 +330,12 @@ public class SearchCauses_People extends AppCompatActivity {
 
         btn_cause.setTextColor(getApplication().getResources().getColor(R.color.colorAccent));
         btn_people.setTextColor(getApplication().getResources().getColor(R.color.tab_enable));
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
