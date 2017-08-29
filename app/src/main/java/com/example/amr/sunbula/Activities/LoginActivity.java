@@ -100,14 +100,18 @@ public class LoginActivity extends AppCompatActivity {
 
                                                 for (DataSnapshot child : children) {
                                                     String uid = child.getKey();
-                                                    String email = child.child("email").getValue().toString();
+                                                    String uemail = child.child("email").getValue().toString();
+                                                    String uimgURL = child.child("imgURL").getValue().toString();
+                                                    String uname = child.child("name").getValue().toString();
 
-                                                    if (emaill.equals(email))
-                                                    {
+                                                    if (emaill.equals(uemail)) {
                                                         Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
                                                         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                                         editor.putString("UserID", uid);
+                                                        editor.putString("UserName", uname);
+                                                        editor.putString("UserImgURL", uimgURL);
+                                                        editor.putString("UserEmail", uemail);
                                                         editor.apply();
                                                         Intent i = new Intent(LoginActivity.this, HomeActivity.class);
                                                         startActivity(i);

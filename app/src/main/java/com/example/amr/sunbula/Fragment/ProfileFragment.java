@@ -136,9 +136,6 @@ public class ProfileFragment extends Fragment {
 
         mAPIService = ApiUtils.getAPIService();
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
-        UserID = sharedPreferences.getString("UserID", "null");
-
         tabLayout = (TabLayout) v.findViewById(R.id.tab_layout);
         container = (LinearLayout) v.findViewById(R.id.fragment_container);
         username_profile = (TextView) v.findViewById(R.id.username_profile);
@@ -152,7 +149,18 @@ public class ProfileFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("My Causes"));
         tabLayout.addTab(tabLayout.newTab().setText("Joined"));
 
-        MyDetailsPost(UserID);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        UserID = sharedPreferences.getString("UserID", "null");
+        String UserImgURL = sharedPreferences.getString("UserImgURL", "");
+        String UserName = sharedPreferences.getString("UserName", "");
+        String UserEmail = sharedPreferences.getString("UserEmail","");
+
+        if (UserImgURL.contains("http"))
+            Picasso.with(getActivity()).load(UserImgURL).into(image_profile);
+        username_profile.setText(UserName);
+
+//        MyDetailsPost(UserID);
+        replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
 
         text_reviews_profile.setOnClickListener(new View.OnClickListener() {
             @Override
