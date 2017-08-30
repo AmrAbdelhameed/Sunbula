@@ -129,6 +129,23 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
                             public void onClick(DialogInterface dialog, int id) {
 
                                 CompleteOrDeletePost(list_name_cause.get(position).getCauseID(), 2, position);
+                                if (list_name_cause.get(position).isSelected()) {
+                                    holder.text_details_cause.setVisibility(View.VISIBLE);
+                                    holder.text_Completed.setText("Completed");
+                                    holder.text_Completed.setVisibility(View.VISIBLE);
+                                    holder.image_edit.setVisibility(View.GONE);
+                                    holder.image_close1.setVisibility(View.GONE);
+                                    holder.image_delete.setVisibility(View.GONE);
+                                    holder.image_switch.setVisibility(View.GONE);
+
+                                } else {
+                                    holder.text_details_cause.setVisibility(View.VISIBLE);
+                                    holder.text_Completed.setVisibility(View.GONE);
+                                    holder.image_edit.setVisibility(View.VISIBLE);
+                                    holder.image_close1.setVisibility(View.VISIBLE);
+                                    holder.image_delete.setVisibility(View.VISIBLE);
+                                    holder.image_switch.setVisibility(View.GONE);
+                                }
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -226,8 +243,10 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show();
                             list_name_cause.remove(position);
                             MyCauses_inProfileFragmentAdapter.this.notifyDataSetChanged();
-                        } else
+                        } else {
                             Toast.makeText(activity, "Completed cause Successfully", Toast.LENGTH_SHORT).show();
+                            list_name_cause.get(position).setSelected(true);
+                        }
                     } else
                         Toast.makeText(activity, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

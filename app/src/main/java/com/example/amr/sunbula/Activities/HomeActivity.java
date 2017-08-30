@@ -106,9 +106,14 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (b != null) {
-            navigation.setSelectedItemId(R.id.navigation_notification);
-            String body = b.getString("NotificationMessage");
-            Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+            boolean GoToProfile = b.getBoolean("GoToProfile");
+            if (GoToProfile)
+                navigation.setSelectedItemId(R.id.navigation_profile);
+            else {
+                navigation.setSelectedItemId(R.id.navigation_notification);
+                String body = b.getString("NotificationMessage");
+                Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+            }
         } else
             navigation.setSelectedItemId(x);
     }

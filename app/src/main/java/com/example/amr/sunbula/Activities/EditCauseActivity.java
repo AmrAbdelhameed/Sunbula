@@ -163,7 +163,7 @@ public class EditCauseActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetID = CategoriesIDs_in_AddCause.get(position);
-                    Toast.makeText(EditCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(EditCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -366,9 +366,8 @@ public class EditCauseActivity extends AppCompatActivity {
             if (amount_editcause.getText().toString().isEmpty())
                 amount_editcause.setError("enter here");
             else {
-                Toast.makeText(this, "M3lsh", Toast.LENGTH_SHORT).show();
-//                EditCause(name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
-//                        txt_calender.getText().toString(), txt_add_description_editcause.getText().toString(), UserID);
+                EditCause(name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
+                        txt_calender.getText().toString(), txt_add_description_editcause.getText().toString(), UserID);
             }
             return true;
         }

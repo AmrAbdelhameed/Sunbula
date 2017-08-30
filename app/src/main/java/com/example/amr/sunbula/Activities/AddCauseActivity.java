@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -316,6 +317,11 @@ public class AddCauseActivity extends AppCompatActivity {
                     if (response.body().isIsSuccess()) {
                         {
                             Toast.makeText(AddCauseActivity.this, "Added cause successfully", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
+                            Bundle b = new Bundle();
+                            b.putBoolean("GoToProfile", true);
+                            i.putExtras(b);
+                            startActivity(i);
                             finish();
                         }
                     } else
@@ -360,5 +366,18 @@ public class AddCauseActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
+            Bundle b = new Bundle();
+            b.putBoolean("GoToProfile", true);
+            i.putExtras(b);
+            startActivity(i);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

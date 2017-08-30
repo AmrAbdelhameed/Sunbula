@@ -115,6 +115,7 @@ public class ProfileFragment extends Fragment {
                     if (!addChecked) {
                         Intent i = new Intent(getActivity(), AddCauseActivity.class);
                         startActivity(i);
+                        getActivity().finish();
                         addChecked = true;
                     }
                 } else
