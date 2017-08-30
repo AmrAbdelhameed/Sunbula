@@ -67,11 +67,9 @@ public class RegisterActivity extends AppCompatActivity {
     CallbackManager c;
     private APIService mAPIService;
     private ProgressDialog pdialog;
-    ArrayList<String> CountryIDs, CountryNames;
-    String GetIDCountry = "";
+    ArrayList<String> CountryIDs, CountryNames, CityIDs, CityNames;
+    String GetIDCountry = "", GetIDCity = "";
     List<AllCountriesResponse.AllCountriesBean> allCountriesBeen;
-    ArrayList<String> CityIDs, CityNames;
-    String GetIDCity = "";
     List<AllCitiesResponse.AllCitiesBean> allCitiesBeen;
 
     @Override
@@ -100,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
         CountryNames.add("Select your country");
         CountryIDs.add("IDs");
 
-//        GetAllCountries();
+        GetAllCountries();
 
         Spinner spinner_countries = (Spinner) findViewById(R.id.spinner_countries);
         ArrayAdapter spinner_countriesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CountryNames);
@@ -114,7 +112,8 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (!CountryNames.get(position).equals("Select your country")) {
                     GetIDCountry = CountryIDs.get(position);
-                    Toast.makeText(RegisterActivity.this, GetIDCountry, Toast.LENGTH_SHORT).show();
+                    SpinnerCity(GetIDCountry);
+//                    Toast.makeText(RegisterActivity.this, GetIDCountry, Toast.LENGTH_SHORT).show();
                 } else
                     GetIDCountry = "";
             }
@@ -125,36 +124,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        CityIDs = new ArrayList<>();
-        CityNames = new ArrayList<>();
-
-        CityNames.add("Select your city");
-        CityIDs.add("IDs");
-
-        GetAllCities("9ffec365-09d9-40a7-bb8d-028d246f12d5");
-
-        Spinner spinner_cities = (Spinner) findViewById(R.id.spinner_cities);
-        ArrayAdapter spinner_citiesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CityNames);
-        spinner_citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_cities.setAdapter(spinner_citiesAdapter);
-
-        spinner_cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-
-                if (!CityNames.get(position).equals("Select your city")) {
-                    GetIDCity = CityIDs.get(position);
-                    Toast.makeText(RegisterActivity.this, GetIDCity, Toast.LENGTH_SHORT).show();
-                }else
-                    GetIDCity = "";
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // TODO Auto-generated method stub
-            }
-        });
 
         user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,8 +147,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if (Password.isEmpty()) {
                     password.setError("Please enter here");
+                }
+                if (GetIDCountry.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
+                }
+                if (GetIDCity.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
                 } else
-                    RegisterPost(1, Name, Password, EMail);
+                    RegisterPost(1, Name, Password, EMail, GetIDCity);
 
             }
         });
@@ -228,6 +203,39 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    private void SpinnerCity(String body) {
+        CityIDs = new ArrayList<>();
+        CityNames = new ArrayList<>();
+
+        CityNames.add("Select your city");
+        CityIDs.add("IDs");
+
+        GetAllCities(body);
+
+        Spinner spinner_cities = (Spinner) findViewById(R.id.spinner_cities);
+        ArrayAdapter spinner_citiesAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CityNames);
+        spinner_citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_cities.setAdapter(spinner_citiesAdapter);
+
+        spinner_cities.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (!CityNames.get(position).equals("Select your city")) {
+                    GetIDCity = CityIDs.get(position);
+//                    Toast.makeText(RegisterActivity.this, GetIDCity, Toast.LENGTH_SHORT).show();
+                } else
+                    GetIDCity = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     private void selectImage() {
@@ -335,9 +343,9 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile.setImageBitmap(bm);
     }
 
-    public void RegisterPost(int login_type, String name, String password, String email) {
+    public void RegisterPost(int login_type, String name, String password, String email, String cityID) {
         pdialog.show();
-        mAPIService.Register(login_type, name, password, email).enqueue(new Callback<RegistrationResponse>() {
+        mAPIService.Register(login_type, name, password, email, cityID).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
@@ -460,7 +468,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void GetAllCountries() {
         pdialog.show();
-        mAPIService.AllCountries().enqueue(new Callback<AllCountriesResponse>() {
+        mAPIService.AllCountries(null).enqueue(new Callback<AllCountriesResponse>() {
 
             @Override
             public void onResponse(Call<AllCountriesResponse> call, Response<AllCountriesResponse> response) {

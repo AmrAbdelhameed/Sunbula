@@ -44,7 +44,8 @@ public interface APIService {
     Call<RegistrationResponse> Register(@Field("Login_Type") int Login_Type,
                                         @Field("Name") String Name,
                                         @Field("Password") String Password,
-                                        @Field("EMail") String EMail);
+                                        @Field("EMail") String EMail,
+                                        @Field("CityID") String CityID);
 
     @POST("/Charity/Api/User/Regesteration")
     @FormUrlEncoded
@@ -192,7 +193,7 @@ public interface APIService {
 
     @POST("/Charity/Api/Country/AllCountries")
     @FormUrlEncoded
-    Call<AllCountriesResponse> AllCountries();
+    Call<AllCountriesResponse> AllCountries(@Field("Country") String Country);
 
     @POST("/Charity/Api/Country/AllCities")
     @FormUrlEncoded
