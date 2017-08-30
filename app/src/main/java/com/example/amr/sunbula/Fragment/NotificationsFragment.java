@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.NotificationsFragmentAdapter;
 import com.example.amr.sunbula.R;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,9 @@ public class NotificationsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_notifications, container, false);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         stringArrayList = new ArrayList<>();
 

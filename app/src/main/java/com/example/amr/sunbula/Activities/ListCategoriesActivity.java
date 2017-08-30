@@ -15,6 +15,7 @@ import com.example.amr.sunbula.Models.DBFlowModels.Categories;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.Gson;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
@@ -42,6 +43,9 @@ public class ListCategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_categories);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list_categories);
         toolbar.setTitle("List Categories");

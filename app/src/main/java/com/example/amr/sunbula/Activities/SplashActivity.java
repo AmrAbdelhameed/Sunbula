@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.amr.sunbula.R;
+import com.google.firebase.crash.FirebaseCrash;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,6 +20,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         i_splash = (ImageView) findViewById(R.id.image_splash);
         t_splash = (TextView) findViewById(R.id.text_splash);

@@ -17,6 +17,7 @@ import com.example.amr.sunbula.Models.DBFlowModels.Reviews;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -50,6 +51,9 @@ public class ReviewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_reviews, container, false);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         list_reviewsBeen = new ArrayList<String>();
 

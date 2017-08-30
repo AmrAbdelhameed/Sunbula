@@ -15,6 +15,7 @@ import com.example.amr.sunbula.Models.DBFlowModels.JoinedCasesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowWrappers.JoinedCausesProfileWrapper;
 import com.example.amr.sunbula.R;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,9 @@ public class JoinedcausesProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_joined_profile, container, false);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         listView = (ListView) v.findViewById(R.id.list_item_joined);
 

@@ -15,6 +15,7 @@ import com.example.amr.sunbula.Models.APIResponses.ForgetPasswordResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,9 @@ public class ResetPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         mAPIService = ApiUtils.getAPIService();
         pdialog = new ProgressDialog(ResetPasswordActivity.this);

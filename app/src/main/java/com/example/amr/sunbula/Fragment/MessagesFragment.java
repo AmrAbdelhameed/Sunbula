@@ -23,6 +23,7 @@ import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,10 @@ public class MessagesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_messages, container, false);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
+
         pdialog = new ProgressDialog(getActivity());
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);

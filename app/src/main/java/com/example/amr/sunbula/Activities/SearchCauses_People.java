@@ -21,6 +21,7 @@ import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,9 @@ public class SearchCauses_People extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_causes__people);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         pdialog = new ProgressDialog(SearchCauses_People.this);
         pdialog.setIndeterminate(true);

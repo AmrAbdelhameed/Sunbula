@@ -33,6 +33,7 @@ import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Utility;
+import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -70,6 +71,9 @@ public class AddCauseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_cause);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addcause);
         toolbar.setTitle("Add Cause");

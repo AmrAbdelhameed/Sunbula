@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.example.amr.sunbula.Adapters.List_CausesAdapter;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.R;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,6 +28,9 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_causes_in_one_category);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list_causesInCategroied);
         setSupportActionBar(toolbar);

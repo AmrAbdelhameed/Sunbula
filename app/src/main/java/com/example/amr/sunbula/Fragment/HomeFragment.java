@@ -20,6 +20,7 @@ import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Activities.SearchCauses_People;
+import com.google.firebase.crash.FirebaseCrash;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -61,6 +62,9 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
+
         setHasOptionsMenu(true);
 
         newsFeedWrappers = new ArrayList<>();
@@ -94,19 +98,17 @@ public class HomeFragment extends Fragment {
 
                     NewsfeedResponse newsfeedResponse = response.body();
 
+                    list = (new Select().from(NewsFeed.class).queryList());
 
-                    if (newsfeedResponse.getMyANDJoinedCasesList().size() > 0 || newsfeedResponse.getFollowingCassesList().size() > 0) {
+                    if (list.size() > 0) {
+                        Delete.table(NewsFeed.class);
+                    }
+
+                    if (newsfeedResponse.getMyANDJoinedCasesList().size() > 0) {
                         myANDJoinedCasesListBeen = new ArrayList<NewsfeedResponse.MyANDJoinedCasesListBean>();
-                        followingCassesListBeen = new ArrayList<NewsfeedResponse.FollowingCassesListBean>();
 
                         myANDJoinedCasesListBeen = newsfeedResponse.getMyANDJoinedCasesList();
-                        followingCassesListBeen = newsfeedResponse.getFollowingCassesList();
 
-                        list = (new Select().from(NewsFeed.class).queryList());
-
-                        if (list.size() > 0) {
-                            Delete.table(NewsFeed.class);
-                        }
 
                         for (int i = 0; i < myANDJoinedCasesListBeen.size(); i++) {
                             n = new NewsFeed();
@@ -126,6 +128,11 @@ public class HomeFragment extends Fragment {
                                 n.save();
                             }
                         }
+                    }
+                    if (newsfeedResponse.getFollowingCassesList().size() > 0) {
+                        followingCassesListBeen = new ArrayList<NewsfeedResponse.FollowingCassesListBean>();
+                        followingCassesListBeen = newsfeedResponse.getFollowingCassesList();
+
                         for (int i = 0; i < followingCassesListBeen.size(); i++) {
                             n = new NewsFeed();
                             if (followingCassesListBeen.size() > 0) {
@@ -144,8 +151,10 @@ public class HomeFragment extends Fragment {
                                 n.save();
                             }
                         }
-                        list = (new Select().from(NewsFeed.class).queryList());
+                    }
+                    list = (new Select().from(NewsFeed.class).queryList());
 
+                    if (list.size() > 0) {
                         for (int aa = 0; aa < list.size(); aa++) {
                             NewsFeedWrapper newsFeedWrapper = new NewsFeedWrapper(list.get(aa));
                             newsFeedWrappers.add(newsFeedWrapper);
@@ -153,7 +162,8 @@ public class HomeFragment extends Fragment {
                         adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
                         listView.setDivider(null);
                         listView.setAdapter(adapter);
-                    }
+                    } else
+                        Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
                 }
                 pdialog.dismiss();
             }

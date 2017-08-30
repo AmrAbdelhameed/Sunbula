@@ -15,6 +15,7 @@ import com.example.amr.sunbula.Fragment.JoinedcausesProfileFragment;
 import com.example.amr.sunbula.Fragment.MycausesProfileFragment;
 import com.example.amr.sunbula.Fragment.ReviewsFragment;
 import com.example.amr.sunbula.R;
+import com.google.firebase.crash.FirebaseCrash;
 
 public class Reviews_Following_FollowersActivity extends AppCompatActivity {
 
@@ -25,6 +26,9 @@ public class Reviews_Following_FollowersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviews__following__followers);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         container = (LinearLayout) findViewById(R.id.fragment_container);

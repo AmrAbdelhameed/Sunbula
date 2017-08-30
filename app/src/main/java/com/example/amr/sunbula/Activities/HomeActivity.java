@@ -14,6 +14,7 @@ import com.example.amr.sunbula.Fragment.HomeFragment;
 import com.example.amr.sunbula.Fragment.ProfileFragment;
 import com.example.amr.sunbula.Fragment.MessagesFragment;
 import com.example.amr.sunbula.R;
+import com.google.firebase.crash.FirebaseCrash;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -91,6 +92,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         if (savedInstanceState != null) {
             x = savedInstanceState.getInt(KEY_POSITION_FRAGMENT);

@@ -30,6 +30,7 @@ import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -61,6 +62,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_details_user);
+
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_show_people_details);
         toolbar.setTitle("View Profile");

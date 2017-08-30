@@ -14,6 +14,7 @@ import com.example.amr.sunbula.Models.APIResponses.VerfiedAccntResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.firebase.crash.FirebaseCrash;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +34,9 @@ public class ConfirmEmailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_email);
 
+        FirebaseCrash.log("Here comes the exception!");
+        FirebaseCrash.report(new Exception("oops!"));
+
         pdialog = new ProgressDialog(ConfirmEmailActivity.this);
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
@@ -46,6 +50,8 @@ public class ConfirmEmailActivity extends AppCompatActivity {
         Intent in = getIntent();
         Bundle b = in.getExtras();
         UserID = b.getString("UserID");
+
+        Toast.makeText(this, UserID, Toast.LENGTH_SHORT).show();
 
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
