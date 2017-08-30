@@ -52,8 +52,7 @@ public class AddCauseActivity extends AppCompatActivity {
 
     TextView txt_calender;
     EditText txt_add_description_addcause, name_addcause, amount_addcause;
-    ArrayList<String> CategoriesNames_in_AddCause;
-    ArrayList<String> CategoriesIDs_in_AddCause;
+    ArrayList<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause;
     String GetIDCategoires = "";
     Calendar myCalendar;
     String UserID;

@@ -146,7 +146,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/view6" />
 
                 <View
-                    android:id="@+id/view7"
+                    android:id="@+id/view9"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/_8dp"
@@ -154,6 +154,27 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtemailregister" />
+
+                <Spinner
+                    android:id="@+id/spinner_Categories_Register"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginRight="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view9" />
+
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/tab_enable"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_Categories_Register" />
 
                 <Spinner
                     android:id="@+id/spinner_countries"

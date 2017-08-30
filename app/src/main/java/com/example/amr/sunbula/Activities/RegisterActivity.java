@@ -72,6 +72,10 @@ public class RegisterActivity extends AppCompatActivity {
     List<AllCountriesResponse.AllCountriesBean> allCountriesBeen;
     List<AllCitiesResponse.AllCitiesBean> allCitiesBeen;
 
+    ArrayList<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause;
+    List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
+    String GetIDCategoires = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +128,36 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        CategoriesNames_in_AddCause = new ArrayList<>();
+        CategoriesIDs_in_AddCause = new ArrayList<>();
+
+        CategoriesNames_in_AddCause.add("Categories");
+        CategoriesIDs_in_AddCause.add("IDs");
+
+        GetAllCategories(null);
+
+        Spinner staticSpinner = (Spinner) findViewById(R.id.spinner_Categories_Register);
+        ArrayAdapter staticAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, CategoriesNames_in_AddCause);
+        staticAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        staticSpinner.setAdapter(staticAdapter);
+
+        staticSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
+                    GetIDCategoires = CategoriesIDs_in_AddCause.get(position);
+                    Toast.makeText(RegisterActivity.this, GetIDCategoires, Toast.LENGTH_SHORT).show();
+                } else
+                    GetIDCategoires = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,6 +221,39 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void GetAllCategories(String UserId) {
+        pdialog.show();
+        mAPIService.GetAllCategories(UserId).enqueue(new Callback<AllCategoriesResponse>() {
+
+            @Override
+            public void onResponse(Call<AllCategoriesResponse> call, Response<AllCategoriesResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        AllCategoriesResponse allCategoriesResponse = response.body();
+
+                        allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
+
+                        allCategoriesBeen = allCategoriesResponse.getAllCategories();
+
+                        for (int i = 0; i < allCategoriesBeen.size(); i++) {
+                            CategoriesIDs_in_AddCause.add(allCategoriesBeen.get(i).getCategoryID());
+                            CategoriesNames_in_AddCause.add(allCategoriesBeen.get(i).getCategoryName());
+                        }
+                    } else
+                        Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    pdialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
+            }
+        });
     }
 
     @Override
