@@ -3,8 +3,8 @@ package com.example.amr.sunbula.Activities;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -31,13 +31,12 @@ public class ListCategoriesActivity extends AppCompatActivity {
     String UserID;
     ListView listView_allCategoriesBeen;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     List_CategoriesAdapter adapter;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
-
     Categories categories;
     List<Categories> categoriesList;
     Gson gson;
+    private ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,9 @@ public class ListCategoriesActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list_categories);
         toolbar.setTitle("List Categories");
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
 
@@ -130,5 +132,11 @@ public class ListCategoriesActivity extends AppCompatActivity {
                 pdialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

@@ -91,6 +91,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         Toast.makeText(ChangePasswordActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(ChangePasswordActivity.this, LoginActivity.class);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     } else {
                         Toast.makeText(ChangePasswordActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();

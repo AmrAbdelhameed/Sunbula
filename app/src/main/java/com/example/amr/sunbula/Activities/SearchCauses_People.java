@@ -159,6 +159,7 @@ public class SearchCauses_People extends AppCompatActivity {
                                     b.putString("people_id", searchedPepoleBeen.get(pos).getUser_ID());
                                     i.putExtras(b);
                                     startActivity(i);
+                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 }
                             });
                         }

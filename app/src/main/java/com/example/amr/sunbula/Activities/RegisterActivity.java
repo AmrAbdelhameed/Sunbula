@@ -435,6 +435,7 @@ public class RegisterActivity extends AppCompatActivity {
                             b.putString("UserID", response.body().getUserID());
                             i.putExtras(b);
                             startActivity(i);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }
                     } else {
@@ -474,6 +475,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     } else {
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -517,6 +519,7 @@ public class RegisterActivity extends AppCompatActivity {
                         b.putString("UserID", UserId);
                         i.putExtras(b);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     } else
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -608,6 +611,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
             startActivity(i);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
             return true;
         }

@@ -75,6 +75,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
                         b.putString("email_change_pass", txtemailresetpassword.getText().toString());
                         i.putExtras(b);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     } else {
                         Toast.makeText(ResetPasswordActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -97,6 +98,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             Intent i = new Intent(ResetPasswordActivity.this, LoginActivity.class);
             startActivity(i);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             finish();
             return true;
         }

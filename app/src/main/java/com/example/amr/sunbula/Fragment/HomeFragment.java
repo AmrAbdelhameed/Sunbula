@@ -205,6 +205,7 @@ public class HomeFragment extends Fragment {
                 if (check_con) {
                     Intent intent = new Intent(getActivity(), SearchCauses_People.class);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else
                     Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 return true;

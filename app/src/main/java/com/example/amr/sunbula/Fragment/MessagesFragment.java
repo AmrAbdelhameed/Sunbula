@@ -14,11 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Activities.ChatActivity;
-import com.example.amr.sunbula.Activities.SearchCauses_People;
-import com.example.amr.sunbula.Activities.ShowDetailsUserActivity;
 import com.example.amr.sunbula.Adapters.MessagesFragmentAdapter;
-import com.example.amr.sunbula.Adapters.SearchPeople_Adapter;
-import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
@@ -101,6 +97,7 @@ public class MessagesFragment extends Fragment {
                                     b.putString("ThreadID", listOfMassegesBeen.get(pos).getThreadID());
                                     i.putExtras(b);
                                     getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 }
                             });
                         }

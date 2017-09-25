@@ -130,6 +130,7 @@ public class FollowingFragment extends Fragment {
                                     b.putString("people_id", followings.get(pos).getFollowID());
                                     i.putExtras(b);
                                     getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 }
                             });
                         }

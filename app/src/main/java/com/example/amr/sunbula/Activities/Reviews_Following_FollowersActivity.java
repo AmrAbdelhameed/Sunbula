@@ -68,7 +68,6 @@ public class Reviews_Following_FollowersActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-
         transaction.commit();
     }
 }

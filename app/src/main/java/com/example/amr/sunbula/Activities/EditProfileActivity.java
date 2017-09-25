@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,6 +76,9 @@ public class EditProfileActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_editprofile);
         toolbar.setTitle("Edit Profile");
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         new_image_profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.new_image_profile);
 
@@ -155,7 +159,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetID = CategoriesIDs_in_AddCause.get(position);
-                    Toast.makeText(EditProfileActivity.this, GetID, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -183,7 +186,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 if (!Gender_arraylist.get(position).equals("Gender")) {
                     GetGender = Gender_arraylist.get(position);
-                    Toast.makeText(EditProfileActivity.this, GetGender, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -396,6 +398,11 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().isSuccess()) {
                         Toast.makeText(EditProfileActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
+                        Bundle b = new Bundle();
+                        b.putBoolean("GoToProfile", true);
+                        i.putExtras(b);
+                        startActivity(i);
                         finish();
                     } else
                         Toast.makeText(EditProfileActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -445,5 +452,31 @@ public class EditProfileActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
+            Bundle b = new Bundle();
+            b.putBoolean("GoToProfile", true);
+            i.putExtras(b);
+            startActivity(i);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("GoToProfile", true);
+        i.putExtras(b);
+        startActivity(i);
+        finish();
+        return true;
     }
 }

@@ -16,11 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Activities.EditCauseActivity;
+import com.example.amr.sunbula.CustomEventRefreshProfile;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -96,6 +99,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                 b.putString("CauseDescription", list_name_cause.get(position).getCaseDescription());
                 i.putExtras(b);
                 activity.startActivity(i);
+                ((Activity)activity).finish();
             }
         });
 
@@ -246,11 +250,17 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                     if (response.body().isIsSuccess()) {
                         if (ActionType == 1) {
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                            list_name_cause.remove(position);
-                            All_inProfileFragmentAdapter.this.notifyDataSetChanged();
+//                            list_name_cause.remove(position);
+//                            All_inProfileFragmentAdapter.this.notifyDataSetChanged();
+                            CustomEventRefreshProfile event = new CustomEventRefreshProfile();
+                            event.setCustomMessage("Done");
+                            EventBus.getDefault().post(event);
                         } else {
                             Toast.makeText(activity, "Completed cause Successfully", Toast.LENGTH_SHORT).show();
                             list_name_cause.get(position).setSelected(true);
+                            CustomEventRefreshProfile event = new CustomEventRefreshProfile();
+                            event.setCustomMessage("Done");
+                            EventBus.getDefault().post(event);
                         }
                     } else
                         Toast.makeText(activity, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();

@@ -1,28 +1,32 @@
 package com.example.amr.sunbula.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.BottomNavigationClasses.BottomNavigationViewNew;
-import com.example.amr.sunbula.Fragment.NotificationsFragment;
+import com.example.amr.sunbula.CustomEventRefreshProfile;
 import com.example.amr.sunbula.Fragment.HomeFragment;
-import com.example.amr.sunbula.Fragment.ProfileFragment;
 import com.example.amr.sunbula.Fragment.MessagesFragment;
+import com.example.amr.sunbula.Fragment.NotificationsFragment;
+import com.example.amr.sunbula.Fragment.ProfileFragment;
 import com.example.amr.sunbula.R;
 import com.google.firebase.crash.FirebaseCrash;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 public class HomeActivity extends AppCompatActivity {
 
+    private static final String KEY_POSITION_FRAGMENT = "POSITION_FRAGMENT";
     int x = R.id.navigation_home;
     Toolbar toolbar;
     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
     boolean homeChecked = false, profileChecked = false, messagesChecked = false, notificationChecked = false;
-
     private BottomNavigationViewNew.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationViewNew.OnNavigationItemSelectedListener() {
 
@@ -80,8 +84,6 @@ public class HomeActivity extends AppCompatActivity {
 
     };
 
-    private static final String KEY_POSITION_FRAGMENT = "POSITION_FRAGMENT";
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -92,6 +94,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        EventBus.getDefault().register(this);
 
         FirebaseCrash.log("Here comes the exception!");
         FirebaseCrash.report(new Exception("oops!"));
@@ -120,5 +124,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         } else
             navigation.setSelectedItemId(x);
+    }
+
+    @Subscribe
+    public void onEvent(CustomEventRefreshProfile event) {
+        if (event.getCustomMessage().equals("Done")) {
+            fragmentManager.beginTransaction().replace(R.id.content, new ProfileFragment()).commit();
+        }
     }
 }

@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,14 +59,15 @@ public class EditCauseActivity extends AppCompatActivity {
     String GetID = "";
     Calendar myCalendar;
     String UserID;
+    String CauseID;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     DatePickerDialog.OnDateSetListener date;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private String userChoosenTask;
     Bitmap bitmap = null;
     de.hdodenhof.circleimageview.CircleImageView image_editcause;
+    private ProgressDialog pdialog;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +80,9 @@ public class EditCauseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_edit_cause);
         toolbar.setTitle("Edit Cause");
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         pdialog = new ProgressDialog(EditCauseActivity.this);
         pdialog.setIndeterminate(true);
@@ -120,7 +125,7 @@ public class EditCauseActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         Bundle b = in.getExtras();
-        String CauseID = b.getString("CauseID");
+        CauseID = b.getString("CauseID");
         String Name = b.getString("Name");
         int Amount = b.getInt("Amount");
         String EndDate = b.getString("EndDate");
@@ -130,7 +135,7 @@ public class EditCauseActivity extends AppCompatActivity {
         name_editcause.setText(Name);
         amount_editcause.setText(String.valueOf(Amount));
         txt_calender.setText(EndDate);
-        Toast.makeText(this, CauseID, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, CauseID, Toast.LENGTH_SHORT).show();
 
         txt_calender.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +172,6 @@ public class EditCauseActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetID = CategoriesIDs_in_AddCause.get(position);
-//                    Toast.makeText(EditCauseActivity.this, GetID, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -338,6 +342,12 @@ public class EditCauseActivity extends AppCompatActivity {
                     if (response.body().isIsSuccess()) {
                         {
                             Toast.makeText(EditCauseActivity.this, "Updated cause successfully", Toast.LENGTH_SHORT).show();
+                            Intent i = new Intent(EditCauseActivity.this, HomeActivity.class);
+                            Bundle b = new Bundle();
+                            b.putBoolean("GoToProfile", true);
+                            i.putExtras(b);
+                            startActivity(i);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }
                     } else
@@ -370,11 +380,36 @@ public class EditCauseActivity extends AppCompatActivity {
             if (amount_editcause.getText().toString().isEmpty())
                 amount_editcause.setError("enter here");
             else {
-                EditCause(name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
-                        txt_calender.getText().toString(), txt_add_description_editcause.getText().toString(), UserID);
+                EditCause(CauseID, name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
+                        txt_calender.getText().toString(), txt_add_description_editcause.getText().toString());
             }
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent i = new Intent(EditCauseActivity.this, HomeActivity.class);
+            Bundle b = new Bundle();
+            b.putBoolean("GoToProfile", true);
+            i.putExtras(b);
+            startActivity(i);
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent i = new Intent(EditCauseActivity.this, HomeActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("GoToProfile", true);
+        i.putExtras(b);
+        startActivity(i);
+        finish();
+        return true;
     }
 }

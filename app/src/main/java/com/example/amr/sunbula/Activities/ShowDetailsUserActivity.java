@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,6 +24,7 @@ import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.MakeReportResponse;
 import com.example.amr.sunbula.Models.APIResponses.MakeReviewResponse;
+import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.Models.APIResponses.UNFollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
@@ -49,7 +50,6 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     String UserID;
     APIService mAPIService;
     List<String> listofPepoleFollowingBeen;
-    private ProgressDialog pdialog;
     ListView list_show_hiscauses;
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
     List<HisCausesPeopleWrapper> hisCausesPeopleWrappers;
@@ -57,6 +57,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
     TextView text_reviews_user_profile, text_causes_user_profile, text_location_user_profile, username_user_profile;
     de.hdodenhof.circleimageview.CircleImageView image_user_profile;
     Button btn_add_user, btn_message_call;
+    private ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,9 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_show_people_details);
         toolbar.setTitle("View Profile");
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         list_show_hiscauses = (ListView) findViewById(R.id.list_hiscauses);
         btn_add_user = (Button) findViewById(R.id.btn_add_user);
@@ -98,6 +102,13 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
         HisDetailsPost(people_id);
         ListofPepolePost(UserID);
+
+        btn_message_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendMassegePost(UserID, people_id, "I'd like to connect with you");
+            }
+        });
 
         text_reviews_user_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,15 +191,18 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
                         UserDetailsResponse userDetailsResponse = response.body();
 
-                        if (userDetailsResponse.getMyCases().size() > 0) {
-                            myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
-                            myCasesBeanList = userDetailsResponse.getMyCases();
+                        myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
+                        myCasesBeanList = userDetailsResponse.getMyCases();
 
-                            text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
+                        text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
+
+                        text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
+
+                        if (myCasesBeanList.size() > 0) {
+
                             if (response.body().getAddress() != null)
-                                text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
-                            if (response.body().getImgURL().contains("http"))
-                                Picasso.with(ShowDetailsUserActivity.this).load(response.body().getImgURL()).into(image_user_profile);
+                                if (response.body().getImgURL().contains("http"))
+                                    Picasso.with(ShowDetailsUserActivity.this).load(response.body().getImgURL()).into(image_user_profile);
 
                             for (int a = 0; a < myCasesBeanList.size(); a++) {
                                 HisCausesPeopleWrapper hisCausesPeopleWrapper = new HisCausesPeopleWrapper(myCasesBeanList.get(a));
@@ -322,6 +336,29 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
+    private void SendMassegePost(String User_ID, String ToID, String MSGBody) {
+        pdialog.show();
+        mAPIService.SendMassege(User_ID, ToID, MSGBody).enqueue(new Callback<SendMassegeResponse>() {
+
+            @Override
+            public void onResponse(Call<SendMassegeResponse> call, Response<SendMassegeResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        Toast.makeText(ShowDetailsUserActivity.this, "Your message has been sent pending approval by the administrator", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(ShowDetailsUserActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<SendMassegeResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
     public void MakeReportPost(String ReportBody, String ReportName, String ReportDate, String ReportedPerson, String ReporterPerson) {
         pdialog.show();
         mAPIService.MakeReport(ReportBody, ReportName, ReportDate, ReportedPerson, ReporterPerson).enqueue(new Callback<MakeReportResponse>() {
@@ -396,5 +433,11 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

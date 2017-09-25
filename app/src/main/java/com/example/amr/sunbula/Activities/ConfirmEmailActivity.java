@@ -78,6 +78,7 @@ public class ConfirmEmailActivity extends AppCompatActivity {
                         Toast.makeText(ConfirmEmailActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(ConfirmEmailActivity.this, HomeActivity.class);
                         startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     } else {
                         Toast.makeText(ConfirmEmailActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();

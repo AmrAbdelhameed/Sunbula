@@ -9,11 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -59,13 +59,13 @@ public class AddCauseActivity extends AppCompatActivity {
     Calendar myCalendar;
     String UserID;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     DatePickerDialog.OnDateSetListener date;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private String userChoosenTask;
     Bitmap bitmap = null;
     de.hdodenhof.circleimageview.CircleImageView image_addcause;
+    private ProgressDialog pdialog;
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +78,8 @@ public class AddCauseActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addcause);
         toolbar.setTitle("Add Cause");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         pdialog = new ProgressDialog(AddCauseActivity.this);
         pdialog.setIndeterminate(true);
@@ -326,6 +328,7 @@ public class AddCauseActivity extends AppCompatActivity {
                             b.putBoolean("GoToProfile", true);
                             i.putExtras(b);
                             startActivity(i);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                             finish();
                         }
                     } else
@@ -371,6 +374,7 @@ public class AddCauseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -383,5 +387,16 @@ public class AddCauseActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("GoToProfile", true);
+        i.putExtras(b);
+        startActivity(i);
+        finish();
+        return true;
     }
 }

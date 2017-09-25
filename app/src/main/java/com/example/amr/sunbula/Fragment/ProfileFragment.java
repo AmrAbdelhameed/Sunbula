@@ -23,6 +23,7 @@ import com.example.amr.sunbula.Activities.AddCauseActivity;
 import com.example.amr.sunbula.Activities.EditProfileActivity;
 import com.example.amr.sunbula.Activities.ListCategoriesActivity;
 import com.example.amr.sunbula.Activities.LoginActivity;
+import com.example.amr.sunbula.Activities.Reviews_Following_FollowersActivity;
 import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 import com.example.amr.sunbula.Models.DBFlowModels.AllCausesProfile;
 import com.example.amr.sunbula.Models.DBFlowModels.Categories;
@@ -38,7 +39,6 @@ import com.example.amr.sunbula.Models.DBFlowWrappers.MyCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.Activities.Reviews_Following_FollowersActivity;
 import com.facebook.login.LoginManager;
 import com.google.firebase.crash.FirebaseCrash;
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -57,32 +57,27 @@ import retrofit2.Response;
  */
 public class ProfileFragment extends Fragment {
 
-    private TabLayout tabLayout;
-    private LinearLayout container;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     Button btn_add_cause, btn_heart;
-
     List<UserDetailsResponse.AllCasesListBean> allCasesListBeen;
     AllCausesProfile allCausesProfile;
     List<AllCausesProfile> allCausesProfileList;
     List<AllCausesProfileWrapper> allCausesProfileWrappers;
-
     List<UserDetailsResponse.MyCasesBean> myCasesBeanList;
     MyCausesProfile myCausesProfile;
     List<MyCausesProfile> myCausesProfiles;
     List<MyCausesProfileWrapper> myCausesProfileWrappers;
-
     List<UserDetailsResponse.JoinedCasesBean> joinedCasesBeen;
     JoinedCasesProfile joinedCasesProfile;
     List<JoinedCasesProfile> joinedCasesProfiles;
     List<JoinedCausesProfileWrapper> joinedCausesProfileWrappers;
-
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile;
     de.hdodenhof.circleimageview.CircleImageView image_profile;
-
     String UserID, Name, Email, mNumber, Address, Gender, imageURL;
-    boolean check_con = false, addChecked = false, showCauses = false;
+    boolean check_con = false, addChecked = false;
+    private TabLayout tabLayout;
+    private LinearLayout container;
+    private ProgressDialog pdialog;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -116,12 +111,9 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (check_con) {
-                    if (!addChecked) {
-                        Intent i = new Intent(getActivity(), AddCauseActivity.class);
-                        startActivity(i);
-                        getActivity().finish();
-                        addChecked = true;
-                    }
+                    Intent i = new Intent(getActivity(), AddCauseActivity.class);
+                    startActivity(i);
+                    getActivity().finish();
                 } else
                     Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
             }
@@ -130,11 +122,8 @@ public class ProfileFragment extends Fragment {
         btn_heart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!showCauses) {
-                    Intent i = new Intent(getActivity(), ListCategoriesActivity.class);
-                    startActivity(i);
-                    showCauses = true;
-                }
+                Intent i = new Intent(getActivity(), ListCategoriesActivity.class);
+                startActivity(i);
             }
         });
 
@@ -231,15 +220,15 @@ public class ProfileFragment extends Fragment {
                             Picasso.with(getActivity()).load(imageURL).into(image_profile);
                         username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
-                        text_causes_profile.setText("0 My Causes");
 
                         if (response.body().getAddress() != null)
                             text_location_profile.setText(String.valueOf(response.body().getAddress()));
 
                         UserDetailsResponse userDetailsResponse = response.body();
 
-                        if (userDetailsResponse.getAllCasesList().size() > 0) {
-                            allCasesListBeen = userDetailsResponse.getAllCasesList();
+                        allCasesListBeen = userDetailsResponse.getAllCasesList();
+
+                        if (allCasesListBeen.size() > 0) {
 
                             allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());
                             if (allCausesProfileList.size() > 0) {
@@ -274,8 +263,9 @@ public class ProfileFragment extends Fragment {
                             replaceFragment(new AllProfileFragment(allCausesProfileWrappers));
                         } else
                             Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
-                        if (userDetailsResponse.getMyCases().size() > 0) {
-                            myCasesBeanList = userDetailsResponse.getMyCases();
+
+                        myCasesBeanList = userDetailsResponse.getMyCases();
+                        if (myCasesBeanList.size() > 0) {
                             text_causes_profile.setText(myCasesBeanList.size() + " My Causes");
 
                             myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
@@ -307,8 +297,8 @@ public class ProfileFragment extends Fragment {
                                 myCausesProfileWrappers.add(myCausesProfileWrapper);
                             }
                         }
-                        if (userDetailsResponse.getJoinedCases().size() > 0) {
-                            joinedCasesBeen = userDetailsResponse.getJoinedCases();
+                        joinedCasesBeen = userDetailsResponse.getJoinedCases();
+                        if (joinedCasesBeen.size() > 0) {
 
                             joinedCasesProfiles = (new Select().from(JoinedCasesProfile.class).queryList());
                             if (joinedCasesProfiles.size() > 0) {
@@ -425,6 +415,8 @@ public class ProfileFragment extends Fragment {
                     b.putString("Gender", Gender);
                     intent.putExtras(b);
                     startActivity(intent);
+                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    getActivity().finish();
                 } else
                     Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 return true;
@@ -451,6 +443,7 @@ public class ProfileFragment extends Fragment {
                 LoginManager.getInstance().logOut();
                 Intent i = new Intent(getActivity(), LoginActivity.class);
                 startActivity(i);
+                getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 getActivity().finish();
                 return true;
             default:

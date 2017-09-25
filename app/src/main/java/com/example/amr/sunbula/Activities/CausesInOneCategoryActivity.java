@@ -35,6 +35,9 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_list_causesInCategroied);
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         listView_causesInCategroied = (ListView) findViewById(R.id.list_causesInCategroied);
 
         Intent intent = this.getIntent();
@@ -53,5 +56,11 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
         listView_causesInCategroied.setDivider(null);
         listView_causesInCategroied.setAdapter(list_causesAdapter);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

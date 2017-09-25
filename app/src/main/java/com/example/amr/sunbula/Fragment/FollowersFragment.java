@@ -130,6 +130,7 @@ public class FollowersFragment extends Fragment {
                                     b.putString("people_id", followerses.get(pos).getFollowID());
                                     i.putExtras(b);
                                     getActivity().startActivity(i);
+                                    getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                                 }
                             });
                         }
@@ -148,7 +149,6 @@ public class FollowersFragment extends Fragment {
                     for (int i = 0; i < followerses.size(); i++) {
                         listofPepoleFollowersBeen.add(followerses.get(i).getName());
                     }
-
                     arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, listofPepoleFollowersBeen);
                     list_followers.setAdapter(arrayAdapter);
                 } else {

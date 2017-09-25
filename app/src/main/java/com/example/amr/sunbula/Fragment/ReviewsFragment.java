@@ -2,12 +2,15 @@ package com.example.amr.sunbula.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -38,10 +41,9 @@ public class ReviewsFragment extends Fragment {
     String UserID;
     APIService mAPIService;
     List<String> list_reviewsBeen;
-    private ProgressDialog pdialog;
-
     Reviews reviews;
     List<Reviews> reviewsList;
+    private ProgressDialog pdialog;
 
     public ReviewsFragment() {
     }
@@ -113,6 +115,23 @@ public class ReviewsFragment extends Fragment {
 
                             arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, list_reviewsBeen);
                             list_reviews.setAdapter(arrayAdapter);
+
+                            list_reviews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                                    // TODO Auto-generated method stub
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setMessage(reviewsList.get(pos).getReviewStar() + " Stars")
+                                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    // User cancelled the dialog
+                                                }
+                                            });
+                                    AlertDialog d = builder.create();
+                                    d.show();
+                                }
+                            });
                         }
                     } else
                         Toast.makeText(getActivity(), response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
