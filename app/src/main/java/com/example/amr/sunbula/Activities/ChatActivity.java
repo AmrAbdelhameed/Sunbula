@@ -5,20 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.amr.sunbula.Adapters.MessagesFragmentAdapter;
 import com.example.amr.sunbula.Adapters.MessagesInboxAdapter;
-import com.example.amr.sunbula.Adapters.NotificationsFragmentAdapter;
 import com.example.amr.sunbula.Models.APIResponses.RecieveMassegeResponse;
-import com.example.amr.sunbula.Models.APIResponses.RecieveMassegeResponse;
+import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -33,12 +30,14 @@ import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
 
+    APIService mAPIService;
+    String UserID, FromID, ThreadID;
+    TextView txt_message;
+    ImageView btn_send;
     private ListView list_chat;
     private List<RecieveMassegeResponse.MSgsBean> listOfMassegesBeen;
     private MessagesInboxAdapter adapter;
-    APIService mAPIService;
     private ProgressDialog pdialog;
-    String UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +49,8 @@ public class ChatActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_chat);
         setSupportActionBar(toolbar);
+        txt_message = (TextView) findViewById(R.id.txt_message);
+        btn_send = (ImageView) findViewById(R.id.btn_send);
 
         pdialog = new ProgressDialog(ChatActivity.this);
         pdialog.setIndeterminate(true);
@@ -60,7 +61,8 @@ public class ChatActivity extends AppCompatActivity {
 
         Intent in = getIntent();
         Bundle b = in.getExtras();
-        String ThreadID = b.getString("ThreadID");
+        ThreadID = b.getString("ThreadID");
+        FromID = b.getString("FromID");
 
         SharedPreferences sharedPreferences = ChatActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
@@ -68,6 +70,13 @@ public class ChatActivity extends AppCompatActivity {
         list_chat = (ListView) findViewById(R.id.list_chat);
 
         RecieveMassegePost(ThreadID, UserID);
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SendMassegePost(UserID, FromID, txt_message.getText().toString());
+            }
+        });
     }
 
     public void RecieveMassegePost(String ThreadID, String User_ID) {
@@ -98,6 +107,30 @@ public class ChatActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RecieveMassegeResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    private void SendMassegePost(String User_ID, String ToID, String MSGBody) {
+        pdialog.show();
+        mAPIService.SendMassege(User_ID, ToID, MSGBody).enqueue(new Callback<SendMassegeResponse>() {
+
+            @Override
+            public void onResponse(Call<SendMassegeResponse> call, Response<SendMassegeResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        adapter.notifyDataSetChanged();
+//                        Toast.makeText(ChatActivity.this, "Your message has been sent pending approval by the administrator", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(ChatActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<SendMassegeResponse> call, Throwable t) {
                 pdialog.dismiss();
             }
         });

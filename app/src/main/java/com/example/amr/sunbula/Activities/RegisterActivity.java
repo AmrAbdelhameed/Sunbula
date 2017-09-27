@@ -11,9 +11,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -59,23 +59,22 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
     de.hdodenhof.circleimageview.CircleImageView user_profile;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
-    private String userChoosenTask;
     String imagePath = "";
     EditText username, password, Email;
     Button btn_register;
     LoginButton btn_login_facebok;
     CallbackManager c;
-    private APIService mAPIService;
-    private ProgressDialog pdialog;
     ArrayList<String> CountryIDs, CountryNames, CityIDs, CityNames;
     String GetIDCountry = "", GetIDCity = "";
     List<AllCountriesResponse.AllCountriesBean> allCountriesBeen;
     List<AllCitiesResponse.AllCitiesBean> allCitiesBeen;
-
     ArrayList<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     String GetIDCategoires = "";
+    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private String userChoosenTask;
+    private APIService mAPIService;
+    private ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
                     GetIDCategoires = CategoriesIDs_in_AddCause.get(position);
-                    Toast.makeText(RegisterActivity.this, GetIDCategoires, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(RegisterActivity.this, GetIDCategoires, Toast.LENGTH_SHORT).show();
                 } else
                     GetIDCategoires = "";
             }
@@ -179,20 +178,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (Name.isEmpty()) {
                     username.setError("Please enter here");
-                }
-                if (EMail.isEmpty()) {
+                } else if (EMail.isEmpty()) {
                     Email.setError("Please enter here");
-                }
-                if (Password.isEmpty()) {
+                } else if (Password.isEmpty()) {
                     password.setError("Please enter here");
-                }
-                if (GetIDCountry.isEmpty()) {
+                } else if (GetIDCountry.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
-                }
-                if (GetIDCity.isEmpty()) {
+                } else if (GetIDCity.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
-                } else
-                    RegisterPost(1, Name, Password, EMail, GetIDCity);
+                } else if (GetIDCategoires.equals(""))
+                    Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
+                else
+                    RegisterPost(1, Name, Password, EMail, GetIDCity, GetIDCategoires);
 
             }
         });
@@ -211,7 +208,16 @@ public class RegisterActivity extends AppCompatActivity {
                         Profile profile = Profile.getCurrentProfile();
                         String imageURL = "https://graph.facebook.com/" + profile.getId() + "/picture?type=large";
                         String fbemail = profile.getId() + "@facebook.com";
-                        FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL);
+
+                        if (GetIDCountry.isEmpty()) {
+                            Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
+                        } else if (GetIDCity.isEmpty()) {
+                            Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
+                        } else if (GetIDCategoires.equals(""))
+                            Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
+
+                        else
+                            FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL, GetIDCity, GetIDCategoires);
 
                     }
 
@@ -414,9 +420,9 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile.setImageBitmap(bm);
     }
 
-    public void RegisterPost(int login_type, String name, String password, String email, String cityID) {
+    public void RegisterPost(int login_type, String name, String password, String email, String cityID, String CategoryID) {
         pdialog.show();
-        mAPIService.Register(login_type, name, password, email, cityID).enqueue(new Callback<RegistrationResponse>() {
+        mAPIService.Register(login_type, name, password, email, cityID, CategoryID).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
@@ -454,8 +460,8 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void FacebookPost(int login_type, String name, String fcid, String emailface, String imgurl) {
-        mAPIService.LoginAsFacebook(login_type, name, fcid, emailface, imgurl).enqueue(new Callback<RegistrationResponse>() {
+    public void FacebookPost(int login_type, String name, String fcid, String emailface, String imgurl, String cityID, String CategoryID) {
+        mAPIService.LoginAsFacebook(login_type, name, fcid, emailface, imgurl, cityID, CategoryID).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {

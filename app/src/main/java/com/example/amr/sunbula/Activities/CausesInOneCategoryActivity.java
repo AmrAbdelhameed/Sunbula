@@ -1,8 +1,10 @@
 package com.example.amr.sunbula.Activities;
 
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
@@ -23,6 +25,7 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
     String JsonCauses;
     ListView listView_causesInCategroied;
     List_CausesAdapter list_causesAdapter;
+    String UserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,9 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+        UserID = sharedPreferences.getString("UserID", "null");
+
         listView_causesInCategroied = (ListView) findViewById(R.id.list_causesInCategroied);
 
         Intent intent = this.getIntent();
@@ -52,7 +58,7 @@ public class CausesInOneCategoryActivity extends AppCompatActivity {
         }.getType();
         allCasesBeanList = gson.fromJson(JsonCauses, type);
 
-        list_causesAdapter = new List_CausesAdapter(CausesInOneCategoryActivity.this, R.layout.item_in_causes, allCasesBeanList);
+        list_causesAdapter = new List_CausesAdapter(UserID, CausesInOneCategoryActivity.this, R.layout.item_in_causes, allCasesBeanList);
         listView_causesInCategroied.setDivider(null);
         listView_causesInCategroied.setAdapter(list_causesAdapter);
 

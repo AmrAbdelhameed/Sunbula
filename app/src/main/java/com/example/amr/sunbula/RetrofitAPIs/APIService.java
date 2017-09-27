@@ -45,7 +45,8 @@ public interface APIService {
                                         @Field("Name") String Name,
                                         @Field("Password") String Password,
                                         @Field("EMail") String EMail,
-                                        @Field("CityID") String CityID);
+                                        @Field("CityID") String CityID,
+                                        @Field("CategoryID") String CategoryID);
 
     @POST("/Charity/Api/User/Regesteration")
     @FormUrlEncoded
@@ -53,7 +54,9 @@ public interface APIService {
                                                @Field("Name") String Name,
                                                @Field("FacebookID") String FacebookID,
                                                @Field("EMail") String EMail,
-                                               @Field("ImgURL") String ImgURL);
+                                               @Field("ImgURL") String ImgURL,
+                                               @Field("CityID") String CityID,
+                                               @Field("CategoryID") String CategoryID);
 
     @Multipart
     @POST("/Charity/Api/User/AddPicture")

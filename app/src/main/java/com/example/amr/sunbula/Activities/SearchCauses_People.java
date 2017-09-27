@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,6 +18,7 @@ import com.example.amr.sunbula.Adapters.SearchCauses_Adapter;
 import com.example.amr.sunbula.Adapters.SearchPeople_Adapter;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
+import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -35,15 +36,15 @@ public class SearchCauses_People extends AppCompatActivity {
     Button btn_cause, btn_people;
     ImageView btn_search;
     EditText text_search;
-    private ListView listView;
-    private SearchCauses_Adapter adapter;
     SearchPeople_Adapter adapter2;
     String UserID;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     boolean choice;
     List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
     List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
+    private ListView listView;
+    private SearchCauses_Adapter adapter;
+    private ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,15 @@ public class SearchCauses_People extends AppCompatActivity {
 
                             adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen);
                             listView.setAdapter(adapter);
+
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                                    // TODO Auto-generated method stub
+                                    SendMassegePost(UserID, searchedCasesBeen.get(pos).getCauseID(), "I'd like to connect with you");
+                                }
+                            });
                         }
                     } else
                         Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -198,5 +208,28 @@ public class SearchCauses_People extends AppCompatActivity {
 
         btn_cause.setTextColor(getApplication().getResources().getColor(R.color.colorAccent));
         btn_people.setTextColor(getApplication().getResources().getColor(R.color.tab_enable));
+    }
+
+    private void SendMassegePost(String User_ID, String ToID, String MSGBody) {
+        pdialog.show();
+        mAPIService.SendMassege(User_ID, ToID, MSGBody).enqueue(new Callback<SendMassegeResponse>() {
+
+            @Override
+            public void onResponse(Call<SendMassegeResponse> call, Response<SendMassegeResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        Toast.makeText(SearchCauses_People.this, "Your message has been sent pending approval by the administrator", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<SendMassegeResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
     }
 }

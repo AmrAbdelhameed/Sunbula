@@ -95,6 +95,7 @@ public class MessagesFragment extends Fragment {
                                     Intent i = new Intent(getActivity(), ChatActivity.class);
                                     Bundle b = new Bundle();
                                     b.putString("ThreadID", listOfMassegesBeen.get(pos).getThreadID());
+                                    b.putString("FromID", listOfMassegesBeen.get(pos).getFromID());
                                     i.putExtras(b);
                                     getActivity().startActivity(i);
                                     getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
