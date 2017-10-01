@@ -46,7 +46,8 @@ public interface APIService {
                                         @Field("Password") String Password,
                                         @Field("EMail") String EMail,
                                         @Field("CityID") String CityID,
-                                        @Field("CategoryID") String CategoryID);
+                                        @Field("CategoryID") String CategoryID,
+                                        @Field("ImgURL") String ImgURL);
 
     @POST("/Charity/Api/User/Regesteration")
     @FormUrlEncoded

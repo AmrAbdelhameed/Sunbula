@@ -59,7 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
     de.hdodenhof.circleimageview.CircleImageView user_profile;
-    String imagePath = "";
+    String imagePath = "", imageURL = "";
     EditText username, password, Email;
     Button btn_register;
     LoginButton btn_login_facebok;
@@ -176,20 +176,20 @@ public class RegisterActivity extends AppCompatActivity {
                 String EMail = Email.getText().toString();
                 String Password = password.getText().toString();
 
-                if (Name.isEmpty()) {
+                if (Name.isEmpty())
                     username.setError("Please enter here");
-                } else if (EMail.isEmpty()) {
+                else if (EMail.isEmpty())
                     Email.setError("Please enter here");
-                } else if (Password.isEmpty()) {
+                else if (Password.isEmpty())
                     password.setError("Please enter here");
-                } else if (GetIDCountry.isEmpty()) {
+                else if (GetIDCountry.isEmpty())
                     Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
-                } else if (GetIDCity.isEmpty()) {
+                else if (GetIDCity.isEmpty())
                     Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
-                } else if (GetIDCategoires.equals(""))
+                else if (GetIDCategoires.equals(""))
                     Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
                 else
-                    RegisterPost(1, Name, Password, EMail, GetIDCity, GetIDCategoires);
+                    RegisterPost(1, Name, Password, EMail, GetIDCity, GetIDCategoires, imageURL);
 
             }
         });
@@ -420,9 +420,9 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile.setImageBitmap(bm);
     }
 
-    public void RegisterPost(int login_type, String name, String password, String email, String cityID, String CategoryID) {
+    public void RegisterPost(int login_type, String name, String password, String email, String cityID, String CategoryID, String ImgURL) {
         pdialog.show();
-        mAPIService.Register(login_type, name, password, email, cityID, CategoryID).enqueue(new Callback<RegistrationResponse>() {
+        mAPIService.Register(login_type, name, password, email, cityID, CategoryID, ImgURL).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
@@ -430,30 +430,23 @@ public class RegisterActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     if (response.body().getIsSuccess()) {
-                        Log.i(TAG, "post submitted to API." + response.body().toString());
-                        if (!imagePath.equals(""))
-                            uploadImage(response.body().getUserID());
-                        else {
-                            pdialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
-                            Bundle b = new Bundle();
-                            b.putString("UserID", response.body().getUserID());
-                            i.putExtras(b);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                            finish();
-                        }
-                    } else {
+                        uploadImage(response.body().getUserID());
+                        Toast.makeText(RegisterActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("UserID", response.body().getUserID());
+                        i.putExtras(b);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        finish();
+                    } else
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-                        pdialog.dismiss();
-                    }
+                    pdialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<RegistrationResponse> call, Throwable t) {
-                Log.e(TAG, "Unable to submit post to API.");
                 Toast.makeText(RegisterActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
@@ -498,7 +491,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void uploadImage(final String UserId) {
-
+        pdialog.show();
         //File creating from selected URL
         File file = new File(imagePath);
 
@@ -519,14 +512,7 @@ public class RegisterActivity extends AppCompatActivity {
                 // Response Success or Fail
                 if (response.isSuccessful()) {
                     if (response.body().isSuccess()) {
-                        Toast.makeText(RegisterActivity.this, "Please check your mail to confirmation your email", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(RegisterActivity.this, ConfirmEmailActivity.class);
-                        Bundle b = new Bundle();
-                        b.putString("UserID", UserId);
-                        i.putExtras(b);
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                        finish();
+                        imageURL = response.body().getImageURL();
                     } else
                         Toast.makeText(RegisterActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
 

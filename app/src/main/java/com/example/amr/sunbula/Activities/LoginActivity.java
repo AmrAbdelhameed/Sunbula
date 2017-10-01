@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (response.body().is_Verified()) {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
+
                         SharedPreferences sharedPreferences = LoginActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("UserID", response.body().getUser_ID());

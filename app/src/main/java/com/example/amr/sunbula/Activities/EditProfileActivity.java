@@ -11,9 +11,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -50,25 +50,24 @@ import retrofit2.Response;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    ArrayList<String> CategoriesNames_in_AddCause;
-    ArrayList<String> CategoriesIDs_in_AddCause;
-    ArrayList<String> Gender_arraylist;
+    List<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause, Gender_arraylist;
     String Name, Email, mNumber, Address, Gender, imageURL;
     String GetID = "", GetGender = "";
     EditText txt_edit_name, txt_edit_email, txt_edit_pin, txt_edit_phone;
     String UserID;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     de.hdodenhof.circleimageview.CircleImageView new_image_profile;
+    String imagePath = "";
+    private ProgressDialog pdialog;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
-    String imagePath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
 
         FirebaseCrash.log("Here comes the exception!");
         FirebaseCrash.report(new Exception("oops!"));
@@ -81,18 +80,22 @@ public class EditProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         new_image_profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.new_image_profile);
-
+        txt_edit_name = (EditText) findViewById(R.id.txt_edit_name);
+        txt_edit_email = (EditText) findViewById(R.id.txt_edit_email);
+        txt_edit_pin = (EditText) findViewById(R.id.txt_edit_pin);
+        txt_edit_phone = (EditText) findViewById(R.id.txt_edit_phone);
+//
+        Gender_arraylist = new ArrayList<>();
         CategoriesNames_in_AddCause = new ArrayList<>();
         CategoriesIDs_in_AddCause = new ArrayList<>();
-        Gender_arraylist = new ArrayList<>();
-
+//
         pdialog = new ProgressDialog(EditProfileActivity.this);
         pdialog.setIndeterminate(true);
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
 
         mAPIService = ApiUtils.getAPIService();
-
+//
         SharedPreferences sharedPreferences = EditProfileActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
 
@@ -102,8 +105,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 selectImage();
             }
         });
-
-
+//
         Intent in = getIntent();
         Bundle b = in.getExtras();
         imageURL = b.getString("imageURL");
@@ -112,23 +114,6 @@ public class EditProfileActivity extends AppCompatActivity {
         mNumber = b.getString("mNumber");
         Address = b.getString("Address");
         Gender = b.getString("Gender");
-
-        if (Gender.equalsIgnoreCase("Male")) {
-            Gender_arraylist.add("Male");
-            Gender_arraylist.add("Female");
-        } else if (Gender.equalsIgnoreCase("Female")) {
-            Gender_arraylist.add("Female");
-            Gender_arraylist.add("Male");
-        } else {
-            Gender_arraylist.add("Gender");
-            Gender_arraylist.add("Male");
-            Gender_arraylist.add("Female");
-        }
-
-        txt_edit_name = (EditText) findViewById(R.id.txt_edit_name);
-        txt_edit_email = (EditText) findViewById(R.id.txt_edit_email);
-        txt_edit_pin = (EditText) findViewById(R.id.txt_edit_pin);
-        txt_edit_phone = (EditText) findViewById(R.id.txt_edit_phone);
 
         Picasso.with(EditProfileActivity.this).load(imageURL).into(new_image_profile);
         txt_edit_name.setText(Name);
@@ -167,6 +152,10 @@ public class EditProfileActivity extends AppCompatActivity {
                 // TODO Auto-generated method stub
             }
         });
+
+        Gender_arraylist.add("Gender");
+        Gender_arraylist.add("Male");
+        Gender_arraylist.add("Female");
 
         Spinner staticSpinner2 = (Spinner) findViewById(R.id.spinner_gender);
 
@@ -239,7 +228,13 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        uploadImage(UserId);
+                        Toast.makeText(EditProfileActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
+                        Bundle b = new Bundle();
+                        b.putBoolean("GoToProfile", true);
+                        i.putExtras(b);
+                        startActivity(i);
+                        finish();
                     } else
                         Toast.makeText(EditProfileActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                     pdialog.dismiss();
@@ -388,22 +383,17 @@ public class EditProfileActivity extends AppCompatActivity {
                 MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
 
         Call<ImageResponse> resultCall = mAPIService.UploadImageRegister(UserId, body);
-
+        pdialog.show();
         // finally, execute the request
         resultCall.enqueue(new Callback<ImageResponse>() {
+
             @Override
             public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
 
                 // Response Success or Fail
                 if (response.isSuccessful()) {
                     if (response.body().isSuccess()) {
-                        Toast.makeText(EditProfileActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
-                        Bundle b = new Bundle();
-                        b.putBoolean("GoToProfile", true);
-                        i.putExtras(b);
-                        startActivity(i);
-                        finish();
+                        Toast.makeText(EditProfileActivity.this, "Uploaded image successfully", Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(EditProfileActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
 
@@ -437,17 +427,17 @@ public class EditProfileActivity extends AppCompatActivity {
                 txt_edit_name.setError("enter here");
             if (txt_edit_email.getText().toString().isEmpty())
                 txt_edit_email.setError("enter here");
-//            if (txt_edit_pin.getText().toString().isEmpty())
-//                txt_edit_pin.setError("enter here");
             if (txt_edit_phone.getText().toString().isEmpty())
                 txt_edit_phone.setError("enter here");
             if (GetID.equals(""))
                 Toast.makeText(this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
             if (GetGender.equals(""))
                 Toast.makeText(this, "Please select your gender", Toast.LENGTH_SHORT).show();
+            if (!imagePath.equals(""))
+                uploadImage(UserID);
             else {
                 EditProfilePost(UserID, txt_edit_name.getText().toString(), txt_edit_email.getText().toString(),
-                        txt_edit_phone.getText().toString(), txt_edit_pin.getText().toString(), GetGender, GetID);
+                        txt_edit_phone.getText().toString(), "67c91722-0118-4132-8d45-24916f3a05e8", GetGender, GetID);
             }
             return true;
         }

@@ -1,9 +1,11 @@
 package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,9 +27,9 @@ public class ConfirmEmailActivity extends AppCompatActivity {
     private static final String TAG = "ConfirmEmailActivity";
     String UserID;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     Button btn_continue;
     EditText Cnformcode;
+    private ProgressDialog pdialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class ConfirmEmailActivity extends AppCompatActivity {
         Bundle b = in.getExtras();
         UserID = b.getString("UserID");
 
-        Toast.makeText(this, UserID, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, UserID, Toast.LENGTH_SHORT).show();
 
         btn_continue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,13 @@ public class ConfirmEmailActivity extends AppCompatActivity {
 
                     if (response.body().isSuccess()) {
                         Log.i(TAG, "post submitted to API." + response.body().toString());
+
+                        SharedPreferences sharedPreferences = ConfirmEmailActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("UserID", UserID);
+                        editor.putBoolean("isVerified", true);
+                        editor.putBoolean("facebookID", false);
+                        editor.apply();
                         Toast.makeText(ConfirmEmailActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(ConfirmEmailActivity.this, HomeActivity.class);
                         startActivity(i);
