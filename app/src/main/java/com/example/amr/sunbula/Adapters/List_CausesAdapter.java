@@ -84,7 +84,7 @@ public class List_CausesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCa
         holder.btn_donate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendMassegePost(UserID, list_friends_name.get(position).getCauseID(), "I'd like to connect with you");
+                SendMassegePost(UserID, list_friends_name.get(position).getOwnderID(), "I'd like to connect with you");
             }
         });
 

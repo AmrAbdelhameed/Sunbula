@@ -123,7 +123,7 @@ public class SearchCauses_People extends AppCompatActivity {
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 
                                     // TODO Auto-generated method stub
-                                    SendMassegePost(UserID, searchedCasesBeen.get(pos).getCauseID(), "I'd like to connect with you");
+                                    SendMassegePost(UserID, searchedCasesBeen.get(pos).getOwnderID(), "I'd like to connect with you");
                                 }
                             });
                         }

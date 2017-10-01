@@ -228,6 +228,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
+                        if (!imagePath.equals(""))
+                            uploadImage(UserID);
                         Toast.makeText(EditProfileActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
                         Bundle b = new Bundle();
@@ -392,11 +394,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 // Response Success or Fail
                 if (response.isSuccessful()) {
-                    if (response.body().isSuccess()) {
-                        Toast.makeText(EditProfileActivity.this, "Uploaded image successfully", Toast.LENGTH_SHORT).show();
-                    } else
+                    if (!response.body().isSuccess())
                         Toast.makeText(EditProfileActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
-
                 } else {
                     Toast.makeText(EditProfileActivity.this, R.string.string_upload_fail, Toast.LENGTH_SHORT).show();
                 }
@@ -433,8 +432,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
             if (GetGender.equals(""))
                 Toast.makeText(this, "Please select your gender", Toast.LENGTH_SHORT).show();
-            if (!imagePath.equals(""))
-                uploadImage(UserID);
             else {
                 EditProfilePost(UserID, txt_edit_name.getText().toString(), txt_edit_email.getText().toString(),
                         txt_edit_phone.getText().toString(), "67c91722-0118-4132-8d45-24916f3a05e8", GetGender, GetID);
