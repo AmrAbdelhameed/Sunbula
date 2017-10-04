@@ -48,18 +48,16 @@ public class MessagesInboxAdapter extends ArrayAdapter<RecieveMassegeResponse.MS
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderNotifications holder;
+        ViewHolderMessages holder;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        if (convertView == null) {
-            if (mSgsBeanList.get(position).isIsMine())
-                convertView = inflater.inflate(R.layout.item_in_send_message, parent, false);
-            else
-                convertView = inflater.inflate(R.layout.item_in_recieve_message, parent, false);
-            holder = new ViewHolderNotifications(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolderNotifications) convertView.getTag();
-        }
+
+        if (mSgsBeanList.get(position).isIsMine())
+            convertView = inflater.inflate(R.layout.item_in_send_message, parent, false);
+        else
+            convertView = inflater.inflate(R.layout.item_in_recieve_message, parent, false);
+
+        holder = new ViewHolderMessages(convertView);
+        convertView.setTag(holder);
 
         holder.recieve_message.setText(mSgsBeanList.get(position).getMSGBoody());
         holder.recieve_time.setText(mSgsBeanList.get(position).getDate());
@@ -69,11 +67,11 @@ public class MessagesInboxAdapter extends ArrayAdapter<RecieveMassegeResponse.MS
         return convertView;
     }
 
-    private class ViewHolderNotifications {
+    private class ViewHolderMessages {
         private TextView recieve_message, recieve_time;
         de.hdodenhof.circleimageview.CircleImageView message_recieve_pic;
 
-        private ViewHolderNotifications(View v) {
+        private ViewHolderMessages(View v) {
             recieve_message = (TextView) v.findViewById(R.id.recieve_message);
             recieve_time = (TextView) v.findViewById(R.id.recieve_time);
             message_recieve_pic = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.message_recieve_pic);

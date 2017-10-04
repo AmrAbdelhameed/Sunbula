@@ -96,6 +96,7 @@ public class MessagesFragment extends Fragment {
                                     Bundle b = new Bundle();
                                     b.putString("ThreadID", listOfMassegesBeen.get(pos).getThreadID());
                                     b.putString("FromID", listOfMassegesBeen.get(pos).getFromID());
+                                    b.putString("ImageUSER",listOfMassegesBeen.get(pos).getImg());
                                     i.putExtras(b);
                                     getActivity().startActivity(i);
                                     getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

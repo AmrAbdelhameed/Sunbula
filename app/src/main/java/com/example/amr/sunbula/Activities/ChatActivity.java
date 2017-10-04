@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class ChatActivity extends AppCompatActivity {
 
     APIService mAPIService;
-    String UserID, FromID, ThreadID;
+    String UserID, FromID, ThreadID, ImageUSER;
     TextView txt_message;
     ImageView btn_send;
     private ListView list_chat;
@@ -63,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
         Bundle b = in.getExtras();
         ThreadID = b.getString("ThreadID");
         FromID = b.getString("FromID");
+        ImageUSER = b.getString("ImageUSER");
 
         SharedPreferences sharedPreferences = ChatActivity.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
@@ -74,7 +75,8 @@ public class ChatActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SendMassegePost(UserID, FromID, txt_message.getText().toString());
+                if (!txt_message.getText().toString().isEmpty())
+                    SendMassegePost(UserID, FromID, txt_message.getText().toString());
             }
         });
     }
@@ -97,7 +99,7 @@ public class ChatActivity extends AppCompatActivity {
                         RecieveMassegeResponse RecieveMassegeResponse = response.body();
                         listOfMassegesBeen = RecieveMassegeResponse.getMSgs();
 
-                        adapter = new MessagesInboxAdapter(ChatActivity.this, listOfMassegesBeen, response.body().getImage());
+                        adapter = new MessagesInboxAdapter(ChatActivity.this, listOfMassegesBeen, ImageUSER);
                         list_chat.setAdapter(adapter);
                     } else
                         Toast.makeText(ChatActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
@@ -122,7 +124,6 @@ public class ChatActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         adapter.notifyDataSetChanged();
-//                        Toast.makeText(ChatActivity.this, "Your message has been sent pending approval by the administrator", Toast.LENGTH_SHORT).show();
                     } else
                         Toast.makeText(ChatActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }

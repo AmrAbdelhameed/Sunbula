@@ -1,5 +1,6 @@
 package com.example.amr.sunbula.Activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -12,6 +13,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -64,7 +67,7 @@ public class AddCauseActivity extends AppCompatActivity {
     Bitmap bitmap = null;
     de.hdodenhof.circleimageview.CircleImageView image_addcause;
     private ProgressDialog pdialog;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    private int REQUEST_CAMERA = 100, SELECT_FILE = 1;
     private String userChoosenTask;
 
     @Override
@@ -74,6 +77,10 @@ public class AddCauseActivity extends AppCompatActivity {
 
         FirebaseCrash.log("Here comes the exception!");
         FirebaseCrash.report(new Exception("oops!"));
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_addcause);
         toolbar.setTitle("Add Cause");
@@ -168,7 +175,8 @@ public class AddCauseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     if (userChoosenTask.equals("From Camera"))
                         cameraIntent();
                     else if (userChoosenTask.equals("From Library"))
