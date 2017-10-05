@@ -54,9 +54,9 @@ import retrofit2.Response;
 public class EditProfileActivity extends AppCompatActivity {
 
     List<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause, Gender_arraylist;
-    String Name, Email, mNumber, Address, Gender, imageURL;
+    String Name, Email, mNumber, Gender, imageURL;
     String GetID = "", GetGender = "";
-    EditText txt_edit_name, txt_edit_email, txt_edit_pin, txt_edit_phone;
+    EditText txt_edit_name, txt_edit_email, txt_edit_phone;
     String UserID;
     APIService mAPIService;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
@@ -88,7 +88,7 @@ public class EditProfileActivity extends AppCompatActivity {
         new_image_profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.new_image_profile);
         txt_edit_name = (EditText) findViewById(R.id.txt_edit_name);
         txt_edit_email = (EditText) findViewById(R.id.txt_edit_email);
-        txt_edit_pin = (EditText) findViewById(R.id.txt_edit_pin);
+//        txt_edit_pin = (EditText) findViewById(R.id.txt_edit_pin);
         txt_edit_phone = (EditText) findViewById(R.id.txt_edit_phone);
 //
         Gender_arraylist = new ArrayList<>();
@@ -118,16 +118,16 @@ public class EditProfileActivity extends AppCompatActivity {
         Name = b.getString("Name");
         Email = b.getString("Email");
         mNumber = b.getString("mNumber");
-        Address = b.getString("Address");
+//        Address = b.getString("Address");
         Gender = b.getString("Gender");
 
         Picasso.with(EditProfileActivity.this).load(imageURL).into(new_image_profile);
         txt_edit_name.setText(Name);
         txt_edit_email.setText(Email);
-        txt_edit_pin.setText(Address);
+//        txt_edit_pin.setText(Address);
         txt_edit_phone.setText(mNumber);
 
-        CategoriesNames_in_AddCause.add("Categories");
+        CategoriesNames_in_AddCause.add("Interested Categories");
         CategoriesIDs_in_AddCause.add("IDs");
 
         GetAllCategories(UserID);
@@ -148,7 +148,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                if (!CategoriesNames_in_AddCause.get(position).equals("Categories")) {
+                if (!CategoriesNames_in_AddCause.get(position).equals("Interested Categories")) {
                     GetID = CategoriesIDs_in_AddCause.get(position);
                 }
             }
@@ -224,10 +224,9 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void EditProfilePost(final String UserId, String Name, String EMail, String MobileNumber,
-                                String Address, String Gender, String InterestedCategory) {
+    public void EditProfilePost(final String UserId, String Name, String EMail, String MobileNumber, String Gender, String InterestedCategory) {
         pdialog.show();
-        mAPIService.EditProfile(UserId, Name, EMail, MobileNumber, Address, Gender, InterestedCategory).enqueue(new Callback<EditProfileResponse>() {
+        mAPIService.EditProfile(UserId, Name, EMail, MobileNumber, Gender, InterestedCategory).enqueue(new Callback<EditProfileResponse>() {
 
             @Override
             public void onResponse(Call<EditProfileResponse> call, Response<EditProfileResponse> response) {
@@ -340,6 +339,7 @@ public class EditProfileActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             imagePath = cursor.getString(idx);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
 
             cursor.close();
         } else {
@@ -369,6 +369,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             imagePath = cursor.getString(columnIndex);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
 
             cursor.close();
 
@@ -377,7 +378,6 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         new_image_profile.setImageBitmap(bm);
     }
-
 
     private void uploadImage(String UserId) {
 
@@ -441,7 +441,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please select your gender", Toast.LENGTH_SHORT).show();
             else {
                 EditProfilePost(UserID, txt_edit_name.getText().toString(), txt_edit_email.getText().toString(),
-                        txt_edit_phone.getText().toString(), "67c91722-0118-4132-8d45-24916f3a05e8", GetGender, GetID);
+                        txt_edit_phone.getText().toString(), GetGender, GetID);
             }
             return true;
         }

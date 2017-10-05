@@ -1,5 +1,6 @@
 package com.example.amr.sunbula.Activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -8,10 +9,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,11 +34,13 @@ import android.widget.Toast;
 
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
+import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.example.amr.sunbula.Utility;
 import com.google.firebase.crash.FirebaseCrash;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,6 +53,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -63,8 +73,8 @@ public class EditCauseActivity extends AppCompatActivity {
     APIService mAPIService;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     DatePickerDialog.OnDateSetListener date;
-    Bitmap bitmap = null;
     de.hdodenhof.circleimageview.CircleImageView image_editcause;
+    String imagePath = "", imageURL = "";
     private ProgressDialog pdialog;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private String userChoosenTask;
@@ -76,6 +86,10 @@ public class EditCauseActivity extends AppCompatActivity {
 
         FirebaseCrash.log("Here comes the exception!");
         FirebaseCrash.report(new Exception("oops!"));
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_edit_cause);
         toolbar.setTitle("Edit Cause");
@@ -130,6 +144,10 @@ public class EditCauseActivity extends AppCompatActivity {
         int Amount = b.getInt("Amount");
         String EndDate = b.getString("EndDate");
         String CauseDescription = b.getString("CauseDescription");
+        String Image = b.getString("Image");
+
+        Toast.makeText(this, Image, Toast.LENGTH_SHORT).show();
+        Picasso.with(EditCauseActivity.this).load(Image).into(image_editcause);
 
         txt_add_description_editcause.setText(CauseDescription);
         name_editcause.setText(Name);
@@ -188,7 +206,8 @@ public class EditCauseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     if (userChoosenTask.equals("From Camera"))
                         cameraIntent();
                     else if (userChoosenTask.equals("From Library"))
@@ -272,7 +291,20 @@ public class EditCauseActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        bitmap = thumbnail;
+        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), thumbnail, "Title", null);
+        Uri tempUri = Uri.parse(path);
+
+        Cursor cursor = getContentResolver().query(tempUri, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            imagePath = cursor.getString(idx);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+
+            cursor.close();
+        } else {
+            Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
+        }
         image_editcause.setImageBitmap(thumbnail);
     }
 
@@ -287,8 +319,70 @@ public class EditCauseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        bitmap = bm;
+        Uri selectedImageUri = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            imagePath = cursor.getString(columnIndex);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+
+            cursor.close();
+
+        } else {
+            Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
+        }
+
         image_editcause.setImageBitmap(bm);
+    }
+
+    public void uploadImage(final String UserId) {
+        pdialog.show();
+        //File creating from selected URL
+        File file = new File(imagePath);
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
+
+        Call<ImageResponse> resultCall = mAPIService.UploadPicture(UserId, body);
+
+        // finally, execute the request
+        resultCall.enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+
+                // Response Success or Fail
+                if (response.isSuccessful()) {
+                    if (response.body().isSuccess()) {
+                        imageURL = response.body().getImageURL();
+                        EditCause(CauseID, name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
+                                txt_calender.getText().toString(), txt_add_description_editcause.getText().toString(), imageURL);
+
+                    } else
+                        Toast.makeText(EditCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(EditCauseActivity.this, R.string.string_upload_fail, Toast.LENGTH_SHORT).show();
+                }
+
+                pdialog.dismiss();
+
+                imagePath = "";
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
     }
 
     private void updateLabel() {
@@ -331,9 +425,9 @@ public class EditCauseActivity extends AppCompatActivity {
         });
     }
 
-    public void EditCause(String cause_id, String name, String amount, String cat_id, String end_date, String cat_desc) {
+    public void EditCause(String cause_id, String name, String amount, String cat_id, String end_date, String cat_desc, String IMG) {
         pdialog.show();
-        mAPIService.EditCause(cause_id, name, amount, cat_id, end_date, cat_desc, 1).enqueue(new Callback<EditCauseResponse>() {
+        mAPIService.EditCause(cause_id, name, amount, cat_id, end_date, cat_desc, IMG, 1).enqueue(new Callback<EditCauseResponse>() {
 
             @Override
             public void onResponse(Call<EditCauseResponse> call, Response<EditCauseResponse> response) {
@@ -380,8 +474,7 @@ public class EditCauseActivity extends AppCompatActivity {
             if (amount_editcause.getText().toString().isEmpty())
                 amount_editcause.setError("enter here");
             else {
-                EditCause(CauseID, name_editcause.getText().toString(), amount_editcause.getText().toString(), GetID,
-                        txt_calender.getText().toString(), txt_add_description_editcause.getText().toString());
+                uploadImage(UserID);
             }
             return true;
         }

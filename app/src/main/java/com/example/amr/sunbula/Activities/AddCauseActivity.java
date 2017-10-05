@@ -9,7 +9,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -32,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
+import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
@@ -49,6 +52,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,8 +70,8 @@ public class AddCauseActivity extends AppCompatActivity {
     APIService mAPIService;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     DatePickerDialog.OnDateSetListener date;
-    Bitmap bitmap = null;
     de.hdodenhof.circleimageview.CircleImageView image_addcause;
+    String imagePath = "", imageURL = "";
     private ProgressDialog pdialog;
     private int REQUEST_CAMERA = 100, SELECT_FILE = 1;
     private String userChoosenTask;
@@ -260,7 +266,20 @@ public class AddCauseActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        bitmap = thumbnail;
+        String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), thumbnail, "Title", null);
+        Uri tempUri = Uri.parse(path);
+
+        Cursor cursor = getContentResolver().query(tempUri, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            imagePath = cursor.getString(idx);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+
+            cursor.close();
+        } else {
+            Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
+        }
         image_addcause.setImageBitmap(thumbnail);
     }
 
@@ -275,7 +294,24 @@ public class AddCauseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        bitmap = bm;
+        Uri selectedImageUri = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+        Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            imagePath = cursor.getString(columnIndex);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+
+            cursor.close();
+
+        } else {
+            Toast.makeText(this, R.string.string_unable_to_load_image, Toast.LENGTH_SHORT).show();
+        }
+
         image_addcause.setImageBitmap(bm);
     }
 
@@ -320,9 +356,9 @@ public class AddCauseActivity extends AppCompatActivity {
         });
     }
 
-    public void AddCause(String name, String amount, String catID, String end_date, String cause_desc, String user_id) {
+    public void AddCause(String name, String amount, String catID, String end_date, String cause_desc, String IMG, String user_id) {
         pdialog.show();
-        mAPIService.AddCause(name, amount, catID, end_date, cause_desc, 1, user_id).enqueue(new Callback<AddCauseResponse>() {
+        mAPIService.AddCause(name, amount, catID, end_date, cause_desc, IMG, 1, user_id).enqueue(new Callback<AddCauseResponse>() {
 
             @Override
             public void onResponse(Call<AddCauseResponse> call, Response<AddCauseResponse> response) {
@@ -352,6 +388,51 @@ public class AddCauseActivity extends AppCompatActivity {
         });
     }
 
+    public void uploadImage(final String UserId) {
+        pdialog.show();
+        //File creating from selected URL
+        File file = new File(imagePath);
+
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("uploaded_file", file.getName(), requestFile);
+
+        Call<ImageResponse> resultCall = mAPIService.UploadPicture(UserId, body);
+
+        // finally, execute the request
+        resultCall.enqueue(new Callback<ImageResponse>() {
+            @Override
+            public void onResponse(Call<ImageResponse> call, Response<ImageResponse> response) {
+
+                // Response Success or Fail
+                if (response.isSuccessful()) {
+                    if (response.body().isSuccess()) {
+                        imageURL = response.body().getImageURL();
+                        AddCause(name_addcause.getText().toString(), amount_addcause.getText().toString(), GetIDCategoires,
+                                txt_calender.getText().toString(), txt_add_description_addcause.getText().toString(), imageURL, UserID);
+
+                    } else
+                        Toast.makeText(AddCauseActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(AddCauseActivity.this, R.string.string_upload_fail, Toast.LENGTH_SHORT).show();
+                }
+
+                pdialog.dismiss();
+
+                imagePath = "";
+            }
+
+            @Override
+            public void onFailure(Call<ImageResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add_cause, menu);
@@ -375,8 +456,7 @@ public class AddCauseActivity extends AppCompatActivity {
             if (txt_add_description_addcause.getText().toString().isEmpty())
                 txt_add_description_addcause.setError("enter here");
             else {
-                AddCause(name_addcause.getText().toString(), amount_addcause.getText().toString(), GetIDCategoires,
-                        txt_calender.getText().toString(), txt_add_description_addcause.getText().toString(), UserID);
+                uploadImage(UserID);
             }
             return true;
         }

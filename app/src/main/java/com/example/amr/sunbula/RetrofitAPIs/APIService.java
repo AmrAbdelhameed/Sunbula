@@ -63,6 +63,10 @@ public interface APIService {
     @POST("/Charity/Api/User/AddPicture")
     Call<ImageResponse> UploadImageRegister(@Query("User_ID") String User_ID, @Part MultipartBody.Part file);
 
+    @Multipart
+    @POST("/Charity/Api/User/UploadPicture")
+    Call<ImageResponse> UploadPicture(@Query("User_ID") String User_ID, @Part MultipartBody.Part file);
+
     @POST("/Charity/Api/User/VerfiedAccnt")
     @FormUrlEncoded
     Call<VerfiedAccntResponse> VerfiedAccnt(@Field("User_ID") String User_ID,
@@ -115,6 +119,7 @@ public interface APIService {
                                     @Field("CategoryID") String CategoryID,
                                     @Field("EndDate") String EndDate,
                                     @Field("CauseDescription") String CauseDescription,
+                                    @Field("IMG") String IMG,
                                     @Field("status") int status,
                                     @Field("User_ID") String User_ID);
 
@@ -126,6 +131,7 @@ public interface APIService {
                                       @Field("CategoryID") String CategoryID,
                                       @Field("EndDate") String EndDate,
                                       @Field("CauseDescription") String CauseDescription,
+                                      @Field("IMG") String IMG,
                                       @Field("status") int status);
 
     @POST("/Charity/Api/Case/DeleteCause")
@@ -173,7 +179,7 @@ public interface APIService {
                                           @Field("Name") String Name,
                                           @Field("EMail") String EMail,
                                           @Field("MobileNumber") String MobileNumber,
-                                          @Field("Address") String Address,
+//                                          @Field("Address") String Address,
                                           @Field("Gender") String Gender,
                                           @Field("InterestedCategory") String InterestedCategory);
 

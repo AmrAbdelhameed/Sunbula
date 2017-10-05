@@ -66,7 +66,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_16dp"
+                android:layout_marginStart="@dimen/_16dp"
                 android:layout_marginRight="@dimen/_8dp"
+                android:layout_marginEnd="@dimen/_16dp"
                 android:layout_marginTop="@dimen/_16dp"
                 app:layout_constraintLeft_toRightOf="@+id/image_category"
                 app:layout_constraintRight_toRightOf="parent"
@@ -180,47 +182,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/v1" />
 
             <View
-                android:id="@+id/v2"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/_1dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                android:layout_marginTop="@dimen/_8dp"
-                android:background="@color/tab_enable"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_edit_email" />
-
-            <ImageView
-                android:id="@+id/image_pin"
-                android:layout_width="@dimen/_25dp"
-                android:layout_height="@dimen/_25dp"
-                android:layout_marginLeft="@dimen/_8dp"
-                android:layout_marginStart="@dimen/_8dp"
-                android:layout_marginTop="@dimen/_16dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v2"
-                app:srcCompat="@drawable/pin_edit" />
-
-            <EditText
-                android:id="@+id/txt_edit_pin"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_16dp"
-                android:layout_marginRight="@dimen/_8dp"
-                android:layout_marginStart="@dimen/_16dp"
-                android:layout_marginTop="@dimen/_16dp"
-                android:background="@null"
-                android:hint="Country,Maintain its,Street"
-                android:inputType="textPersonName"
-                android:textSize="@dimen/_20sp"
-                android:textStyle="bold"
-                app:layout_constraintHorizontal_bias="0.181"
-                app:layout_constraintLeft_toRightOf="@+id/image_pin"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/v2" />
-
-            <View
                 android:id="@+id/v3"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_1dp"
@@ -230,7 +191,7 @@
                 android:background="@color/tab_enable"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_edit_pin" />
+                app:layout_constraintTop_toBottomOf="@+id/txt_edit_email" />
 
             <ImageView
                 android:id="@+id/image_phone"

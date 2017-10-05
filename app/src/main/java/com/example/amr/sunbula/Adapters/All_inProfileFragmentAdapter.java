@@ -97,6 +97,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                 b.putInt("Amount", list_name_cause.get(position).getAmount());
                 b.putString("EndDate", list_name_cause.get(position).getEndDate());
                 b.putString("CauseDescription", list_name_cause.get(position).getCaseDescription());
+                b.putString("Image", list_name_cause.get(position).getIMG());
                 i.putExtras(b);
                 activity.startActivity(i);
                 ((Activity)activity).finish();

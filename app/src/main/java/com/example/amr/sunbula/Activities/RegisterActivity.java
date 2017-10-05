@@ -127,7 +127,6 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!CountryNames.get(position).equals("Select your country")) {
                     GetIDCountry = CountryIDs.get(position);
                     SpinnerCity(GetIDCountry);
-//                    Toast.makeText(RegisterActivity.this, GetIDCountry, Toast.LENGTH_SHORT).show();
                 } else
                     GetIDCountry = "";
             }
@@ -206,28 +205,29 @@ public class RegisterActivity extends AppCompatActivity {
         btn_login_facebok.setReadPermissions("email");
         btn_login_facebok.setReadPermissions("user_birthday");
 
+
         LoginManager.getInstance().registerCallback(c,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-//                      1076606079140782
+//                          1076606079140782
 
                         Profile profile = Profile.getCurrentProfile();
                         String imageURL = "https://graph.facebook.com/" + profile.getId() + "/picture?type=large";
                         String fbemail = profile.getId() + "@facebook.com";
 
-                        if (GetIDCountry.isEmpty()) {
+                        if (GetIDCountry.isEmpty())
                             Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
-                        } else if (GetIDCity.isEmpty()) {
+                        else if (GetIDCity.isEmpty())
                             Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
-                        } else if (GetIDCategoires.equals(""))
+                        else if (GetIDCategoires.equals(""))
                             Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
 
-                        else
+                        else {
                             FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL, GetIDCity, GetIDCategoires);
+                        }
 
                     }
-
                     @Override
                     public void onCancel() {
                         LoginManager.getInstance().logOut();
@@ -238,6 +238,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
     }
 
     public void GetAllCategories(String UserId) {
@@ -311,7 +312,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (!CityNames.get(position).equals("Select your city")) {
                     GetIDCity = CityIDs.get(position);
-//                    Toast.makeText(RegisterActivity.this, GetIDCity, Toast.LENGTH_SHORT).show();
                 } else
                     GetIDCity = "";
             }
@@ -390,6 +390,7 @@ public class RegisterActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             imagePath = cursor.getString(idx);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
 
             cursor.close();
         } else {
@@ -419,6 +420,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             imagePath = cursor.getString(columnIndex);
+            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
 
             cursor.close();
 
