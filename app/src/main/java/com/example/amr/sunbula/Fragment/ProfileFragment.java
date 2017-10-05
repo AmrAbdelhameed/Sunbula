@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
     List<JoinedCausesProfileWrapper> joinedCausesProfileWrappers;
     TextView username_profile, text_reviews_profile, text_causes_profile, text_location_profile;
     de.hdodenhof.circleimageview.CircleImageView image_profile;
-    String UserID, Name, Email, mNumber, Address, Gender, imageURL;
+    String UserID, Name, Email, mNumber, Address, Gender, imageURL, InterestedCategory;
     boolean check_con = false, addChecked = false;
     private TabLayout tabLayout;
     private LinearLayout container;
@@ -215,6 +215,7 @@ public class ProfileFragment extends Fragment {
                         Address = response.body().getAddress();
                         Gender = response.body().getGender();
                         imageURL = response.body().getImgURL();
+                        InterestedCategory = response.body().getInterstedCategory();
 
                         if (imageURL.contains("http"))
                             Picasso.with(getActivity()).load(imageURL).into(image_profile);
@@ -222,7 +223,7 @@ public class ProfileFragment extends Fragment {
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
 
                         if (response.body().getAddress() != null)
-                            text_location_profile.setText(String.valueOf(response.body().getAddress()));
+                            text_location_profile.setText(response.body().getAddress() + "");
 
                         UserDetailsResponse userDetailsResponse = response.body();
 
@@ -413,6 +414,7 @@ public class ProfileFragment extends Fragment {
                     b.putString("mNumber", mNumber);
                     b.putString("Address", Address);
                     b.putString("Gender", Gender);
+                    b.putString("InterestedCategory", InterestedCategory);
                     intent.putExtras(b);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

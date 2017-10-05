@@ -54,7 +54,7 @@ import retrofit2.Response;
 public class EditProfileActivity extends AppCompatActivity {
 
     List<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause, Gender_arraylist;
-    String Name, Email, mNumber, Gender, imageURL;
+    String Name = "", Email = "", mNumber = "", Gender = "", imageURL = "", InterestedCategory = "";
     String GetID = "", GetGender = "";
     EditText txt_edit_name, txt_edit_email, txt_edit_phone;
     String UserID;
@@ -120,6 +120,7 @@ public class EditProfileActivity extends AppCompatActivity {
         mNumber = b.getString("mNumber");
 //        Address = b.getString("Address");
         Gender = b.getString("Gender");
+        InterestedCategory = b.getString("InterestedCategory");
 
         Picasso.with(EditProfileActivity.this).load(imageURL).into(new_image_profile);
         txt_edit_name.setText(Name);
@@ -131,6 +132,14 @@ public class EditProfileActivity extends AppCompatActivity {
         CategoriesIDs_in_AddCause.add("IDs");
 
         GetAllCategories(UserID);
+
+//        int pos = CategoriesIDs_in_AddCause.indexOf(InterestedCategory);
+//        String value = CategoriesNames_in_AddCause.get(pos);
+//
+//        CategoriesIDs_in_AddCause.remove(pos);
+//        CategoriesNames_in_AddCause.remove(pos);
+//        CategoriesIDs_in_AddCause.add(0, InterestedCategory);
+//        CategoriesNames_in_AddCause.add(0, value);
 
         Spinner staticSpinner = (Spinner) findViewById(R.id.spinner_InterestedCategories);
 
@@ -159,9 +168,12 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         });
 
-        Gender_arraylist.add("Gender");
         Gender_arraylist.add("Male");
         Gender_arraylist.add("Female");
+
+        int pos3 = Gender_arraylist.indexOf(Gender);
+        Gender_arraylist.remove(pos3);
+        Gender_arraylist.add(0, Gender);
 
         Spinner staticSpinner2 = (Spinner) findViewById(R.id.spinner_gender);
 
@@ -179,9 +191,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
 
-                if (!Gender_arraylist.get(position).equals("Gender")) {
-                    GetGender = Gender_arraylist.get(position);
-                }
+                GetGender = Gender_arraylist.get(position);
             }
 
             @Override
@@ -437,8 +447,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 txt_edit_phone.setError("enter here");
             if (GetID.equals(""))
                 Toast.makeText(this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
-            if (GetGender.equals(""))
-                Toast.makeText(this, "Please select your gender", Toast.LENGTH_SHORT).show();
             else {
                 EditProfilePost(UserID, txt_edit_name.getText().toString(), txt_edit_email.getText().toString(),
                         txt_edit_phone.getText().toString(), GetGender, GetID);
