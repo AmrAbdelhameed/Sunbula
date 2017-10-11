@@ -8,11 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -62,8 +64,9 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
 
         } else {
             holder.linearLayout12.setVisibility(View.GONE);
-
         }
+//        Picasso.with(activity).load("http://yakensolution.cloudapp.net/Charity//files/edb9165e-3852-4826-8832-48e928b80321/1507212458744.jpg").into(holder.image_in_item_home);
+
         holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
         holder.number_joined.setText("Joined (" + List_item_in_home.get(position).getNumberofjoins() + ")");
         holder.amount.setText("Amount (" + List_item_in_home.get(position).getAmount() + ")");
@@ -85,12 +88,14 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
     }
 
     private class ViewHolderHome {
+        private ImageView image_in_item_home;
         private Button text_item_in_home;
         private ImageButton image_switch;
         private LinearLayout linearLayout12;
         private TextView number_joined, amount, end_date;
 
         private ViewHolderHome(View v) {
+            image_in_item_home = (ImageView) v.findViewById(R.id.image_in_item_home);
             text_item_in_home = (Button) v.findViewById(R.id.text_item_in_home);
             image_switch = (ImageButton) v.findViewById(R.id.image_switch);
             linearLayout12 = (LinearLayout) v.findViewById(R.id.linearLayout12);

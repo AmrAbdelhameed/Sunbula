@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.HisUserCausesAdapter;
+import com.example.amr.sunbula.Models.APIResponses.BlockUserResponse;
 import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;
 import com.example.amr.sunbula.Models.APIResponses.MakeReportResponse;
@@ -336,6 +337,29 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         });
     }
 
+    public void BlockUserPost(String FromUserID, String ToUserID) {
+        pdialog.show();
+        mAPIService.BlockUser(FromUserID, ToUserID).enqueue(new Callback<BlockUserResponse>() {
+
+            @Override
+            public void onResponse(Call<BlockUserResponse> call, Response<BlockUserResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        Toast.makeText(ShowDetailsUserActivity.this, "Blocked Successfully", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                pdialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<BlockUserResponse> call, Throwable t) {
+                Toast.makeText(ShowDetailsUserActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                pdialog.dismiss();
+            }
+        });
+    }
+
     private void SendMassegePost(String User_ID, String ToID, String MSGBody) {
         pdialog.show();
         mAPIService.SendMassege(User_ID, ToID, MSGBody).enqueue(new Callback<SendMassegeResponse>() {
@@ -431,6 +455,22 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
             // show it
             alertDialog.show();
             return true;
+        }
+        if (id == R.id.block) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Do you want to block "+username_user_profile.getText().toString()+" ?")
+                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            BlockUserPost(UserID, people_id);
+                        }
+                    }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // Nothing
+                }
+            });
+            AlertDialog d = builder.create();
+            d.setTitle("Are you sure");
+            d.show();
         }
         return super.onOptionsItemSelected(item);
     }

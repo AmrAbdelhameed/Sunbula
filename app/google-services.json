@@ -1,35 +1,27 @@
 {
   "project_info": {
-    "project_number": "950538941661",
-    "firebase_url": "https://sunbula-a41c7.firebaseio.com",
-    "project_id": "sunbula-a41c7",
-    "storage_bucket": "sunbula-a41c7.appspot.com"
+    "project_number": "1011753847001",
+    "firebase_url": "https://sunbula-419ea.firebaseio.com",
+    "project_id": "sunbula-419ea",
+    "storage_bucket": "sunbula-419ea.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:950538941661:android:bad8243aa22a05bd",
+        "mobilesdk_app_id": "1:1011753847001:android:bad8243aa22a05bd",
         "android_client_info": {
           "package_name": "com.example.amr.sunbula"
         }
       },
       "oauth_client": [
         {
-          "client_id": "950538941661-85ipt77h5vcfp1uegkuui0dbcvdu5t4b.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.amr.sunbula",
-            "certificate_hash": "7273d5c7945103272dac109b2c90b21c4c53fced"
-          }
-        },
-        {
-          "client_id": "950538941661-s100j7eqtgtg4l5bs221hfm0fmk0r5fd.apps.googleusercontent.com",
+          "client_id": "1011753847001-9mmgupvdc1imi61n73lboqas4hh86puu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDyK2dawuU9Ex7ZfBFI237pqS-jfziXZBQ"
+          "current_key": "AIzaSyBOFEfh_P2GCp9cMHLok6lsEZy4PhwjWyw"
         }
       ],
       "services": {
@@ -37,13 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "950538941661-s100j7eqtgtg4l5bs221hfm0fmk0r5fd.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

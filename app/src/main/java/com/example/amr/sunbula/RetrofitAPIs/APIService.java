@@ -4,6 +4,7 @@ import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCitiesResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCountriesResponse;
+import com.example.amr.sunbula.Models.APIResponses.BlockUserResponse;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.EditProfileResponse;
@@ -200,6 +201,11 @@ public interface APIService {
                                         @Field("ReportDate") String ReportDate,
                                         @Field("ReportedPerson") String ReportedPerson,
                                         @Field("ReporterPerson") String ReporterPerson);
+
+    @POST("/Charity/Api/User/BlockUser")
+    @FormUrlEncoded
+    Call<BlockUserResponse> BlockUser(@Field("FromUserID") String FromUserID,
+                                      @Field("ToUserID") String ToUserID);
 
     @POST("/Charity/Api/Country/AllCountries")
     @FormUrlEncoded
