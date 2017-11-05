@@ -48,7 +48,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     String people_id;
-    String UserID;
+    String UserID, imageUrl;
     APIService mAPIService;
     List<String> listofPepoleFollowingBeen;
     ListView list_show_hiscauses;
@@ -197,13 +197,15 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
 
                         text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
 
-                        text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
+                        imageUrl = response.body().getImgURL();
+                        if (imageUrl != null && imageUrl.isEmpty())
+                            imageUrl = null;
+                        Picasso.with(ShowDetailsUserActivity.this).load(imageUrl).into(image_user_profile);
+
+                        if (response.body().getAddress() != null)
+                            text_location_user_profile.setText(String.valueOf(response.body().getAddress()));
 
                         if (myCasesBeanList.size() > 0) {
-
-                            if (response.body().getAddress() != null)
-                                if (response.body().getImgURL().contains("http"))
-                                    Picasso.with(ShowDetailsUserActivity.this).load(response.body().getImgURL()).into(image_user_profile);
 
                             for (int a = 0; a < myCasesBeanList.size(); a++) {
                                 HisCausesPeopleWrapper hisCausesPeopleWrapper = new HisCausesPeopleWrapper(myCasesBeanList.get(a));
@@ -458,7 +460,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
         }
         if (id == R.id.block) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Do you want to block "+username_user_profile.getText().toString()+" ?")
+            builder.setMessage("Do you want to block " + username_user_profile.getText().toString() + " ?")
                     .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             BlockUserPost(UserID, people_id);

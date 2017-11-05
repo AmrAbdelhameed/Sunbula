@@ -65,7 +65,10 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
         } else {
             holder.linearLayout12.setVisibility(View.GONE);
         }
-//        Picasso.with(activity).load("http://yakensolution.cloudapp.net/Charity//files/edb9165e-3852-4826-8832-48e928b80321/1507212458744.jpg").into(holder.image_in_item_home);
+        String imageUrl = List_item_in_home.get(position).getIMG();
+        if (imageUrl != null && imageUrl.isEmpty())
+            imageUrl = null;
+        Picasso.with(activity).load(imageUrl).into(holder.image_in_item_home);
 
         holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
         holder.number_joined.setText("Joined (" + List_item_in_home.get(position).getNumberofjoins() + ")");

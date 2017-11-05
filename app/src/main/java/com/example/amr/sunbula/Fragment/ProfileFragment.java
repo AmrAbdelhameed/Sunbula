@@ -217,13 +217,15 @@ public class ProfileFragment extends Fragment {
                         imageURL = response.body().getImgURL();
                         InterestedCategory = response.body().getInterstedCategory();
 
-                        if (imageURL.contains("http"))
-                            Picasso.with(getActivity()).load(imageURL).into(image_profile);
+                        if (imageURL != null && imageURL.isEmpty())
+                            imageURL = null;
+                        Picasso.with(getActivity()).load(imageURL).into(image_profile);
+
                         username_profile.setText(Name);
                         text_reviews_profile.setText(response.body().getReviewNumbers() + " Reviews");
 
                         if (response.body().getAddress() != null)
-                            text_location_profile.setText(response.body().getAddress() + "");
+                            text_location_profile.setText(response.body().getAddress());
 
                         UserDetailsResponse userDetailsResponse = response.body();
 

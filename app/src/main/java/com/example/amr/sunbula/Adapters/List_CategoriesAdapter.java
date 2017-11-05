@@ -60,7 +60,8 @@ public class List_CategoriesAdapter extends ArrayAdapter<Categories> {
             holder = (ViewHolderCategories) convertView.getTag();
         }
 
-        holder.textView.setText(allCategoriesBeen.get(position).getCategoryName());
+        holder.category_name.setText(allCategoriesBeen.get(position).getCategoryName());
+        holder.category_details.setText(allCategoriesBeen.get(position).getCategoryDescription());
 
         holder.wrapper.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -108,13 +109,16 @@ public class List_CategoriesAdapter extends ArrayAdapter<Categories> {
     }
 
     private class ViewHolderCategories {
-        private TextView textView;
+        de.hdodenhof.circleimageview.CircleImageView category_image;
+        private TextView category_name, category_details;
         private Button buttonHead2;
         private LinearLayout wrapper;
         private SwipeLayout mSwipe;
 
         private ViewHolderCategories(View v) {
-            textView = (TextView) v.findViewById(R.id.category_name);
+            category_image = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.category_image);
+            category_name = (TextView) v.findViewById(R.id.category_name);
+            category_details = (TextView) v.findViewById(R.id.category_details);
             buttonHead2 = (Button) v.findViewById(R.id.buttonHead2);
             wrapper = (LinearLayout) v.findViewById(R.id.wrapper);
             mSwipe = (SwipeLayout) v.findViewById(R.id.swipeLayout);

@@ -20,9 +20,9 @@ import java.util.List;
 
 public class MessagesInboxAdapter extends ArrayAdapter<RecieveMassegeResponse.MSgsBean> {
 
+    String ImageURL;
     private Context activity;
     private List<RecieveMassegeResponse.MSgsBean> mSgsBeanList;
-    String ImageURL;
 
     public MessagesInboxAdapter(Context context, List<RecieveMassegeResponse.MSgsBean> objects, String ImageURL) {
         super(context, R.layout.item_in_recieve_message, objects);
@@ -62,14 +62,16 @@ public class MessagesInboxAdapter extends ArrayAdapter<RecieveMassegeResponse.MS
         holder.recieve_message.setText(mSgsBeanList.get(position).getMSGBoody());
         holder.recieve_time.setText(mSgsBeanList.get(position).getDate());
 
+        if (ImageURL != null && ImageURL.isEmpty())
+            ImageURL = null;
         Picasso.with(activity).load(ImageURL).into(holder.message_recieve_pic);
 
         return convertView;
     }
 
     private class ViewHolderMessages {
-        private TextView recieve_message, recieve_time;
         de.hdodenhof.circleimageview.CircleImageView message_recieve_pic;
+        private TextView recieve_message, recieve_time;
 
         private ViewHolderMessages(View v) {
             recieve_message = (TextView) v.findViewById(R.id.recieve_message);

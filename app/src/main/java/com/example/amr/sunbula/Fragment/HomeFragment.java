@@ -109,7 +109,6 @@ public class HomeFragment extends Fragment {
 
                         myANDJoinedCasesListBeen = newsfeedResponse.getMyANDJoinedCasesList();
 
-
                         for (int i = 0; i < myANDJoinedCasesListBeen.size(); i++) {
                             n = new NewsFeed();
                             if (myANDJoinedCasesListBeen.size() > 0) {

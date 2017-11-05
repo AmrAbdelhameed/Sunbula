@@ -48,7 +48,7 @@ public class SearchPeopleResponse {
 
         private String User_ID;
         private String Name;
-        private Object ImgURL;
+        private String ImgURL;
 
         public String getUser_ID() {
             return User_ID;
@@ -66,11 +66,11 @@ public class SearchPeopleResponse {
             this.Name = Name;
         }
 
-        public Object getImgURL() {
+        public String getImgURL() {
             return ImgURL;
         }
 
-        public void setImgURL(Object ImgURL) {
+        public void setImgURL(String ImgURL) {
             this.ImgURL = ImgURL;
         }
     }

@@ -13,8 +13,6 @@ import com.example.amr.sunbula.Models.APIResponses.InboxResponse;
 import com.example.amr.sunbula.R;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
@@ -72,16 +70,18 @@ public class MessagesFragmentAdapter extends ArrayAdapter<InboxResponse.ListOfMa
             holder.counter_of_messages.setText(String.valueOf(list_user_message.get(position).getCounter()));
             holder.counter_of_messages.setVisibility(View.VISIBLE);
         }
-
-        Picasso.with(activity).load(list_user_message.get(position).getImg()).into(holder.message_user_pic);
+        String imageURL = list_user_message.get(position).getImg();
+        if (imageURL != null && imageURL.isEmpty())
+            imageURL = null;
+        Picasso.with(activity).load(imageURL).into(holder.message_user_pic);
 
         return convertView;
     }
 
     private class ViewHolderMessages {
-        private TextView user_message, message_details;
         de.hdodenhof.circleimageview.CircleImageView message_user_pic;
         Button counter_of_messages;
+        private TextView user_message, message_details;
 
         private ViewHolderMessages(View v) {
             user_message = (TextView) v.findViewById(R.id.user_message);

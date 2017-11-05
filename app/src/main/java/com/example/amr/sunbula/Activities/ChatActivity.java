@@ -75,8 +75,10 @@ public class ChatActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!txt_message.getText().toString().isEmpty())
+                if (!txt_message.getText().toString().isEmpty()) {
                     SendMassegePost(UserID, FromID, txt_message.getText().toString());
+                    txt_message.setText("");
+                }
             }
         });
     }
@@ -93,7 +95,6 @@ public class ChatActivity extends AppCompatActivity {
 
                         setTitle(response.body().getUserName());
 
-
                         listOfMassegesBeen = new ArrayList<RecieveMassegeResponse.MSgsBean>();
 
                         RecieveMassegeResponse RecieveMassegeResponse = response.body();
@@ -101,6 +102,8 @@ public class ChatActivity extends AppCompatActivity {
 
                         adapter = new MessagesInboxAdapter(ChatActivity.this, listOfMassegesBeen, ImageUSER);
                         list_chat.setAdapter(adapter);
+                        list_chat.setSelection(adapter.getCount() - 1);
+
                     } else
                         Toast.makeText(ChatActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -123,7 +126,8 @@ public class ChatActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        adapter.notifyDataSetChanged();
+//                        adapter.notifyDataSetChanged();
+                        RecieveMassegePost(ThreadID, UserID);
                     } else
                         Toast.makeText(ChatActivity.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
                 }
