@@ -3,6 +3,8 @@ package com.example.amr.sunbula.Adapters;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Activities.DetailsCauseActivity;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.JoinedCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -80,13 +84,17 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
 
         if (list_name_cause.get(position).isSelected()) {
             holder.text_details_cause.setVisibility(View.VISIBLE);
+            holder.image_message.setVisibility(View.VISIBLE);
             holder.text_Completed.setVisibility(View.VISIBLE);
             holder.image_switch.setVisibility(View.GONE);
+            holder.image_switch2.setVisibility(View.VISIBLE);
 
         } else {
             holder.text_details_cause.setVisibility(View.GONE);
+            holder.image_message.setVisibility(View.GONE);
             holder.text_Completed.setVisibility(View.GONE);
             holder.image_switch.setVisibility(View.VISIBLE);
+            holder.image_switch2.setVisibility(View.GONE);
         }
 
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
@@ -96,20 +104,24 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
                 list_name_cause.get(position).setSelected(true);
 
                 holder.text_details_cause.setVisibility(View.VISIBLE);
+                holder.image_message.setVisibility(View.VISIBLE);
                 holder.text_Completed.setVisibility(View.VISIBLE);
                 holder.image_switch.setVisibility(View.GONE);
+                holder.image_switch2.setVisibility(View.VISIBLE);
 
             }
         });
-        holder.text_details_cause.setOnClickListener(new View.OnClickListener() {
+        holder.image_switch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 list_name_cause.get(position).setSelected(false);
 
                 holder.text_details_cause.setVisibility(View.GONE);
+                holder.image_message.setVisibility(View.GONE);
                 holder.text_Completed.setVisibility(View.GONE);
                 holder.image_switch.setVisibility(View.VISIBLE);
+                holder.image_switch2.setVisibility(View.GONE);
 
             }
         });
@@ -118,12 +130,14 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
             @Override
             public void onClick(View view) {
 
-                list_name_cause.get(position).setSelected(false);
-
-                holder.text_details_cause.setVisibility(View.GONE);
-                holder.text_Completed.setVisibility(View.GONE);
-                holder.image_switch.setVisibility(View.VISIBLE);
-
+                Intent i = new Intent(activity, DetailsCauseActivity.class);
+                Gson gson = new Gson();
+                String myJson = gson.toJson(list_name_cause.get(position));
+                Bundle b = new Bundle();
+                b.putString("myObject", myJson);
+                b.putInt("id", 4);
+                i.putExtras(b);
+                activity.startActivity(i);
             }
         });
 
@@ -158,7 +172,7 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
 
     private class ViewHolderNotifications {
         private TextView text_name_cause, text_details_cause, text_Completed;
-        private ImageView image_switch;
+        private ImageView image_switch, image_switch2,image_message;
 
         private ViewHolderNotifications(View v) {
             text_name_cause = (TextView) v.findViewById(R.id.text_name_cause);
@@ -166,6 +180,8 @@ public class JoinedCases_inProfileFragmentAdapter extends ArrayAdapter<JoinedCau
             text_Completed = (TextView) v.findViewById(R.id.text_Completed);
 
             image_switch = (ImageView) v.findViewById(R.id.image_switch);
+            image_switch2 = (ImageView) v.findViewById(R.id.image_switch2);
+            image_message = (ImageView) v.findViewById(R.id.image_message);
         }
     }
 }

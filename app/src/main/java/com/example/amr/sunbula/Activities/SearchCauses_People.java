@@ -23,6 +23,7 @@ import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +38,14 @@ public class SearchCauses_People extends AppCompatActivity {
     ImageView btn_search;
     EditText text_search;
     SearchPeople_Adapter adapter2;
-    String UserID;
-    APIService mAPIService;
     boolean choice;
     List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
     List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
     private ListView listView;
     private SearchCauses_Adapter adapter;
     private ProgressDialog pdialog;
+    String UserID;
+    APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +124,16 @@ public class SearchCauses_People extends AppCompatActivity {
                                 public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 
                                     // TODO Auto-generated method stub
-                                    SendMassegePost(UserID, searchedCasesBeen.get(pos).getOwnderID(), "I'd like to connect with you");
+                                    //SendMassegePost(UserID, searchedCasesBeen.get(pos).getOwnderID(), "I'd like to connect with you");
+
+                                    Intent i = new Intent(SearchCauses_People.this, DetailsCauseActivity.class);
+                                    Gson gson = new Gson();
+                                    String myJson = gson.toJson(searchedCasesBeen.get(pos));
+                                    Bundle b = new Bundle();
+                                    b.putString("myObject", myJson);
+                                    b.putInt("id", 5);
+                                    i.putExtras(b);
+                                    startActivity(i);
                                 }
                             });
                         }

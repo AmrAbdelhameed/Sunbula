@@ -62,6 +62,7 @@ public class NewsfeedResponse {
          * IsOwner : false
          */
 
+        private String OwnderID;
         private String CaseName;
         private String CaseDescription;
         private String CauseID;
@@ -72,6 +73,30 @@ public class NewsfeedResponse {
         private int Numberofjoins;
         private boolean IsJoined;
         private boolean IsOwner;
+
+        public String getOwnderID() {
+            return OwnderID;
+        }
+
+        public void setOwnderID(String ownderID) {
+            OwnderID = ownderID;
+        }
+
+        public boolean isJoined() {
+            return IsJoined;
+        }
+
+        public void setJoined(boolean joined) {
+            IsJoined = joined;
+        }
+
+        public boolean isOwner() {
+            return IsOwner;
+        }
+
+        public void setOwner(boolean owner) {
+            IsOwner = owner;
+        }
 
         public String getCaseName() {
             return CaseName;
@@ -178,6 +203,15 @@ public class NewsfeedResponse {
         private int Numberofjoins;
         private boolean IsJoined;
         private boolean IsOwner;
+        private String OwnderID;
+
+        public String getOwnderID() {
+            return OwnderID;
+        }
+
+        public void setOwnderID(String ownderID) {
+            OwnderID = ownderID;
+        }
 
         public String getCaseName() {
             return CaseName;

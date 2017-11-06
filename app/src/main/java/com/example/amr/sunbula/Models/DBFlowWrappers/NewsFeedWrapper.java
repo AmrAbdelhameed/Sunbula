@@ -8,9 +8,24 @@ import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 
 public class NewsFeedWrapper {
 
+    private long id;
+    private String OwnderID;
+    private String CaseName;
+    private String CaseDescription;
+    private String CauseID;
+    private int Amount;
+    private String EndDate;
+    private String IMG;
+    private int status;
+    private int Numberofjoins;
+    private boolean IsJoined;
+    private boolean IsOwner;
+    private boolean isExpanded;
+
     public NewsFeedWrapper(NewsFeed newsFeed) {
 
         this.id = newsFeed.getId();
+        this.OwnderID = newsFeed.getOwnderID();
         this.CaseName = newsFeed.getCaseName();
         this.CaseDescription = newsFeed.getCaseDescription();
         this.CauseID = newsFeed.getCauseID();
@@ -24,26 +39,13 @@ public class NewsFeedWrapper {
         this.isExpanded = false;
     }
 
-    private long id;
+    public String getOwnderID() {
+        return OwnderID;
+    }
 
-    private String CaseName;
-
-    private String CaseDescription;
-    private String CauseID;
-
-    private int Amount;
-
-    private String EndDate;
-
-    private String IMG;
-
-    private int status;
-
-    private int Numberofjoins;
-
-    private boolean IsJoined;
-
-    private boolean IsOwner;
+    public void setOwnderID(String ownderID) {
+        OwnderID = ownderID;
+    }
 
     public boolean isExpanded() {
         return isExpanded;
@@ -52,8 +54,6 @@ public class NewsFeedWrapper {
     public void setExpanded(boolean expanded) {
         isExpanded = expanded;
     }
-
-    private boolean isExpanded;
 
     public long getId() {
         return id;

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Activities.DetailsCauseActivity;
 import com.example.amr.sunbula.Activities.EditCauseActivity;
 import com.example.amr.sunbula.CustomEventRefreshProfile;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
@@ -22,6 +23,7 @@ import com.example.amr.sunbula.Models.DBFlowWrappers.AllCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -100,7 +102,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                 b.putString("Image", list_name_cause.get(position).getIMG());
                 i.putExtras(b);
                 activity.startActivity(i);
-                ((Activity)activity).finish();
+                ((Activity) activity).finish();
             }
         });
 
@@ -143,6 +145,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                                     holder.image_close1.setVisibility(View.GONE);
                                     holder.image_delete.setVisibility(View.GONE);
                                     holder.image_switch.setVisibility(View.GONE);
+                                    holder.image_switch2.setVisibility(View.VISIBLE);
 
                                 } else {
                                     holder.text_details_cause.setVisibility(View.VISIBLE);
@@ -151,6 +154,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                                     holder.image_close1.setVisibility(View.VISIBLE);
                                     holder.image_delete.setVisibility(View.VISIBLE);
                                     holder.image_switch.setVisibility(View.GONE);
+                                    holder.image_switch2.setVisibility(View.VISIBLE);
                                 }
 
                             }
@@ -176,6 +180,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                 }
             }
             holder.image_switch.setVisibility(View.GONE);
+            holder.image_switch2.setVisibility(View.VISIBLE);
 
         } else {
             holder.text_details_cause.setVisibility(View.GONE);
@@ -184,6 +189,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
             holder.image_close1.setVisibility(View.GONE);
             holder.image_delete.setVisibility(View.GONE);
             holder.image_switch.setVisibility(View.VISIBLE);
+            holder.image_switch2.setVisibility(View.GONE);
         }
 
         holder.image_switch.setOnClickListener(new View.OnClickListener() {
@@ -202,10 +208,11 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                     }
                 }
                 holder.image_switch.setVisibility(View.GONE);
+                holder.image_switch2.setVisibility(View.VISIBLE);
 
             }
         });
-        holder.text_details_cause.setOnClickListener(new View.OnClickListener() {
+        holder.image_switch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -217,6 +224,7 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
                 holder.image_close1.setVisibility(View.GONE);
                 holder.image_delete.setVisibility(View.GONE);
                 holder.image_switch.setVisibility(View.VISIBLE);
+                holder.image_switch2.setVisibility(View.GONE);
 
             }
         });
@@ -225,14 +233,14 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
             @Override
             public void onClick(View view) {
 
-                list_name_cause.get(position).setSelected(false);
-
-                holder.text_details_cause.setVisibility(View.GONE);
-                holder.text_Completed.setVisibility(View.GONE);
-                holder.image_edit.setVisibility(View.GONE);
-                holder.image_close1.setVisibility(View.GONE);
-                holder.image_delete.setVisibility(View.GONE);
-                holder.image_switch.setVisibility(View.VISIBLE);
+                Intent i = new Intent(activity, DetailsCauseActivity.class);
+                Gson gson = new Gson();
+                String myJson = gson.toJson(list_name_cause.get(position));
+                Bundle b = new Bundle();
+                b.putString("myObject", myJson);
+                b.putInt("id", 2);
+                i.putExtras(b);
+                activity.startActivity(i);
 
             }
         });
@@ -278,13 +286,14 @@ public class All_inProfileFragmentAdapter extends ArrayAdapter<AllCausesProfileW
 
     private class ViewHolderNotifications {
         private TextView text_name_cause, text_details_cause, text_Completed;
-        private ImageView image_switch, image_edit, image_close1, image_delete;
+        private ImageView image_switch, image_switch2, image_edit, image_close1, image_delete;
 
         private ViewHolderNotifications(View v) {
             text_name_cause = (TextView) v.findViewById(R.id.text_name_cause);
             text_details_cause = (TextView) v.findViewById(R.id.text_details_cause);
             text_Completed = (TextView) v.findViewById(R.id.text_Completed);
             image_switch = (ImageView) v.findViewById(R.id.image_switch);
+            image_switch2 = (ImageView) v.findViewById(R.id.image_switch2);
             image_edit = (ImageView) v.findViewById(R.id.image_edit);
             image_close1 = (ImageView) v.findViewById(R.id.image_close1);
             image_delete = (ImageView) v.findViewById(R.id.image_delete);

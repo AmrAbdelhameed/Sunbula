@@ -11,22 +11,21 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.amr.sunbula.Activities.SearchCauses_People;
 import com.example.amr.sunbula.Adapters.HomeFragmentAdapter;
-import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.APIResponses.NewsfeedResponse;
+import com.example.amr.sunbula.Models.DBFlowModels.NewsFeed;
 import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.Activities.SearchCauses_People;
 import com.google.firebase.crash.FirebaseCrash;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.Select;
-
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,17 +39,17 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
 
-    private ListView listView;
-    private HomeFragmentAdapter adapter;
     String UserID;
     APIService mAPIService;
-    private ProgressDialog pdialog;
     NewsFeed n;
     List<NewsFeed> list;
     List<NewsFeedWrapper> newsFeedWrappers;
     List<NewsfeedResponse.MyANDJoinedCasesListBean> myANDJoinedCasesListBeen;
     List<NewsfeedResponse.FollowingCassesListBean> followingCassesListBeen;
     boolean check_con = false;
+    private ListView listView;
+    private HomeFragmentAdapter adapter;
+    private ProgressDialog pdialog;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -113,6 +112,7 @@ public class HomeFragment extends Fragment {
                             n = new NewsFeed();
                             if (myANDJoinedCasesListBeen.size() > 0) {
 
+                                n.setOwnderID(myANDJoinedCasesListBeen.get(i).getOwnderID());
                                 n.setCaseName(myANDJoinedCasesListBeen.get(i).getCaseName());
                                 n.setCaseDescription(myANDJoinedCasesListBeen.get(i).getCaseDescription());
                                 n.setJoined(myANDJoinedCasesListBeen.get(i).isIsJoined());
@@ -136,6 +136,7 @@ public class HomeFragment extends Fragment {
                             n = new NewsFeed();
                             if (followingCassesListBeen.size() > 0) {
 
+                                n.setOwnderID(followingCassesListBeen.get(i).getOwnderID());
                                 n.setCaseName(followingCassesListBeen.get(i).getCaseName());
                                 n.setCaseDescription(followingCassesListBeen.get(i).getCaseDescription());
                                 n.setJoined(followingCassesListBeen.get(i).isIsJoined());
@@ -159,7 +160,7 @@ public class HomeFragment extends Fragment {
                             newsFeedWrappers.add(newsFeedWrapper);
                         }
                         adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
-                        listView.setDivider(null);
+//                        listView.setDivider(null);
                         listView.setAdapter(adapter);
                     } else
                         Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
@@ -178,7 +179,7 @@ public class HomeFragment extends Fragment {
                         newsFeedWrappers.add(newsFeedWrapper);
                     }
                     adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
-                    listView.setDivider(null);
+//                    listView.setDivider(null);
                     listView.setAdapter(adapter);
                 } else {
                     Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();

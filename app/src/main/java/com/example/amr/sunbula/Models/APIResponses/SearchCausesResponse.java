@@ -71,7 +71,7 @@ public class SearchCausesResponse {
         private String CauseID;
         private int Amount;
         private String EndDate;
-        private Object IMG;
+        private String IMG;
         private int status;
         private int Numberofjoins;
         private boolean IsJoined;
@@ -133,11 +133,11 @@ public class SearchCausesResponse {
             this.EndDate = EndDate;
         }
 
-        public Object getIMG() {
+        public String getIMG() {
             return IMG;
         }
 
-        public void setIMG(Object IMG) {
+        public void setIMG(String IMG) {
             this.IMG = IMG;
         }
 

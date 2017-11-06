@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.amr.sunbula.Activities.DetailsCauseActivity;
 import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.HisCausesPeopleWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -88,22 +92,24 @@ public class HisUserCausesAdapter extends ArrayAdapter<HisCausesPeopleWrapper> {
             holder.text_details_cause.setVisibility(View.VISIBLE);
             holder.image_message.setVisibility(View.VISIBLE);
             holder.image_switch.setVisibility(View.GONE);
+            holder.image_switch2.setVisibility(View.VISIBLE);
 
         } else {
             holder.text_details_cause.setVisibility(View.GONE);
             holder.image_message.setVisibility(View.GONE);
             holder.image_switch.setVisibility(View.VISIBLE);
+            holder.image_switch2.setVisibility(View.GONE);
         }
 
         holder.image_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                builder.setMessage("Do you want to join to " + hisCausesPeopleWrappers.get(position).getCaseName() + " ?")
+                builder.setMessage("Do you want to leave from " + hisCausesPeopleWrappers.get(position).getCaseName() + " ?")
                         .setPositiveButton("yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                SendMassegePost(User_ID, ToID, "I'd like to join in " + hisCausesPeopleWrappers.get(position).getCaseName());
+//                                SendMassegePost(User_ID, ToID, "I'd like to join in " + hisCausesPeopleWrappers.get(position).getCaseName());
 
                             }
                         }).setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -126,10 +132,11 @@ public class HisUserCausesAdapter extends ArrayAdapter<HisCausesPeopleWrapper> {
                 holder.text_details_cause.setVisibility(View.VISIBLE);
                 holder.image_message.setVisibility(View.VISIBLE);
                 holder.image_switch.setVisibility(View.GONE);
+                holder.image_switch2.setVisibility(View.VISIBLE);
 
             }
         });
-        holder.text_details_cause.setOnClickListener(new View.OnClickListener() {
+        holder.image_switch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -138,6 +145,7 @@ public class HisUserCausesAdapter extends ArrayAdapter<HisCausesPeopleWrapper> {
                 holder.text_details_cause.setVisibility(View.GONE);
                 holder.image_message.setVisibility(View.GONE);
                 holder.image_switch.setVisibility(View.VISIBLE);
+                holder.image_switch2.setVisibility(View.GONE);
 
             }
         });
@@ -146,11 +154,14 @@ public class HisUserCausesAdapter extends ArrayAdapter<HisCausesPeopleWrapper> {
             @Override
             public void onClick(View view) {
 
-                hisCausesPeopleWrappers.get(position).setSelected(false);
-
-                holder.text_details_cause.setVisibility(View.GONE);
-                holder.image_message.setVisibility(View.GONE);
-                holder.image_switch.setVisibility(View.VISIBLE);
+                Intent i = new Intent(activity, DetailsCauseActivity.class);
+                Gson gson = new Gson();
+                String myJson = gson.toJson(hisCausesPeopleWrappers.get(position));
+                Bundle b = new Bundle();
+                b.putString("myObject", myJson);
+                b.putInt("id", 6);
+                i.putExtras(b);
+                activity.startActivity(i);
 
             }
         });
@@ -183,13 +194,14 @@ public class HisUserCausesAdapter extends ArrayAdapter<HisCausesPeopleWrapper> {
 
     private class ViewHolderNotifications {
         private TextView text_name_cause, text_details_cause;
-        private ImageView image_switch, image_message;
+        private ImageView image_switch,image_switch2, image_message;
 
         private ViewHolderNotifications(View v) {
             text_name_cause = (TextView) v.findViewById(R.id.text_name_cause);
             text_details_cause = (TextView) v.findViewById(R.id.text_details_cause);
 
             image_switch = (ImageView) v.findViewById(R.id.image_switch);
+            image_switch2 = (ImageView) v.findViewById(R.id.image_switch2);
             image_message = (ImageView) v.findViewById(R.id.image_message);
         }
     }

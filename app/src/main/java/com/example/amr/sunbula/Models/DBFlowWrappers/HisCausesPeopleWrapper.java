@@ -4,8 +4,22 @@ import com.example.amr.sunbula.Models.APIResponses.UserDetailsResponse;
 
 public class HisCausesPeopleWrapper {
 
+    private String OwnderID;
+    private String CaseName;
+    private String CaseDescription;
+    private String CauseID;
+    private int Amount;
+    private String EndDate;
+    private String IMG;
+    private int status;
+    private int Numberofjoins;
+    private boolean IsJoined;
+    private boolean IsOwner;
+    private boolean isSelected;
+
     public HisCausesPeopleWrapper(UserDetailsResponse.MyCasesBean myCasesBean) {
 
+        this.OwnderID = myCasesBean.getOwnderID();
         this.CaseName = myCasesBean.getCaseName();
         this.CaseDescription = myCasesBean.getCaseDescription();
         this.CauseID = myCasesBean.getCauseID();
@@ -19,25 +33,13 @@ public class HisCausesPeopleWrapper {
         this.isSelected = false;
     }
 
-    private String CaseName;
+    public String getOwnderID() {
+        return OwnderID;
+    }
 
-    private String CaseDescription;
-
-    private String CauseID;
-
-    private int Amount;
-
-    private String EndDate;
-
-    private String IMG;
-
-    private int status;
-
-    private int Numberofjoins;
-
-    private boolean IsJoined;
-
-    private boolean IsOwner;
+    public void setOwnderID(String ownderID) {
+        OwnderID = ownderID;
+    }
 
     public boolean isSelected() {
         return isSelected;
@@ -46,8 +48,6 @@ public class HisCausesPeopleWrapper {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
-
-    private boolean isSelected;
 
     public String getCaseName() {
         return CaseName;

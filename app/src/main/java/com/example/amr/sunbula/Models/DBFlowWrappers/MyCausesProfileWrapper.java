@@ -4,9 +4,24 @@ import com.example.amr.sunbula.Models.DBFlowModels.MyCausesProfile;
 
 public class MyCausesProfileWrapper {
 
+    private long id;
+    private String OwnderID;
+    private String CaseName;
+    private String CaseDescription;
+    private String CauseID;
+    private int Amount;
+    private String EndDate;
+    private String IMG;
+    private int status;
+    private int Numberofjoins;
+    private boolean IsJoined;
+    private boolean IsOwner;
+    private boolean isSelected;
+
     public MyCausesProfileWrapper(MyCausesProfile myCausesProfile) {
 
         this.id = myCausesProfile.getId();
+        this.OwnderID = myCausesProfile.getOwnderID();
         this.CaseName = myCausesProfile.getCaseName();
         this.CaseDescription = myCausesProfile.getCaseDescription();
         this.CauseID = myCausesProfile.getCauseID();
@@ -20,27 +35,13 @@ public class MyCausesProfileWrapper {
         this.isSelected = false;
     }
 
-    private long id;
+    public String getOwnderID() {
+        return OwnderID;
+    }
 
-    private String CaseName;
-
-    private String CaseDescription;
-
-    private String CauseID;
-
-    private int Amount;
-
-    private String EndDate;
-
-    private String IMG;
-
-    private int status;
-
-    private int Numberofjoins;
-
-    private boolean IsJoined;
-
-    private boolean IsOwner;
+    public void setOwnderID(String ownderID) {
+        OwnderID = ownderID;
+    }
 
     public boolean isSelected() {
         return isSelected;
@@ -49,8 +50,6 @@ public class MyCausesProfileWrapper {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
-
-    private boolean isSelected;
 
     public long getId() {
         return id;

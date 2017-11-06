@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -228,7 +229,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
-                Toast.makeText(EditProfileActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(EditProfileActivity.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                Log.e("Message: ", t.getMessage(), t);
                 pdialog.dismiss();
             }
         });
@@ -243,8 +245,9 @@ public class EditProfileActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
-                        if (!imagePath.equals(""))
+                        if (!"".equals(imagePath))
                             uploadImage(UserID);
+
                         Toast.makeText(EditProfileActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(EditProfileActivity.this, HomeActivity.class);
                         Bundle b = new Bundle();

@@ -79,7 +79,10 @@ public class List_CausesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCa
             holder = (ViewHolderList_Causes) convertView.getTag();
         }
 
-        holder.cause_user_name.setText(list_friends_name.get(position).getCaseName());
+        holder.cause_user_details.setText(list_friends_name.get(position).getCaseName());
+//        holder.cause_details.setText(list_friends_name.get(position).getCaseDescription());
+        holder.text_NEEDED.setText(String.valueOf(list_friends_name.get(position).getAmount()));
+        holder.text_date.setText(list_friends_name.get(position).getEndDate());
 
         holder.btn_donate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,11 +118,14 @@ public class List_CausesAdapter extends ArrayAdapter<AllCategoriesResponse.AllCa
     }
 
     private class ViewHolderList_Causes {
-        private TextView cause_user_name;
+        private TextView cause_user_details,cause_details,text_NEEDED,text_date;
         private Button btn_donate;
 
         private ViewHolderList_Causes(View v) {
-            cause_user_name = (TextView) v.findViewById(R.id.cause_user_name);
+            cause_user_details = (TextView) v.findViewById(R.id.cause_user_details);
+            cause_details = (TextView) v.findViewById(R.id.cause_details);
+            text_NEEDED = (TextView) v.findViewById(R.id.text_NEEDED);
+            text_date = (TextView) v.findViewById(R.id.text_date);
             btn_donate = (Button) v.findViewById(R.id.btn_donate);
         }
     }

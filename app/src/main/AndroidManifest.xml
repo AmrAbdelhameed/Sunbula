@@ -9,10 +9,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".DBFlow.DBFlowApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:name=".DBFlow.DBFlowApplication"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -28,12 +28,12 @@
 
         <service android:name=".NotificationServices.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".NotificationServices.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -93,6 +93,7 @@
         <activity
             android:name=".Activities.Reviews_Following_FollowersActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".Activities.DetailsCauseActivity"></activity>
     </application>
 
 </manifest>

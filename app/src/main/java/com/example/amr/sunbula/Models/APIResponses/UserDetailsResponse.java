@@ -216,6 +216,15 @@ public class UserDetailsResponse {
         private int Numberofjoins;
         private boolean IsJoined;
         private boolean IsOwner;
+        private String OwnderID;
+
+        public String getOwnderID() {
+            return OwnderID;
+        }
+
+        public void setOwnderID(String ownderID) {
+            OwnderID = ownderID;
+        }
 
         public String getCaseName() {
             return CaseName;
@@ -312,6 +321,7 @@ public class UserDetailsResponse {
          * IsOwner : true
          */
 
+        private String OwnderID;
         private String CaseName;
         private String CaseDescription;
         private String CauseID;
@@ -322,6 +332,14 @@ public class UserDetailsResponse {
         private int Numberofjoins;
         private boolean IsJoined;
         private boolean IsOwner;
+
+        public String getOwnderID() {
+            return OwnderID;
+        }
+
+        public void setOwnderID(String ownderID) {
+            OwnderID = ownderID;
+        }
 
         public String getCaseName() {
             return CaseName;
@@ -428,6 +446,15 @@ public class UserDetailsResponse {
         private int Numberofjoins;
         private boolean IsJoined;
         private boolean IsOwner;
+        private String OwnderID;
+
+        public String getOwnderID() {
+            return OwnderID;
+        }
+
+        public void setOwnderID(String ownderID) {
+            OwnderID = ownderID;
+        }
 
         public String getCaseName() {
             return CaseName;

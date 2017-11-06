@@ -241,6 +241,7 @@ public class ProfileFragment extends Fragment {
                                 allCausesProfile = new AllCausesProfile();
                                 if (allCasesListBeen.size() > 0) {
 
+                                    allCausesProfile.setOwnderID(allCasesListBeen.get(i).getOwnderID());
                                     allCausesProfile.setCaseName(allCasesListBeen.get(i).getCaseName());
                                     allCausesProfile.setCaseDescription(allCasesListBeen.get(i).getCaseDescription());
                                     allCausesProfile.setJoined(allCasesListBeen.get(i).isIsJoined());
@@ -279,6 +280,7 @@ public class ProfileFragment extends Fragment {
                                 myCausesProfile = new MyCausesProfile();
                                 if (myCasesBeanList.size() > 0) {
 
+                                    myCausesProfile.setOwnderID(myCasesBeanList.get(i).getOwnderID());
                                     myCausesProfile.setCaseName(myCasesBeanList.get(i).getCaseName());
                                     myCausesProfile.setCaseDescription(myCasesBeanList.get(i).getCaseDescription());
                                     myCausesProfile.setJoined(myCasesBeanList.get(i).isIsJoined());
@@ -311,6 +313,7 @@ public class ProfileFragment extends Fragment {
                                 joinedCasesProfile = new JoinedCasesProfile();
                                 if (joinedCasesBeen.size() > 0) {
 
+                                    joinedCasesProfile.setOwnderID(joinedCasesBeen.get(i).getOwnderID());
                                     joinedCasesProfile.setCaseName(joinedCasesBeen.get(i).getCaseName());
                                     joinedCasesProfile.setCaseDescription(joinedCasesBeen.get(i).getCaseDescription());
                                     joinedCasesProfile.setJoined(joinedCasesBeen.get(i).isIsJoined());

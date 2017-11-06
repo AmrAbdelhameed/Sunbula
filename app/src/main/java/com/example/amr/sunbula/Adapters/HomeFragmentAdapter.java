@@ -2,6 +2,8 @@ package com.example.amr.sunbula.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.amr.sunbula.Activities.DetailsCauseActivity;
 import com.example.amr.sunbula.Models.DBFlowWrappers.NewsFeedWrapper;
 import com.example.amr.sunbula.R;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -71,6 +75,35 @@ public class HomeFragmentAdapter extends ArrayAdapter<NewsFeedWrapper> {
         Picasso.with(activity).load(imageUrl).into(holder.image_in_item_home);
 
         holder.text_item_in_home.setText(List_item_in_home.get(position).getCaseName() + "\n" + List_item_in_home.get(position).getCaseDescription());
+
+        holder.image_in_item_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, DetailsCauseActivity.class);
+                Gson gson = new Gson();
+                String myJson = gson.toJson(List_item_in_home.get(position));
+                Bundle b = new Bundle();
+                b.putString("myObject", myJson);
+                b.putInt("id", 1);
+                i.putExtras(b);
+                activity.startActivity(i);
+            }
+        });
+
+        holder.text_item_in_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(activity, DetailsCauseActivity.class);
+                Gson gson = new Gson();
+                String myJson = gson.toJson(List_item_in_home.get(position));
+                Bundle b = new Bundle();
+                b.putString("myObject", myJson);
+                b.putInt("id", 1);
+                i.putExtras(b);
+                activity.startActivity(i);
+            }
+        });
+
         holder.number_joined.setText("Joined (" + List_item_in_home.get(position).getNumberofjoins() + ")");
         holder.amount.setText("Amount (" + List_item_in_home.get(position).getAmount() + ")");
         holder.end_date.setText(List_item_in_home.get(position).getEndDate());
