@@ -20,7 +20,10 @@ import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +36,13 @@ import retrofit2.Response;
  */
 public class MessagesFragment extends Fragment {
 
+    APIService mAPIService;
+    String UserID, JSONObjectMessages;
+    Gson gson;
     private ListView listView;
     private List<InboxResponse.ListOfMassegesBean> listOfMassegesBeen;
     private MessagesFragmentAdapter adapter;
-    APIService mAPIService;
     private ProgressDialog pdialog;
-    String UserID;
 
     public MessagesFragment() {
         // Required empty public constructor
@@ -58,6 +62,7 @@ public class MessagesFragment extends Fragment {
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
 
+        gson = new Gson();
         mAPIService = ApiUtils.getAPIService();
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
@@ -84,6 +89,12 @@ public class MessagesFragment extends Fragment {
                             listOfMassegesBeen = new ArrayList<InboxResponse.ListOfMassegesBean>();
                             listOfMassegesBeen = inboxResponse.getListOfMasseges();
 
+                            JSONObjectMessages = gson.toJson(listOfMassegesBeen);
+                            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("JSONObjectMessages", JSONObjectMessages);
+                            editor.apply();
+
                             adapter = new MessagesFragmentAdapter(getActivity(), R.layout.item_in_messages, listOfMassegesBeen);
                             listView.setAdapter(adapter);
 
@@ -96,7 +107,7 @@ public class MessagesFragment extends Fragment {
                                     Bundle b = new Bundle();
                                     b.putString("ThreadID", listOfMassegesBeen.get(pos).getThreadID());
                                     b.putString("FromID", listOfMassegesBeen.get(pos).getFromID());
-                                    b.putString("ImageUSER",listOfMassegesBeen.get(pos).getImg());
+                                    b.putString("ImageUSER", listOfMassegesBeen.get(pos).getImg());
                                     i.putExtras(b);
                                     getActivity().startActivity(i);
                                     getActivity().overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -111,6 +122,26 @@ public class MessagesFragment extends Fragment {
 
             @Override
             public void onFailure(Call<InboxResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
+                JSONObjectMessages = sharedPreferences.getString("JSONObjectMessages", "");
+
+                Type type = new TypeToken<List<InboxResponse.ListOfMassegesBean>>() {
+                }.getType();
+                listOfMassegesBeen = gson.fromJson(JSONObjectMessages, type);
+
+                adapter = new MessagesFragmentAdapter(getActivity(), R.layout.item_in_messages, listOfMassegesBeen);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                        // TODO Auto-generated method stub
+                        Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 pdialog.dismiss();
             }
         });
