@@ -93,7 +93,13 @@
         <activity
             android:name=".Activities.Reviews_Following_FollowersActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".Activities.DetailsCauseActivity"></activity>
+        <activity android:name=".Activities.DetailsCauseActivity" />
+        <activity
+            android:name=".MakeReviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MakeReportActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
