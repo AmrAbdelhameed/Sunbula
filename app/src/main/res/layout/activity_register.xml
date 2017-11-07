@@ -14,8 +14,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageregister"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/_120dp"
+            android:layout_height="@dimen/_120dp"
             android:layout_marginTop="@dimen/_8dp"
             android:src="@drawable/circle_shape"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -40,14 +40,25 @@
 
                 <ImageView
                     android:id="@+id/imageView5"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="@dimen/_25dp"
+                    android:layout_height="@dimen/_25dp"
                     android:layout_marginLeft="@dimen/_8dp"
                     android:layout_marginStart="@dimen/_8dp"
                     android:layout_marginTop="@dimen/_16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view6"
                     app:srcCompat="@drawable/message" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="@dimen/_25dp"
+                    android:layout_height="@dimen/_25dp"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view61"
+                    app:srcCompat="@drawable/phone" />
 
                 <ImageView
                     android:id="@+id/imageView3"
@@ -146,7 +157,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/view6" />
 
                 <View
-                    android:id="@+id/view9"
+                    android:id="@+id/view61"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/_8dp"
@@ -154,6 +165,55 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtemailregister" />
+
+                <EditText
+                    android:id="@+id/txtphone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8dp"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginRight="@dimen/_8dp"
+                    android:layout_marginStart="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    android:background="@null"
+                    android:hint="Phone"
+                    android:inputType="phone"
+                    android:textSize="@dimen/_20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@+id/imageView6"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view61" />
+
+                <View
+                    android:id="@+id/view91"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/tab_enable"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtphone" />
+
+                <Spinner
+                    android:id="@+id/spinner_Gender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_8dp"
+                    android:layout_marginRight="@dimen/_8dp"
+                    android:layout_marginTop="@dimen/_16dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/view91" />
+
+                <View
+                    android:id="@+id/view9"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/_8dp"
+                    android:background="@color/tab_enable"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_Gender" />
 
                 <Spinner
                     android:id="@+id/spinner_Categories_Register"

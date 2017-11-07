@@ -19,6 +19,11 @@ android {
         }
     }
 }
+
+repositories{
+    mavenCentral()
+}
+
 def dbflow_version = "4.0.0-beta5"
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

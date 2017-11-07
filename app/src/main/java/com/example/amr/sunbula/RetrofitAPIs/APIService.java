@@ -47,6 +47,8 @@ public interface APIService {
                                         @Field("Password") String Password,
                                         @Field("EMail") String EMail,
                                         @Field("CityID") String CityID,
+                                        @Field("MobileNumber") String MobileNumber,
+                                        @Field("Gender") String Gender,
                                         @Field("CategoryID") String CategoryID,
                                         @Field("ImgURL") String ImgURL);
 
@@ -58,6 +60,8 @@ public interface APIService {
                                                @Field("EMail") String EMail,
                                                @Field("ImgURL") String ImgURL,
                                                @Field("CityID") String CityID,
+                                               @Field("MobileNumber") String MobileNumber,
+                                               @Field("Gender") String Gender,
                                                @Field("CategoryID") String CategoryID);
 
     @Multipart

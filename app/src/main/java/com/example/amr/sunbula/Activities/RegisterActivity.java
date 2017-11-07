@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -17,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,7 +42,7 @@ import com.example.amr.sunbula.Utility;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -48,6 +51,8 @@ import com.google.firebase.crash.FirebaseCrash;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,15 +68,15 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     de.hdodenhof.circleimageview.CircleImageView user_profile;
     String imagePath = "", imageURL = "";
-    EditText username, password, Email;
+    EditText username, password, Email, txtphone;
     Button btn_register;
     LoginButton btn_login_facebok;
     CallbackManager c;
     ArrayList<String> CountryIDs, CountryNames, CityIDs, CityNames;
-    String GetIDCountry = "", GetIDCity = "";
+    String GetItemGenderList = "", GetIDCountry = "", GetIDCity = "";
     List<AllCountriesResponse.AllCountriesBean> allCountriesBeen;
     List<AllCitiesResponse.AllCitiesBean> allCitiesBeen;
-    ArrayList<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause;
+    List<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause, GenderList;
     List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
     String GetIDCategoires = "";
     private int REQUEST_CAMERA = 100, SELECT_FILE = 1;
@@ -83,6 +88,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        FacebookSdk.sdkInitialize(RegisterActivity.this);
 
         FirebaseCrash.log("Here comes the exception!");
         FirebaseCrash.report(new Exception("oops!"));
@@ -98,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
         pdialog.setCancelable(false);
         pdialog.setMessage("Loading. Please wait...");
 
+        txtphone = findViewById(R.id.txtphone);
         user_profile = (de.hdodenhof.circleimageview.CircleImageView) findViewById(R.id.imageregister);
         username = (EditText) findViewById(R.id.txtusernameregister);
         password = (EditText) findViewById(R.id.txtpasswordregister);
@@ -105,6 +113,34 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_login_facebok = (LoginButton) findViewById(R.id.btn_login_facebok);
         c = CallbackManager.Factory.create();
+
+        GenderList = new ArrayList<>();
+
+        GenderList.add("Select your sex");
+        GenderList.add("Male");
+        GenderList.add("Female");
+
+        Spinner spinner_Gender = (Spinner) findViewById(R.id.spinner_Gender);
+        ArrayAdapter spinner_GenderAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, GenderList);
+        spinner_GenderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_Gender.setAdapter(spinner_GenderAdapter);
+
+        spinner_Gender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+                if (!GenderList.get(position).equals("Select your sex")) {
+                    GetItemGenderList = GenderList.get(position);
+                } else
+                    GetItemGenderList = "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
 
         CountryNames = new ArrayList<>();
         CountryIDs = new ArrayList<>();
@@ -194,17 +230,17 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
                 else if (GetIDCategoires.equals(""))
                     Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
+                else if (GetItemGenderList.equals(""))
+                    Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
                 else
-                    RegisterPost(1, Name, Password, EMail, GetIDCity, GetIDCategoires, imageURL);
+                    RegisterPost(1, Name, Password, EMail, GetIDCity, txtphone.getText().toString(), GetItemGenderList, GetIDCategoires, imageURL);
 
             }
         });
 
-        btn_login_facebok.setReadPermissions("user_friends");
-        btn_login_facebok.setReadPermissions("public_profile");
         btn_login_facebok.setReadPermissions("email");
-        btn_login_facebok.setReadPermissions("user_birthday");
-
+        btn_login_facebok.setReadPermissions("public_profile");
+        btn_login_facebok.setReadPermissions("user_friends");
 
         LoginManager.getInstance().registerCallback(c,
                 new FacebookCallback<LoginResult>() {
@@ -212,22 +248,28 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onSuccess(LoginResult loginResult) {
 //                          1076606079140782
 
-                        Profile profile = Profile.getCurrentProfile();
-                        String imageURL = "https://graph.facebook.com/" + profile.getId() + "/picture?type=large";
-                        String fbemail = profile.getId() + "@facebook.com";
-
-                        if (GetIDCountry.isEmpty())
-                            Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
-                        else if (GetIDCity.isEmpty())
-                            Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
-                        else if (GetIDCategoires.equals(""))
-                            Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
-
-                        else {
-                            FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL, GetIDCity, GetIDCategoires);
-                        }
+                        String id = loginResult.getAccessToken().getUserId();
+                        String imageURL = "https://graph.facebook.com/" + id + "/picture?type=large";
+                        String fbemail = id + "@facebook.com";
+                        FacebookPost(2, username.getText().toString(), id, fbemail, imageURL, GetIDCity, txtphone.getText().toString(), GetItemGenderList, GetIDCategoires);
+//
+//                        Profile profile = Profile.getCurrentProfile();
+//                        String imageURL = "https://graph.facebook.com/" + profile.getId() + "/picture?type=large";
+//                        String fbemail = profile.getId() + "@facebook.com";
+//
+//                        if (GetIDCountry.isEmpty())
+//                            Toast.makeText(RegisterActivity.this, "Please select your country", Toast.LENGTH_SHORT).show();
+//                        else if (GetIDCity.isEmpty())
+//                            Toast.makeText(RegisterActivity.this, "Please select your city", Toast.LENGTH_SHORT).show();
+//                        else if (GetIDCategoires.equals(""))
+//                            Toast.makeText(RegisterActivity.this, "Please select your Interested Category", Toast.LENGTH_SHORT).show();
+//
+//                        else {
+//                            FacebookPost(2, profile.getName(), profile.getId(), fbemail, imageURL, GetIDCity, GetIDCategoires);
+//                        }
 
                     }
+
                     @Override
                     public void onCancel() {
                         LoginManager.getInstance().logOut();
@@ -272,6 +314,22 @@ public class RegisterActivity extends AppCompatActivity {
                 pdialog.dismiss();
             }
         });
+    }
+
+    public void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
+        }
     }
 
     @Override
@@ -430,9 +488,9 @@ public class RegisterActivity extends AppCompatActivity {
         user_profile.setImageBitmap(bm);
     }
 
-    public void RegisterPost(int login_type, String name, String password, String email, String cityID, String CategoryID, String ImgURL) {
+    public void RegisterPost(int login_type, String name, String password, String email, String cityID, String MobileNumber, String Gender, String CategoryID, String ImgURL) {
         pdialog.show();
-        mAPIService.Register(login_type, name, password, email, cityID, CategoryID, ImgURL).enqueue(new Callback<RegistrationResponse>() {
+        mAPIService.Register(login_type, name, password, email, cityID, MobileNumber, Gender, CategoryID, ImgURL).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
@@ -463,8 +521,8 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void FacebookPost(int login_type, String name, String fcid, String emailface, String imgurl, String cityID, String CategoryID) {
-        mAPIService.LoginAsFacebook(login_type, name, fcid, emailface, imgurl, cityID, CategoryID).enqueue(new Callback<RegistrationResponse>() {
+    public void FacebookPost(int login_type, String name, String fcid, String emailface, String imgurl, String cityID, String MobileNumber, String Gender, String CategoryID) {
+        mAPIService.LoginAsFacebook(login_type, name, fcid, emailface, imgurl, cityID, MobileNumber, Gender, CategoryID).enqueue(new Callback<RegistrationResponse>() {
 
             @Override
             public void onResponse(Call<RegistrationResponse> call, Response<RegistrationResponse> response) {
@@ -481,6 +539,7 @@ public class RegisterActivity extends AppCompatActivity {
                         editor.putBoolean("isVerified", false);
                         editor.putBoolean("facebookID", true);
                         editor.apply();
+
                         Toast.makeText(RegisterActivity.this, "Login Successfully", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(RegisterActivity.this, HomeActivity.class);
                         startActivity(i);
