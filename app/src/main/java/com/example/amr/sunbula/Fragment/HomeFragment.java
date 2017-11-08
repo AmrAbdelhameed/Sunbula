@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Activities.SearchCauses_People;
@@ -39,6 +40,7 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
 
+    TextView textEmpty;
     String UserID;
     APIService mAPIService;
     NewsFeed n;
@@ -78,6 +80,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
 
+        textEmpty = v.findViewById(R.id.textEmpty);
         listView = (ListView) v.findViewById(R.id.list_item_home);
 
         News_FeedPost(UserID);
@@ -163,7 +166,7 @@ public class HomeFragment extends Fragment {
 //                        listView.setDivider(null);
                         listView.setAdapter(adapter);
                     } else
-                        Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
+                        textEmpty.setVisibility(View.VISIBLE);
                 }
                 pdialog.dismiss();
             }
@@ -181,9 +184,8 @@ public class HomeFragment extends Fragment {
                     adapter = new HomeFragmentAdapter(getActivity(), newsFeedWrappers);
 //                    listView.setDivider(null);
                     listView.setAdapter(adapter);
-                } else {
-                    Toast.makeText(getActivity(), "No Data", Toast.LENGTH_SHORT).show();
-                }
+                } else
+                    textEmpty.setVisibility(View.VISIBLE);
 
                 Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();

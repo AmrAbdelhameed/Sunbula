@@ -79,6 +79,9 @@ public class DetailsCauseActivity extends AppCompatActivity {
             if (imageURL != null && imageURL.isEmpty())
                 imageURL = null;
 
+            if (newsFeedWrapper.isJoined() || newsFeedWrapper.isOwner())
+                btn_donate.setVisibility(View.GONE);
+
         } else if (id == 2) {
 
             AllCausesProfileWrapper allCausesProfileWrapper = gson.fromJson(b.getString("myObject"), AllCausesProfileWrapper.class);
@@ -92,6 +95,9 @@ public class DetailsCauseActivity extends AppCompatActivity {
             imageURL = allCausesProfileWrapper.getIMG();
             if (imageURL != null && imageURL.isEmpty())
                 imageURL = null;
+
+            if (allCausesProfileWrapper.isJoined() || allCausesProfileWrapper.isOwner())
+                btn_donate.setVisibility(View.GONE);
 
         } else if (id == 3) {
 
@@ -107,6 +113,9 @@ public class DetailsCauseActivity extends AppCompatActivity {
             if (imageURL != null && imageURL.isEmpty())
                 imageURL = null;
 
+            if (myCausesProfileWrapper.isJoined())
+                btn_donate.setVisibility(View.GONE);
+
         } else if (id == 4) {
 
             JoinedCausesProfileWrapper joinedCausesProfileWrapper = gson.fromJson(b.getString("myObject"), JoinedCausesProfileWrapper.class);
@@ -120,6 +129,8 @@ public class DetailsCauseActivity extends AppCompatActivity {
             imageURL = joinedCausesProfileWrapper.getIMG();
             if (imageURL != null && imageURL.isEmpty())
                 imageURL = null;
+
+            btn_donate.setVisibility(View.GONE);
         } else if (id == 5) {
 
             SearchCausesResponse.SearchedCasesBean searchedCasesBean = gson.fromJson(b.getString("myObject"), SearchCausesResponse.SearchedCasesBean.class);
@@ -133,8 +144,10 @@ public class DetailsCauseActivity extends AppCompatActivity {
             imageURL = searchedCasesBean.getIMG();
             if (imageURL != null && imageURL.isEmpty())
                 imageURL = null;
-        }
-        else if (id == 6) {
+
+            if (searchedCasesBean.isIsJoined() || searchedCasesBean.isIsOwner())
+                btn_donate.setVisibility(View.GONE);
+        } else if (id == 6) {
 
             HisCausesPeopleWrapper hisCausesPeopleWrapper = gson.fromJson(b.getString("myObject"), HisCausesPeopleWrapper.class);
 
@@ -147,6 +160,9 @@ public class DetailsCauseActivity extends AppCompatActivity {
             imageURL = hisCausesPeopleWrapper.getIMG();
             if (imageURL != null && imageURL.isEmpty())
                 imageURL = null;
+
+            if (hisCausesPeopleWrapper.isJoined() || hisCausesPeopleWrapper.isOwner())
+                btn_donate.setVisibility(View.GONE);
         }
 
         cause_user_details.setText(cause_user_detailsS);

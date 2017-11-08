@@ -92,7 +92,7 @@ public class EditCauseActivity extends AppCompatActivity {
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_edit_cause);
-        toolbar.setTitle("Edit Cause");
+        toolbar.setTitle("Edit Case");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -319,18 +319,33 @@ public class EditCauseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        Uri selectedImageUri = data.getData();
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//        Uri selectedImageUri = data.getData();
+//        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//
+//        Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+//
+//        if (cursor != null) {
+//            cursor.moveToFirst();
+//
+//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//            imagePath = cursor.getString(columnIndex);
+//            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+//
+//            cursor.close();
 
-        Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            imagePath = cursor.getString(columnIndex);
-            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
-
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        assert bm != null;
+        bm.compress(Bitmap.CompressFormat.JPEG, REQUEST_CAMERA, bytes);
+        Uri uri;
+        Cursor cursor = EditCauseActivity.this.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[]{MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_ADDED, MediaStore.Images.ImageColumns.ORIENTATION}, MediaStore.Images.Media.DATE_ADDED, null, "date_added DESC");
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                uri = Uri.parse(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
+                imagePath = uri.toString();
+//                Log.d("pathatka", uri.toString());
+                Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+                break;
+            } while (cursor.moveToNext());
             cursor.close();
 
         } else {
@@ -435,7 +450,7 @@ public class EditCauseActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     if (response.body().isIsSuccess()) {
                         {
-                            Toast.makeText(EditCauseActivity.this, "Updated cause successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCauseActivity.this, "Updated case successfully", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(EditCauseActivity.this, HomeActivity.class);
                             Bundle b = new Bundle();
                             b.putBoolean("GoToProfile", true);

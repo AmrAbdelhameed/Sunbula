@@ -22,6 +22,7 @@
     <string name="string_unable_to_load_image">Unable to Load Image</string>
     <string name="string_reselect">Click on Image to Reselect</string>
     <string name="title_activity_chat">ChatActivity</string>
-    <string name="title_activity_add_cause">AddCauseActivity</string>
-    <string name="title_activity_edit_cause">EditCauseActivity</string>
+    <string name="title_activity_add_cause">Add Case Activity</string>
+    <string name="title_activity_edit_cause">Edit Case Activity</string>
+    <string name="home_empty">We can see you\'re new here. we have a lot of cases that need your help, all you have to do is search P.S. The more people you follow the more cases you will know about.</string>
 </resources>

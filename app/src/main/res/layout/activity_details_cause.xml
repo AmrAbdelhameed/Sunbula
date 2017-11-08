@@ -179,7 +179,7 @@
         android:layout_height="@dimen/_50dp"
         android:layout_marginTop="@dimen/_16dp"
         android:background="@drawable/btn"
-        android:text="Donate"
+        android:text="Join"
         android:textAllCaps="false"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/_20sp"

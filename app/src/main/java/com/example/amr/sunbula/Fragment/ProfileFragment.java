@@ -270,7 +270,7 @@ public class ProfileFragment extends Fragment {
 
                         myCasesBeanList = userDetailsResponse.getMyCases();
                         if (myCasesBeanList.size() > 0) {
-                            text_causes_profile.setText(myCasesBeanList.size() + " My Causes");
+                            text_causes_profile.setText(myCasesBeanList.size() + " My Cases");
 
                             myCausesProfiles = (new Select().from(MyCausesProfile.class).queryList());
                             if (myCausesProfiles.size() > 0) {
@@ -366,7 +366,7 @@ public class ProfileFragment extends Fragment {
                 username_profile.setText(UserName);
                 text_reviews_profile.setText(Reviews + " Reviews");
                 text_location_profile.setText(Location);
-                text_causes_profile.setText(Causes + " My Causes");
+                text_causes_profile.setText(Causes + " My Cases");
 
 
                 allCausesProfileList = (new Select().from(AllCausesProfile.class).queryList());

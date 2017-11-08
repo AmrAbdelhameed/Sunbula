@@ -162,7 +162,7 @@ public class ShowDetailsUserActivity extends AppCompatActivity {
                         myCasesBeanList = new ArrayList<UserDetailsResponse.MyCasesBean>();
                         myCasesBeanList = userDetailsResponse.getMyCases();
 
-                        text_causes_user_profile.setText(myCasesBeanList.size() + " Causes");
+                        text_causes_user_profile.setText(myCasesBeanList.size() + " Cases");
 
                         imageUrl = response.body().getImgURL();
                         if (imageUrl != null && imageUrl.isEmpty())
