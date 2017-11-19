@@ -2,9 +2,11 @@ package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.SearchCauses_Adapter;
 import com.example.amr.sunbula.Adapters.SearchPeople_Adapter;
+import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.Models.APIResponses.SearchPeopleResponse;
 import com.example.amr.sunbula.Models.APIResponses.SendMassegeResponse;
@@ -35,17 +38,19 @@ import retrofit2.Response;
 public class SearchCauses_People extends AppCompatActivity {
 
     Button btn_cause, btn_people;
-    ImageView btn_search;
+    ImageView btn_search, btn_filter;
     EditText text_search;
     SearchPeople_Adapter adapter2;
     boolean choice;
     List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
     List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
+    String UserID;
+    APIService mAPIService;
+    List<AllCategoriesResponse.AllCategoriesBean> allCategoriesBeen;
+    ArrayList<String> CategoriesIDs_in_AddCause, CategoriesNames_in_AddCause;
     private ListView listView;
     private SearchCauses_Adapter adapter;
     private ProgressDialog pdialog;
-    String UserID;
-    APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +72,15 @@ public class SearchCauses_People extends AppCompatActivity {
         btn_people = (Button) findViewById(R.id.button_people);
         text_search = (EditText) findViewById(R.id.text_search);
         btn_search = (ImageView) findViewById(R.id.btn_search);
+        btn_filter = (ImageView) findViewById(R.id.btn_filter);
 
         SharedPreferences sharedPreferences = SearchCauses_People.this.getSharedPreferences("sharedPreferences_name", Context.MODE_PRIVATE);
         UserID = sharedPreferences.getString("UserID", "null");
+
+        CategoriesNames_in_AddCause = new ArrayList<>();
+        CategoriesIDs_in_AddCause = new ArrayList<>();
+
+        GetAllCategories(UserID);
 
         Action_cause();
 
@@ -91,13 +102,22 @@ public class SearchCauses_People extends AppCompatActivity {
             }
         });
 
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SearchByCategory();
+            }
+        });
+
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (choice)
-                    SearchCausesPost(UserID, text_search.getText().toString());
-                else
-                    SearchPeoplePost(UserID, text_search.getText().toString());
+                if (!text_search.getText().toString().isEmpty()) {
+                    if (choice)
+                        SearchCausesPost(UserID, text_search.getText().toString());
+                    else
+                        SearchPeoplePost(UserID, text_search.getText().toString());
+                }
             }
         });
     }
@@ -238,6 +258,68 @@ public class SearchCauses_People extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<SendMassegeResponse> call, Throwable t) {
+                pdialog.dismiss();
+            }
+        });
+    }
+
+    public void SearchByCategory() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Search By Category");
+
+        final String[] s = {""};
+        int checkedItem = 0; // Amr
+        builder.setSingleChoiceItems(CategoriesNames_in_AddCause.toArray(new String[CategoriesNames_in_AddCause.size()]), checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+                s[0] = CategoriesIDs_in_AddCause.get(which);
+            }
+        });
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+                Toast.makeText(SearchCauses_People.this, s[0], Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void GetAllCategories(String UserId) {
+        pdialog.show();
+        mAPIService.GetAllCategories(UserId).enqueue(new Callback<AllCategoriesResponse>() {
+
+            @Override
+            public void onResponse(Call<AllCategoriesResponse> call, Response<AllCategoriesResponse> response) {
+
+                if (response.isSuccessful()) {
+                    if (response.body().isIsSuccess()) {
+                        AllCategoriesResponse allCategoriesResponse = response.body();
+
+                        allCategoriesBeen = new ArrayList<AllCategoriesResponse.AllCategoriesBean>();
+
+                        allCategoriesBeen = allCategoriesResponse.getAllCategories();
+
+                        for (int i = 0; i < allCategoriesBeen.size(); i++) {
+                            CategoriesIDs_in_AddCause.add(allCategoriesBeen.get(i).getCategoryID());
+                            CategoriesNames_in_AddCause.add(allCategoriesBeen.get(i).getCategoryName());
+//                            Toast.makeText(SearchCauses_People.this, allCategoriesBeen.get(i).getCategoryName(), Toast.LENGTH_SHORT).show();
+                        }
+                    } else
+                        Toast.makeText(SearchCauses_People.this, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    pdialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCategoriesResponse> call, Throwable t) {
+                Toast.makeText(SearchCauses_People.this, R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
                 pdialog.dismiss();
             }
         });

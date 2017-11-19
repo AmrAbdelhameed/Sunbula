@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.amr.sunbula.Models.APIResponses.SearchCausesResponse;
 import com.example.amr.sunbula.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -59,14 +60,21 @@ public class SearchCauses_Adapter extends ArrayAdapter<SearchCausesResponse.Sear
 
         holder.item1.setText(searchedCasesBeen.get(position).getCaseName());
 
+        String imageUrl = searchedCasesBeen.get(position).getIMG();
+        if (imageUrl != null && imageUrl.isEmpty())
+            imageUrl = null;
+        Picasso.with(activity).load(imageUrl).into(holder.message_user_pic);
+
         return convertView;
     }
 
     private class ViewHolderSearchCauses_People {
         private TextView item1;
+        private de.hdodenhof.circleimageview.CircleImageView message_user_pic;
 
         private ViewHolderSearchCauses_People(View v) {
             item1 = (TextView) v.findViewById(R.id.item1);
+            message_user_pic = (de.hdodenhof.circleimageview.CircleImageView) v.findViewById(R.id.message_user_pic);
         }
     }
 }

@@ -18,8 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Adapters.HisUserCausesAdapter;
-import com.example.amr.sunbula.MakeReportActivity;
-import com.example.amr.sunbula.MakeReviewActivity;
 import com.example.amr.sunbula.Models.APIResponses.BlockUserResponse;
 import com.example.amr.sunbula.Models.APIResponses.FollowResponse;
 import com.example.amr.sunbula.Models.APIResponses.ListofPepoleResponse;

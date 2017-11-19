@@ -95,10 +95,10 @@
             android:screenOrientation="portrait" />
         <activity android:name=".Activities.DetailsCauseActivity" />
         <activity
-            android:name=".MakeReviewActivity"
+            android:name=".Activities.MakeReviewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MakeReportActivity"
+            android:name=".Activities.MakeReportActivity"
             android:screenOrientation="portrait" />
     </application>
 

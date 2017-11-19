@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.Models.APIResponses.MakeReportResponse;
+import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 
