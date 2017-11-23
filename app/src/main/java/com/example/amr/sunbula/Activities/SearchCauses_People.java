@@ -42,7 +42,7 @@ public class SearchCauses_People extends AppCompatActivity {
     EditText text_search;
     SearchPeople_Adapter adapter2;
     boolean choice;
-    List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen;
+    List<SearchCausesResponse.SearchedCasesBean> searchedCasesBeen, searchedCasesBeen2;
     List<SearchPeopleResponse.SearchedPepoleBean> searchedPepoleBeen;
     String UserID;
     APIService mAPIService;
@@ -105,7 +105,9 @@ public class SearchCauses_People extends AppCompatActivity {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchByCategory();
+                if (searchedCasesBeen.size() != 0) {
+                    SearchByCategory();
+                }
             }
         });
 
@@ -220,6 +222,7 @@ public class SearchCauses_People extends AppCompatActivity {
         choice = true;
         text_search.setText("");
         listView.setAdapter(null);
+        btn_filter.setVisibility(View.VISIBLE);
 
         btn_cause.setBackgroundResource(R.drawable.first_search_shape);
         btn_people.setBackgroundResource(R.drawable.second_first_search_shape);
@@ -232,6 +235,7 @@ public class SearchCauses_People extends AppCompatActivity {
         choice = false;
         text_search.setText("");
         listView.setAdapter(null);
+        btn_filter.setVisibility(View.GONE);
 
         btn_people.setBackgroundResource(R.drawable.second_search_shape);
         btn_cause.setBackgroundResource(R.drawable.first_second_search_shape);
@@ -282,7 +286,35 @@ public class SearchCauses_People extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // user clicked OK
-                Toast.makeText(SearchCauses_People.this, s[0], Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchCauses_People.this, s[0], Toast.LENGTH_SHORT).show();
+
+                searchedCasesBeen2 = new ArrayList<>();
+                for (int i = 0; i < searchedCasesBeen.size(); i++) {
+                    if (s[0].equals(searchedCasesBeen.get(i).getCategoryID())) {
+                        searchedCasesBeen2.add(searchedCasesBeen.get(i));
+                    }
+                }
+
+                adapter = new SearchCauses_Adapter(SearchCauses_People.this, R.layout.item_in_search_causes, searchedCasesBeen2);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+                        // TODO Auto-generated method stub
+                        //SendMassegePost(UserID, searchedCasesBeen.get(pos).getOwnderID(), "I'd like to connect with you");
+
+                        Intent i = new Intent(SearchCauses_People.this, DetailsCauseActivity.class);
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(searchedCasesBeen2.get(pos));
+                        Bundle b = new Bundle();
+                        b.putString("myObject", myJson);
+                        b.putInt("id", 5);
+                        i.putExtras(b);
+                        startActivity(i);
+                    }
+                });
             }
         });
         builder.setNegativeButton("Cancel", null);
