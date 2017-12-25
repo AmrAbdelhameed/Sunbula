@@ -17,15 +17,12 @@ import android.widget.Toast;
 
 import com.example.amr.sunbula.Activities.DetailsCauseActivity;
 import com.example.amr.sunbula.Activities.EditCauseActivity;
-import com.example.amr.sunbula.CustomEventRefreshProfile;
 import com.example.amr.sunbula.Models.APIResponses.CompleteOrDeleteCauseResponse;
 import com.example.amr.sunbula.Models.DBFlowWrappers.MyCausesProfileWrapper;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
 import com.google.gson.Gson;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -100,7 +97,7 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
                 b.putString("CauseDescription", list_name_cause.get(position).getCaseDescription());
                 b.putString("Image", list_name_cause.get(position).getIMG());
                 i.putExtras(b);
-                activity.startActivity(i);
+                ((Activity) activity).startActivity(i);
             }
         });
 
@@ -253,15 +250,9 @@ public class MyCauses_inProfileFragmentAdapter extends ArrayAdapter<MyCausesProf
                     if (response.body().isIsSuccess()) {
                         if (ActionType == 1) {
                             Toast.makeText(activity, "Deleted Successfully", Toast.LENGTH_SHORT).show();
-                            CustomEventRefreshProfile event = new CustomEventRefreshProfile();
-                            event.setCustomMessage("Done");
-                            EventBus.getDefault().post(event);
                         } else {
                             Toast.makeText(activity, "Completed cause Successfully", Toast.LENGTH_SHORT).show();
                             list_name_cause.get(position).setSelected(true);
-                            CustomEventRefreshProfile event = new CustomEventRefreshProfile();
-                            event.setCustomMessage("Done");
-                            EventBus.getDefault().post(event);
                         }
                     } else
                         Toast.makeText(activity, response.body().getErrorMessage(), Toast.LENGTH_SHORT).show();

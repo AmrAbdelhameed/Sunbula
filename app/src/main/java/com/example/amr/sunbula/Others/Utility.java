@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Others;
 
 import android.Manifest;
 import android.annotation.TargetApi;

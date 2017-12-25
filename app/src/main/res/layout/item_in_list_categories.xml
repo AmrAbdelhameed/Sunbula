@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.example.amr.sunbula.SwipeLayout
+    <com.example.amr.sunbula.Others.SwipeLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_65dp"
@@ -90,6 +90,6 @@
             android:gravity="center"
             android:padding="@dimen/_8dp" />
 
-    </com.example.amr.sunbula.SwipeLayout>
+    </com.example.amr.sunbula.Others.SwipeLayout>
 
 </LinearLayout>

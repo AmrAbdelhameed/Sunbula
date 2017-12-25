@@ -38,7 +38,7 @@ import com.example.amr.sunbula.Models.APIResponses.RegistrationResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.Utility;
+import com.example.amr.sunbula.Others.Utility;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -517,7 +517,7 @@ public class RegisterActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             imagePath = cursor.getString(idx);
-            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
 
             cursor.close();
         } else {
@@ -548,7 +548,7 @@ public class RegisterActivity extends AppCompatActivity {
                 uri = Uri.parse(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
                 imagePath = uri.toString();
 //                Log.d("pathatka", uri.toString());
-                Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
                 break;
             } while (cursor.moveToNext());
             cursor.close();

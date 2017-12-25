@@ -9,16 +9,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.amr.sunbula.BottomNavigationClasses.BottomNavigationViewNew;
-import com.example.amr.sunbula.CustomEventRefreshProfile;
 import com.example.amr.sunbula.Fragment.HomeFragment;
 import com.example.amr.sunbula.Fragment.MessagesFragment;
 import com.example.amr.sunbula.Fragment.NotificationsFragment;
 import com.example.amr.sunbula.Fragment.ProfileFragment;
 import com.example.amr.sunbula.R;
 import com.google.firebase.crash.FirebaseCrash;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -95,8 +91,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        EventBus.getDefault().register(this);
-
         FirebaseCrash.log("Here comes the exception!");
         FirebaseCrash.report(new Exception("oops!"));
 
@@ -114,22 +108,15 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (b != null) {
-            boolean GoToProfile = b.getBoolean("GoToProfile");
-            if (GoToProfile)
-                navigation.setSelectedItemId(R.id.navigation_profile);
-            else {
-                navigation.setSelectedItemId(R.id.navigation_notification);
-                String body = b.getString("NotificationMessage");
-                Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
-            }
+//            boolean GoToProfile = b.getBoolean("GoToProfile");
+//            if (GoToProfile)
+//                navigation.setSelectedItemId(R.id.navigation_profile);
+//            else {
+            navigation.setSelectedItemId(R.id.navigation_notification);
+            String body = b.getString("NotificationMessage");
+            Toast.makeText(this, body, Toast.LENGTH_SHORT).show();
+//            }
         } else
             navigation.setSelectedItemId(x);
-    }
-
-    @Subscribe
-    public void onEvent(CustomEventRefreshProfile event) {
-        if (event.getCustomMessage().equals("Done")) {
-            fragmentManager.beginTransaction().replace(R.id.content, new ProfileFragment()).commit();
-        }
     }
 }

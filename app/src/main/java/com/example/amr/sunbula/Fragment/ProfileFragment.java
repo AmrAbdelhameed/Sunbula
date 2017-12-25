@@ -52,6 +52,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -112,8 +114,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View view) {
                 if (check_con) {
                     Intent i = new Intent(getActivity(), AddCauseActivity.class);
-                    startActivity(i);
-                    getActivity().finish();
+                    startActivityForResult(i, 1);
                 } else
                     Toast.makeText(getActivity(), R.string.string_internet_connection_warning, Toast.LENGTH_SHORT).show();
             }
@@ -189,6 +190,17 @@ public class ProfileFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                MyDetailsPost(UserID);
+            }
+        }
     }
 
     private void replaceFragment(Fragment fragment) {

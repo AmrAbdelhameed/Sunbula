@@ -20,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,10 +34,10 @@ import android.widget.Toast;
 import com.example.amr.sunbula.Models.APIResponses.AddCauseResponse;
 import com.example.amr.sunbula.Models.APIResponses.AllCategoriesResponse;
 import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
+import com.example.amr.sunbula.Others.Utility;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.Utility;
 import com.google.firebase.crash.FirebaseCrash;
 
 import java.io.ByteArrayOutputStream;
@@ -274,7 +273,7 @@ public class AddCauseActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
             imagePath = cursor.getString(idx);
-            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
 
             cursor.close();
         } else {
@@ -304,7 +303,7 @@ public class AddCauseActivity extends AppCompatActivity {
                 uri = Uri.parse(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
                 imagePath = uri.toString();
 //                Log.d("pathatka", uri.toString());
-                Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, imagePath, Toast.LENGTH_SHORT).show();
                 break;
             } while (cursor.moveToNext());
             cursor.close();
@@ -368,12 +367,14 @@ public class AddCauseActivity extends AppCompatActivity {
                     if (response.body().isIsSuccess()) {
                         {
                             Toast.makeText(AddCauseActivity.this, "Added case successfully", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
-                            Bundle b = new Bundle();
-                            b.putBoolean("GoToProfile", true);
-                            i.putExtras(b);
-                            startActivity(i);
-                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                            Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
+//                            Bundle b = new Bundle();
+//                            b.putBoolean("GoToProfile", true);
+//                            i.putExtras(b);
+//                            startActivity(i);
+//                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                            Intent intent = new Intent();
+                            setResult(RESULT_OK, intent);
                             finish();
                         }
                     } else
@@ -465,27 +466,8 @@ public class AddCauseActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
-            Bundle b = new Bundle();
-            b.putBoolean("GoToProfile", true);
-            i.putExtras(b);
-            startActivity(i);
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     public boolean onSupportNavigateUp() {
-        Intent i = new Intent(AddCauseActivity.this, HomeActivity.class);
-        Bundle b = new Bundle();
-        b.putBoolean("GoToProfile", true);
-        i.putExtras(b);
-        startActivity(i);
-        finish();
+        onBackPressed();
         return true;
     }
 }

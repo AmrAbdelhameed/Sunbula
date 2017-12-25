@@ -35,7 +35,7 @@ import com.example.amr.sunbula.Models.APIResponses.ImageResponse;
 import com.example.amr.sunbula.R;
 import com.example.amr.sunbula.RetrofitAPIs.APIService;
 import com.example.amr.sunbula.RetrofitAPIs.ApiUtils;
-import com.example.amr.sunbula.Utility;
+import com.example.amr.sunbula.Others.Utility;
 import com.google.firebase.crash.FirebaseCrash;
 import com.squareup.picasso.Picasso;
 

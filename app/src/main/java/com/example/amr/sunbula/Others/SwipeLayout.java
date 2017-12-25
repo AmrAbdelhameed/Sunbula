@@ -1,4 +1,4 @@
-package com.example.amr.sunbula;
+package com.example.amr.sunbula.Others;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -11,6 +11,8 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+
+import com.example.amr.sunbula.R;
 
 public class SwipeLayout extends ViewGroup {
     private View content;

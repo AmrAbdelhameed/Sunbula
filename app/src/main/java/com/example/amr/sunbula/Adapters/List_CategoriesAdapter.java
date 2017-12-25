@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.example.amr.sunbula.Activities.CausesInOneCategoryActivity;
 import com.example.amr.sunbula.Models.DBFlowModels.Categories;
 import com.example.amr.sunbula.R;
-import com.example.amr.sunbula.SwipeLayout;
+import com.example.amr.sunbula.Others.SwipeLayout;
 
 import java.util.List;
 
